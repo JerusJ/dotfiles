@@ -1,22 +1,37 @@
-packages_os:
+---
+# Version
+version_golang: 1.16.0
+version_kubectl: 1.20.0
+version_kustomize: 4.0.5
+version_terraform: 0.14.9
+version_terragrunt: 0.28.18
+version_packer: 1.7.1
+version_helm: 3.5.3
+version_jump: 0.30.1
+version_vagrant: 2.2.15
+
+packages_ubuntu:
   - apt-transport-https
+
+packages_common:
+  - alacritty
   - bash
+  - build-essential
   - ca-certificates
+  - ca-certificates
+  - curl
   - curl
   - gcc
   - git
   - gnupg2
-  - golang
+  - jq
+  - libnss3-tools
   - make
   - python3-gpg
+  - software-properties-common
   - sshpass
-  - tree
   - unzip
-  - zsh
-  - zsh-autosuggestions
-  - zsh-syntax-highlighting
-  - tmux
 
-tmux_plugins_directory: "{{ lookup('env', 'HOME') }}/.tmux/plugins/tpm"
+packages_python: {}
 
-
+packages_golang: {}

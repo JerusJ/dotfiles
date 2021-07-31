@@ -1,0 +1,5 @@
+---
+- name: Install Ubuntu Packages
+  ansible.builtin.package:
+    name: "{{ packages_ubuntu }}"
+    state: present

@@ -1,0 +1,28 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint: yamllint
+platforms:
+  - name: ubuntu-latest
+    image: ubuntu:latest
+    privileged: true
+    volume_mounts:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:rw"
+    command: "/usr/sbin/init"
+  - name: centos-latest
+    image: centos:latest
+    privileged: true
+    volume_mounts:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:rw"
+    command: "/usr/sbin/init"
+provisioner:
+  name: ansible
+  lint: ansible-lint
+scenario:
+  name: default
+  ephemeral_directory: /tmp/molecule/install/.molecule
+verifier:
+  name: testinfra
+  lint: flake8
