@@ -8,7 +8,6 @@
       user-mail-address "rusak.jesse@gmail.com")
 
 ;; Fonts
-;; TODO: if/else
 (cond
   ((string-equal system-type "gnu/linux")
         (setq doom-font (font-spec :family "Source Code Pro" :size 32 :weight 'normal)
@@ -18,7 +17,7 @@
         (setq doom-font (font-spec :family "Source Code Pro" :size 18 :weight 'normal)
                 doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 18))))
 
-(setq doom-theme 'doom-gruvbox)
+(setq doom-theme 'doom-one)
 
 (setq display-line-numbers-type t)
 
