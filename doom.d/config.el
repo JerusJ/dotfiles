@@ -14,10 +14,10 @@
                 doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 32))))
 (cond
   ((string-equal system-type "darwin")
-        (setq doom-font (font-spec :family "Source Code Pro" :size 18 :weight 'normal)
-                doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 18))))
+        (setq doom-font (font-spec :family "Source Code Pro" :size 20 :weight 'normal)
+                doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 20))))
 
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-acario-dark)
 
 (setq display-line-numbers-type t)
 
