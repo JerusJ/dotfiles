@@ -19,7 +19,8 @@
 
 (setq doom-theme 'doom-acario-dark)
 
-(setq display-line-numbers-type t)
+;; Big performance decrease with line numbers :(
+(setq display-line-numbers-type nil)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -78,3 +79,9 @@
 ;; Python
 (setq py-python-command "python3")
 (setq lsp-pyright-typechecking-mode "strict")
+
+
+;;
+;; Focus new window after splitting
+(setq evil-split-window-below t
+      evil-vsplit-window-right t)
