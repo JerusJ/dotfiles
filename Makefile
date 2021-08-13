@@ -17,14 +17,15 @@ sync: dirs
 ifeq ($(CUR_PLATFORM), $(MAC_PLATFORM))
 	[ -f ~/.skhdrc ] || ln -s $(PWD)/yabai/skhdrc ~/.skhdrc
 	[ -f ~/.yabairc ] || ln -s $(PWD)/yabai/yabairc ~/.yabairc
+	[ -f ~/.config/polybar/config ] || ln -s $(PWD)/polybar/config ~/.config/polybar/config
+	[ -f ~/.config/polybar/launch.sh ] || ln -s $(PWD)/polybar/launch.sh ~/.config/polybar/launch.sh
+	@touch ~/.hushlogin
 else
 	[ -f ~/.Xmodmap ] || ln -s $(PWD)/Xmodmap ~/.Xmodmap
 	[ -f ~/.Xresources ] || ln -s $(PWD)/Xresources ~/.Xresources
 	[ -f ~/.config/i3/workspace1.json ] || ln -s $(PWD)/i3/workspace1.json ~/.config/i3/workspace1.json
 	[ -f ~/.config/i3/workspace2.json ] || ln -s $(PWD)/i3/workspace2.json ~/.config/i3/workspace2.json
 	[ -f ~/.config/i3/workspace3.json ] || ln -s $(PWD)/i3/workspace3.json ~/.config/i3/workspace3.json
-	[ -f ~/.config/polybar/config ] || ln -s $(PWD)/polybar/config ~/.config/polybar/config
-	[ -f ~/.config/polybar/launch.sh ] || ln -s $(PWD)/polybar/launch.sh ~/.config/polybar/launch.sh
 endif
 	[ -f ~/.agignore ] || ln -s $(PWD)/agignore ~/.agignore
 	[ -f ~/.alacritty.yml ] || ln -s $(PWD)/alacritty/alacritty.yml ~/.alacritty.yml
@@ -35,8 +36,6 @@ endif
 	[ -f ~/.tmux.conf ] || ln -s $(PWD)/tmux.conf ~/.tmux.conf
 	[ -f ~/.vimrc ] || ln -s $(PWD)/vimrc ~/.vimrc
 	[ -f ~/.zshrc ] || ln -s $(PWD)/zshrc ~/.zshrc
-
-	@touch ~/.hushlogin
 
 apps:
 ifeq ($(CUR_PLATFORM), $(MAC_PLATFORM))
