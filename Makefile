@@ -80,6 +80,7 @@ clean:
 	rm -f ~/.zshrc
 	rm -f ~/.tmux.conf
 	rm -f ~/.agignore
+	rm -rf ~/.doom.d
 ifeq ($(CUR_PLATFORM), $(MAC_PLATFORM))
 	brew cleanup
 endif
