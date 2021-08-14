@@ -1,5 +1,6 @@
-CUR_PLATFORM := $(shell uname)
-MAC_PLATFORM := Darwin
+CUR_PLATFORM	:= $(shell uname)
+LINUX_PLATFORM	:= Linux
+MAC_PLATFORM	:= Darwin
 
 all: apps emacs sync
 
@@ -18,17 +19,21 @@ ifeq ($(CUR_PLATFORM), $(MAC_PLATFORM))
 	[ -f ~/.yabairc ] || ln -s $(PWD)/yabai/yabairc ~/.yabairc
 	[ -f ~/.config/polybar/config ] || ln -s $(PWD)/polybar/config ~/.config/polybar/config
 	[ -f ~/.config/polybar/launch.sh ] || ln -s $(PWD)/polybar/launch.sh ~/.config/polybar/launch.sh
+	[ -f ~/.bashrc ] || ln -s $(PWD)/bashrc ~/.bashrc
 	@touch ~/.hushlogin
 else
+endif
+ifeq ($(CUR_PLATFORM), $(LINUX_PLATFORM))
 	[ -f ~/.Xmodmap ] || ln -s $(PWD)/Xmodmap ~/.Xmodmap
 	[ -f ~/.Xresources ] || ln -s $(PWD)/Xresources ~/.Xresources
 	[ -f ~/.config/i3/workspace1.json ] || ln -s $(PWD)/i3/workspace1.json ~/.config/i3/workspace1.json
 	[ -f ~/.config/i3/workspace2.json ] || ln -s $(PWD)/i3/workspace2.json ~/.config/i3/workspace2.json
 	[ -f ~/.config/i3/workspace3.json ] || ln -s $(PWD)/i3/workspace3.json ~/.config/i3/workspace3.json
+	[ -f ~/.bashrc ] || ln -s $(PWD)/bashrc ~/.bashrc
+else
 endif
 	[ -f ~/.agignore ] || ln -s $(PWD)/agignore ~/.agignore
 	[ -f ~/.alacritty.yml ] || ln -s $(PWD)/alacritty/alacritty.yml ~/.alacritty.yml
-	[ -f ~/.bashrc ] || ln -s $(PWD)/bashrc ~/.bashrc
 	[ -f ~/.config/alacritty/color.yml ] || ln -s $(PWD)/alacritty/color.yml ~/.config/alacritty/color.yml
 	[ -d ~/.doom.d ] || ln -s $(PWD)/doom.d ~/.doom.d
 	[ -f ~/.tmux.conf ] || ln -s $(PWD)/tmux.conf ~/.tmux.conf
