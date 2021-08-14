@@ -9,7 +9,6 @@ ifeq ($(CUR_PLATFORM), $(MAC_PLATFORM))
 else
 endif
 	[ -d ~/.config/alacritty ] || mkdir -p ~/.config/alacritty
-	[ -d ~/.config/fish ] || mkdir -p ~/.config/fish
 	[ -d ~/.config/i3 ] || mkdir -p ~/.config/i3
 	[ -d ~/org ] || mkdir -p ~/org
 
@@ -31,7 +30,6 @@ endif
 	[ -f ~/.alacritty.yml ] || ln -s $(PWD)/alacritty/alacritty.yml ~/.alacritty.yml
 	[ -f ~/.bashrc ] || ln -s $(PWD)/bashrc ~/.bashrc
 	[ -f ~/.config/alacritty/color.yml ] || ln -s $(PWD)/alacritty/color.yml ~/.config/alacritty/color.yml
-	[ -f ~/.config/fish/config.fish ] || ln -s $(PWD)/fish/config.fish ~/.config/fish/config.fish
 	[ -d ~/.doom.d ] || ln -s $(PWD)/doom.d ~/.doom.d
 	[ -f ~/.tmux.conf ] || ln -s $(PWD)/tmux.conf ~/.tmux.conf
 	[ -f ~/.vimrc ] || ln -s $(PWD)/vimrc ~/.vimrc
