@@ -5,7 +5,6 @@ set -u
 
 # Version Vars
 export GOLANG_VERSION=1.16.0
-export ANSIBLE_VERSION=3.2.0
 export KUBECTL_VERSION=1.20.0
 export KUSTOMIZE_VERSION=4.0.5
 export TERRAFORM_VERSION=0.14.9
@@ -15,21 +14,13 @@ export HELM_VERSION=3.5.3
 export JUMP_VERSION=0.30.1
 export VAGRANT_VERSION=2.2.15
 
-# Golang Vars
-# export GOPATH=/go
-# export GOROOT=/usr/local/go
-# export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
+echo "--> Installing GO ${GO_VERSION}..."
+curl -L "https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz" -o /tmp/go.tar.gz &&
+  rm -rf /usr/local/go &&
+  tar -C /usr/local -xzf /tmp/go.tar.gz
 
-# echo "--> Disabling Mouse Acceleration..."
-# sudo cat <<EOF >/usr/share/X11/xorg.conf.d/50-mouse-acceleration.conf
-# Section "InputClass"
-#     Identifier "My Mouse"
-#     MatchIsPointer "yes"
-#     Option "AccelerationProfile" "-1"
-#     Option "AccelerationScheme" "none"
-#     Option "AccelSpeed" "-1"
-# EndSection
-# EOF
+echo "--> Installing Rust (via rust-up)..."
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 if [ ! -f /usr/local/bin/tflint ]; then
   echo "--> Installing Terraform Linters..."
@@ -41,64 +32,33 @@ if [ ! -f /usr/local/bin/tflint ]; then
     chmod +x /usr/local/bin/tflint
 fi
 
+echo "--> Installing Python Poetry..."
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+
 echo "--> Installing Pip Packages for Setup..."
-pip3 install --no-cache-dir --upgrade \
+python3 -m pip install --upgrade \
   pip \
   setuptools \
   suds-jurko \
   requests
 
-echo "--> Installing Python Packages for Linters..."
-pip3 install --no-cache-dir \
-  pylint \
-  appdirs \
-  attrs \
-  click \
-  entrypoints \
-  flake8 \
-  isort \
-  mccabe \
-  mypy-extensions \
-  mypy \
-  pycodestyle \
-  pyflakes \
-  toml \
-  typed-ast \
-  typing-extensions \
-  unify \
-  untokenize \
-  yapf \
-  ansible-lint \
-  yamllint
+echo "--> Installing Cloud Python Packages"
+python3 -m pip install --upgrade \
+  boto \
+  boto3 \
+  botocore \
+  git+https://github.com/vmware/vsphere-automation-sdk-python.git \
+  kubernetes
 
-echo "--> Installing Python Packages for Documentation..."
-pip install --no-cache-dir \
-  sphinx \
-  sphinx_rtd_theme
 
 echo "--> Installing Python Packages for Ansible..."
-pip install --no-cache-dir \
-  ansible==${ANSIBLE_VERSION} \
+python3 -m pip install \
+  ansible \
   molecule \
   pyvmomi \
   jmespath \
   pywinrm \
   pexpect \
-  boto \
-  boto3 \
-  botocore
-
-echo "--> Installing Python Packages for Tests..."
-pip install --no-cache-dir \
-  pytest \
-  pytest-cov \
-  pytest-dependency \
-  pytest-timeout \
-  pytest-html \
-  pytest-selenium \
-  pytest-xdist \
-  kubernetes \
-  testinfra \
   paramiko
 
 echo "--> Installing Docker..."
@@ -155,6 +115,7 @@ if [ ! -f /usr/local/bin/vagrant ]; then
     sudo rm /tmp/vagrant.zip
 fi
 
+echo "--> Installing Jump ${JUMP_VERSION} ..."
 wget https://github.com/gsamokovarov/jump/releases/download/v${JUMP_VERSION}/jump_${JUMP_VERSION}_amd64.deb
 sudo dpkg -i jump_${JUMP_VERSION}_amd64.deb
 sudo rm -f jump_${JUMP_VERSION}_amd64.deb

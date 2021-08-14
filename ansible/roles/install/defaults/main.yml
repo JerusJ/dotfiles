@@ -1,37 +1,42 @@
 ---
-# Version
-version_golang: 1.16.0
-version_kubectl: 1.20.0
-version_kustomize: 4.0.5
-version_terraform: 0.14.9
-version_terragrunt: 0.28.18
-version_packer: 1.7.1
-version_helm: 3.5.3
-version_jump: 0.30.1
-version_vagrant: 2.2.15
+##########
+# Common #
+##########
+dotfiles_repo: https://github.com/JerusJ/dotfiles.git
+dotfiles_dir: "{{ ansible_env['HOME'] }}/dotfiles"
 
 packages_ubuntu:
   - apt-transport-https
+  - build-essential
+  - libnss3-tools
+
+packages_fedora:
+  - "@development-tools"
+  - yum-utils
 
 packages_common:
-  - alacritty
   - bash
-  - build-essential
   - ca-certificates
-  - ca-certificates
+  - cargo
   - curl
-  - curl
+  - emacs
   - gcc
   - git
   - gnupg2
   - jq
-  - libnss3-tools
   - make
+  - nodejs
+  - python3
   - python3-gpg
-  - software-properties-common
+  - python3-pip
   - sshpass
+  - tmux
   - unzip
+  - wget
+  - zsh
 
-packages_python: {}
-
-packages_golang: {}
+########
+# Tmux #
+########
+tmux_repo: "https://github.com/tmux-plugins/tpm"
+tmux_plugins_dir: "{{ ansible_env['HOME'] }}/.tmux/plugins/tpm"

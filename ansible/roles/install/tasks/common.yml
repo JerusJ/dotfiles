@@ -1,16 +1,22 @@
 ---
 - name: Install Common Packages
-  ansible.builtin.package:
+  package:
     name: "{{ packages_common }}"
     state: present
+  become: true
 
 - name: Create tmux plugins directory
-  ansible.builtin.file:
-    path: "{{ tmux_plugins_directory }}"
+  file:
+    path: "{{ tmux_plugins_dir }}"
     state: directory
-    recurse: yes
+    recurse: true
 
-- name: Install Tmux Plugins
-  ansible.builtin.git:
-    repo: https://github.com/tmux-plugins/tpm
-    dest: "{{ tmux_plugins_directory }}"
+- name: Download Tmux Plugins
+  git:
+    repo: "{{ tmux_repo }}"
+    dest: "{{ tmux_plugins_dir }}"
+
+- name: Download Dotfiles Repository
+  git:
+    repo: "{{ dotfiles_repo }}"
+    dest: "{{ dotfiles_dir }}"

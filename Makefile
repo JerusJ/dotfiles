@@ -2,7 +2,7 @@ CUR_PLATFORM	:= $(shell uname)
 LINUX_PLATFORM	:= Linux
 MAC_PLATFORM	:= Darwin
 
-all: apps emacs sync
+all: sync apps emacs
 
 dirs:
 ifeq ($(CUR_PLATFORM), $(MAC_PLATFORM))
@@ -80,6 +80,8 @@ clean:
 	rm -f ~/.zshrc
 	rm -f ~/.tmux.conf
 	rm -f ~/.agignore
+	rm -f ~/.Xmodmap
+	rm -f ~/.Xresources
 	rm -rf ~/.doom.d
 ifeq ($(CUR_PLATFORM), $(MAC_PLATFORM))
 	brew cleanup
