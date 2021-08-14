@@ -16,8 +16,12 @@
   ((string-equal system-type "darwin")
         (setq doom-font (font-spec :family "Source Code Pro" :size 20 :weight 'normal)
                 doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 20))))
+(cond
+  ((string-equal system-type "windows-nt")
+        (setq doom-font (font-spec :family "Source Code Pro" :size 32 :weight 'normal)
+                doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 32))))
 
-(setq doom-theme 'doom-acario-dark)
+(setq doom-theme 'doom-gruvbox)
 
 ;; Big performance decrease with line numbers :(
 (setq display-line-numbers-type nil)
