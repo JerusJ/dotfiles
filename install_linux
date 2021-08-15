@@ -4,7 +4,7 @@ set -e
 set -u
 
 # Version Vars
-export GOLANG_VERSION=1.16.0
+export GOLANG_VERSION=1.16.7
 export KUBECTL_VERSION=1.20.0
 export KUSTOMIZE_VERSION=4.0.5
 export TERRAFORM_VERSION=0.14.9
@@ -12,28 +12,30 @@ export TERRAGRUNT_VERSION=0.28.18
 export PACKER_VERSION=1.7.1
 export HELM_VERSION=3.5.3
 export JUMP_VERSION=0.30.1
-export VAGRANT_VERSION=2.2.15
+# export VAGRANT_VERSION=2.2.15
 
-echo "--> Installing GO ${GO_VERSION}..."
-curl -L "https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz" -o /tmp/go.tar.gz &&
+echo "--> Installing GO ${GOLANG_VERSION}..."
+GOLANG_DOWNLOAD_URL="https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz"
+echo "--> Downloading ${GOLANG_DOWNLOAD_URL}"
+sudo curl -L ${GOLANG_DOWNLOAD_URL} -o /tmp/go.tar.gz &&
   rm -rf /usr/local/go &&
-  tar -C /usr/local -xzf /tmp/go.tar.gz
+  sudo tar -C /usr/local -xzf /tmp/go.tar.gz
 
-echo "--> Installing Rust (via rust-up)..."
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# echo "--> Installing Rust (via rust-up)..."
+# curl -sSf https://static.rust-lang.org/rustup.sh | sh -s -- --default-toolchain=nightly -y
 
-if [ ! -f /usr/local/bin/tflint ]; then
-  echo "--> Installing Terraform Linters..."
-  curl -L "$(curl -Ls https://api.github.com/repos/terraform-linters/tflint/releases/latest | grep -o -E "https://.+?_linux_amd64.zip")" &&
-    -o tflint.zip &&
-    unzip tflint.zip &&
-    rm tflint.zip &&
-    mv ./tflint* /usr/local/bin/tflint &&
-    chmod +x /usr/local/bin/tflint
-fi
+# if [ ! -f /usr/local/bin/tflint ]; then
+#   echo "--> Installing Terraform Linters..."
+#   curl -L "$(curl -Ls https://api.github.com/repos/terraform-linters/tflint/releases/latest | grep -o -E "https://.+?_linux_amd64.zip")" &&
+#     -o tflint.zip &&
+#     unzip tflint.zip &&
+#     rm tflint.zip &&
+#     mv ./tflint* /usr/local/bin/tflint &&
+#     chmod +x /usr/local/bin/tflint
+# fi
 
-echo "--> Installing Python Poetry..."
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+# echo "--> Installing Python Poetry..."
+# curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 
 echo "--> Installing Pip Packages for Setup..."
 python3 -m pip install --upgrade \
@@ -108,19 +110,17 @@ if [ ! -f /usr/local/bin/helm ]; then
     sudo rm -rf linux-*
 fi
 
-if [ ! -f /usr/local/bin/vagrant ]; then
-  echo "--> Installing Vagrant ${VAGRANT_VERSION}..."
-  sudo curl -fsSl https://releases.hashicorp.com/vagrant/${VAGRANT_VERSION}/vagrant_${VAGRANT_VERSION}_linux_amd64.zip /tmp/vagrant.zip &&
-    sudo unzip /tmp/vagrant.zip -d /usr/local/bin &&
-    sudo rm /tmp/vagrant.zip
-fi
+# if [ ! -f /usr/local/bin/vagrant ]; then
+#   echo "--> installing vagrant ${vagrant_version}..."
+#   sudo curl -fssl https://releases.hashicorp.com/vagrant/${vagrant_version}/vagrant_${vagrant_version}_linux_amd64.zip /tmp/vagrant.zip &&
+#     sudo unzip /tmp/vagrant.zip -d /usr/local/bin &&
+#     sudo rm /tmp/vagrant.zip
+# fi
 
 echo "--> Installing Jump ${JUMP_VERSION} ..."
 wget https://github.com/gsamokovarov/jump/releases/download/v${JUMP_VERSION}/jump_${JUMP_VERSION}_amd64.deb
 sudo dpkg -i jump_${JUMP_VERSION}_amd64.deb
 sudo rm -f jump_${JUMP_VERSION}_amd64.deb
-
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm || true
 
 echo "--> Setting up nvim to load .vimrc..."
 NVIM_CONFIG_FILE_PATH=~/.config/nvim/init.vim
