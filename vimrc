@@ -6,6 +6,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'Raimondi/delimitMate'
 Plug 'SirVer/ultisnips'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'davidhalter/jedi-vim'
 Plug 'ekalinin/Dockerfile.vim', {'for' : 'Dockerfile'}
 Plug 'elzr/vim-json', {'for' : 'json'}
@@ -15,12 +16,14 @@ Plug 'fatih/vim-hclfmt'
 Plug 'fatih/vim-nginx' , {'for' : 'nginx'}
 Plug 'godlygeek/tabular'
 Plug 'hashivim/vim-hashicorp-tools'
+Plug 'mg979/vim-visual-multi'
 Plug 'mileszs/ack.vim'
 Plug 'morhetz/gruvbox'
 Plug 'plasticboy/vim-markdown'
 Plug 'roxma/vim-tmux-clipboard'
 Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdtree'
+Plug 'sheerun/vim-polyglot'
 Plug 't9md/vim-choosewin'
 Plug 'tmux-plugins/vim-tmux', {'for': 'tmux'}
 Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -29,10 +32,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'vim-airline/vim-airline'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'mg979/vim-visual-multi'
 Plug 'vimwiki/vimwiki'
-Plug 'sheerun/vim-polyglot'
 
 call plug#end()
 

@@ -23,6 +23,8 @@ function system_settings() {
     defaults write -g QLPanelAnimationDuration -float 0
     defaults write com.apple.Mail DisableReplyAnimations -bool true
     defaults write com.apple.Mail DisableSendAnimations -bool true
+
+    echo "--> Configuring Dock Settings.... "
     defaults write com.apple.dock autohide-delay -float 0
     defaults write com.apple.dock autohide-time-modifier -float 0
     defaults write com.apple.dock expose-animation-duration -float 0
@@ -31,6 +33,9 @@ function system_settings() {
     defaults write com.apple.dock springboard-page-duration -float 0
     defaults write com.apple.dock springboard-show-duration -float 0
     defaults write com.apple.dock workspaces-swoosh-animation-off -bool true
+
+    echo "--> Configuring Finder Settings..."
+    defaults write com.apple.Finder AppleShowAllFiles true
     defaults write com.apple.finder DisableAllAnimations -bool true
 }
 
