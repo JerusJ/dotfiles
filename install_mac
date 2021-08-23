@@ -36,7 +36,7 @@ function system_settings() {
 
     echo "--> Configuring Finder Settings..."
     defaults write com.apple.Finder AppleShowAllFiles true
-    defaults write com.apple.finder DisableAllAnimations -bool true
+    defaults write com.apple.finder DisableAllAnimations -bool false
 }
 
 function packages() {

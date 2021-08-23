@@ -63,8 +63,10 @@ go:
 node:
 	npm install --global \
 		bash-language-server \
+		prettier \
 		pyright \
-		prettier
+		stylelint \
+		js-beautify
 
 ruby:
 	bundle install
