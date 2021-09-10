@@ -63,6 +63,7 @@ go:
 node:
 	npm install --global \
 		bash-language-server \
+		typescript-language-server \
 		prettier \
 		pyright \
 		stylelint \
