@@ -10,8 +10,8 @@
 ;; Fonts
 (cond
   ((string-equal system-type "gnu/linux")
-        (setq doom-font (font-spec :family "Source Code Pro" :size 32 :weight 'normal)
-                doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 32))))
+        (setq doom-font (font-spec :family "Source Code Pro" :size 20 :weight 'normal)
+                doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 20))))
 (cond
   ((string-equal system-type "darwin")
         (setq doom-font (font-spec :family "Source Code Pro" :size 20 :weight 'normal)

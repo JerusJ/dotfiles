@@ -30,10 +30,12 @@ ifeq ($(CUR_PLATFORM), $(LINUX_PLATFORM))
 	[ -f ~/.config/i3/workspace2.json ] || ln -s $(PWD)/i3/workspace2.json ~/.config/i3/workspace2.json
 	[ -f ~/.config/i3/workspace3.json ] || ln -s $(PWD)/i3/workspace3.json ~/.config/i3/workspace3.json
 	[ -f ~/.bashrc ] || ln -s $(PWD)/bashrc ~/.bashrc
+	[ -f /usr/local/bin/zsh ] || sudo ln -s /usr/bin/zsh /usr/local/bin/zsh
+	[ -f /usr/local/bin/tmux ] || sudo ln -s /usr/bin/zsh /usr/local/bin/tmux
 else
 endif
 	[ -f ~/.agignore ] || ln -s $(PWD)/agignore ~/.agignore
-	[ -f ~/.alacritty.yml ] || ln -s $(PWD)/alacritty/alacritty.yml ~/.alacritty.yml
+	[ -f ~/.config/alacritty/alacritty.yml ] || ln -s $(PWD)/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml
 	[ -f ~/.config/alacritty/color.yml ] || ln -s $(PWD)/alacritty/color.yml ~/.config/alacritty/color.yml
 	[ -d ~/.doom.d ] || ln -s $(PWD)/doom.d ~/.doom.d
 	[ -f ~/.tmux.conf ] || ln -s $(PWD)/tmux.conf ~/.tmux.conf
@@ -72,7 +74,7 @@ node:
 ruby:
 	bundle install
 
-emacs: go node ruby
+emacs: go
 	[ -d ~/.emacs.d ] || git clone https://github.com/hlissner/doom-emacs ~/.emacs.d
 
 clean:

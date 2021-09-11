@@ -19,3 +19,7 @@
 
 ;; Ruby
 (package! rbenv)
+
+;; Kubernetes
+(package! kubernetes)
+(package! kubernetes-evil)

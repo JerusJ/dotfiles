@@ -1,6 +1,6 @@
 # Configuration for Alacritty, the GPU enhanced terminal emulator
 import:
-  - "/Users/jesse/.config/alacritty/color.yml"
+  - "~/.config/alacritty/color.yml"
 
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
@@ -182,7 +182,7 @@ bell:
   duration: 0
 
 # Background opacity
-background_opacity: 1.0
+window.opacity: 1.0
 
 # Mouse bindings
 #

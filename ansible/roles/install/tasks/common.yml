@@ -20,3 +20,5 @@
   git:
     repo: "{{ dotfiles_repo }}"
     dest: "{{ dotfiles_dir }}"
+    force: no
+  ignore_errors: yes

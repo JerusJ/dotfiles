@@ -340,6 +340,7 @@ eval "$(rbenv init -)"
 # Go
 export GOPATH="$HOME/.gopath"
 export PATH=$PATH:"$GOPATH/bin"
+export PATH=$PATH:"/usr/local/go/bin"
 
 # Node
 export NVM_DIR="$HOME/.nvm"

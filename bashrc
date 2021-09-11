@@ -12,11 +12,6 @@
 # It contains GOPATH, some functions, aliases etc...
 [ -r ~/.bash_private ] && source ~/.bash_private
 
-# On Mac OS X: brew install bash-completion
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-  . $(brew --prefix)/etc/bash_completion
-fi
-
 # # Get it from the original Git repo:
 # https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
 if [ -f ~/.git-completion.bash ]; then
@@ -167,3 +162,4 @@ eval "$(direnv hook bash)"
 # brew install rbenv
 eval "$(rbenv init -)"
 source "$HOME/.cargo/env"
+. "$HOME/.cargo/env"

@@ -85,7 +85,7 @@ if [ ! -f /usr/local/bin/terraform ]; then
   echo "--> Installing Terraform ${TERRAFORM_VERSION}..."
   sudo curl -fsSL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -o /tmp/terraform.zip &&
     sudo unzip /tmp/terraform.zip -d /usr/local/bin &&
-    rm -f /tmp/terraform.zip
+    sudo rm -f /tmp/terraform.zip
 fi
 
 if [ ! -f /usr/local/bin/terragrunt ]; then
