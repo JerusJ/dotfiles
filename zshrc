@@ -312,6 +312,8 @@ function switchgo() {
 #    PLUGINS
 # ===================
 #
+plugins=(git kubectl brew)
+
 case `uname` in
   Darwin)
 	source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -320,7 +322,6 @@ case `uname` in
   Linux)
 	source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 	source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-  [[ -s "/home/jesse/.sdkman/bin/sdkman-init.sh" ]] && source "/home/jesse/.sdkman/bin/sdkman-init.sh"
   ;;
 esac
 
@@ -352,8 +353,11 @@ export PATH=$PATH:"$HOME/.emacs.d/bin"
 # Brew
 export PATH="/usr/local/sbin:$PATH"
 
+# Kubernetes
+source <(kubectl completion zsh)
+alias k=kubectl
+complete -F __start_kubectl k
+
+
 # GPG
 export GPG_TTY=$(tty)
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/jesse/.sdkman"
