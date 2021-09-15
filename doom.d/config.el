@@ -89,3 +89,16 @@
 ;; Focus new window after splitting
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
+
+;; Kubernetes
+(use-package kubernetes
+  :defer
+  :commands (kubernetes-overview))
+;; (use-package kubernetes-evil
+;;   :defer
+;;   :after kubernetes)
+(setq kubernetes-poll-frequency 3600
+      kubernetes-redraw-frequency 3600)
+(map! :leader
+      (:prefix "o"
+        :desc "Kubernetes" "K" 'kubernetes-overview))
