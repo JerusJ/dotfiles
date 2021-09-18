@@ -50,17 +50,17 @@ else
 endif
 
 go:
-	go get -u github.com/cweill/gotests/...@latest
-	go get -u github.com/fatih/gomodifytags@latest
-	go get -u github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-	go get -u github.com/x-motemen/gore/cmd/gore@latest
-	go get -u github.com/rogpeppe/godef@latest
-	go get -u github.com/stamblerre/gocode@latest
-	go get -u golang.org/x/tools/cmd/godoc@latest
-	go get -u golang.org/x/tools/cmd/goimports@latest
-	go get -u golang.org/x/tools/cmd/gorename@latest
-	go get -u golang.org/x/tools/cmd/guru@latest
-	go get -u golang.org/x/tools/gopls@latest
+	GO111MODULE=on go get github.com/cweill/gotests/...@latest
+	GO111MODULE=on go get github.com/fatih/gomodifytags@latest
+	GO111MODULE=on go get github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	GO111MODULE=on go get github.com/x-motemen/gore/cmd/gore@latest
+	GO111MODULE=on go get github.com/rogpeppe/godef@latest
+	GO111MODULE=on go get github.com/stamblerre/gocode@latest
+	GO111MODULE=on go get golang.org/x/tools/cmd/godoc@latest
+	GO111MODULE=on go get golang.org/x/tools/cmd/goimports@latest
+	GO111MODULE=on go get golang.org/x/tools/cmd/gorename@latest
+	GO111MODULE=on go get golang.org/x/tools/cmd/guru@latest
+	GO111MODULE=on go get golang.org/x/tools/gopls@latest
 
 node:
 	npm install --global \
