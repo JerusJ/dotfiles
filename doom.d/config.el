@@ -56,6 +56,8 @@
 (setq mac-option-modifier 'super)
 (setq mac-command-modifier 'meta)
 
+(setq vterm-shell "/usr/local/bin/zsh")
+
 ;; Forge Configuration for Private VCS
 (with-eval-after-load 'forge
   (push '("gitlab.ad.catalogic.us" "gitlab.ad.catalogic.us/api/v4" "gitlab.ad.catalogic.us" forge-gitlab-repository) forge-alist))
@@ -82,7 +84,7 @@
 
 ;; Python
 (setq py-python-command "python3")
-(setq lsp-pyright-typechecking-mode "strict")
+;; (setq lsp-pyright-typechecking-mode "strict")
 
 
 ;;

@@ -311,7 +311,6 @@ function switchgo() {
 # ===================
 #    PLUGINS
 # ===================
-#
 plugins=(git kubectl brew)
 
 case `uname` in
@@ -339,6 +338,7 @@ export PATH=$PATH:"$HOME/.local/bin"
 eval "$(rbenv init -)"
 
 # Go
+export GO111MODULE=on
 export GOPATH="$HOME/.gopath"
 export PATH=$PATH:"$GOPATH/bin"
 export PATH=$PATH:"/usr/local/go/bin"
