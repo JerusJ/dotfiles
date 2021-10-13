@@ -361,3 +361,6 @@ complete -F __start_kubectl k
 
 # GPG
 export GPG_TTY=$(tty)
+
+# Direnv
+eval "$(direnv hook zsh)"
