@@ -21,6 +21,9 @@
         (setq doom-font (font-spec :family "Source Code Pro" :size 20 :weight 'normal)
                 doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 20))))
 
+;; line-spacing is a buffer-local variable, so we'll need to use 'setq-default'
+(setq-default line-spacing 0.5)
+
 (setq doom-theme 'doom-gruvbox)
 
 ;; Big performance decrease with line numbers :(
@@ -47,6 +50,7 @@
 (setq org-directory "~/org/")
 (setq org-journal-file-format "%Y%m%d.org")
 (setq org-journal-file-type 'weekly)
+(require 'ox-confluence)
 
 ;; Syntax Highlighting
 (add-to-list 'auto-mode-alist '("\\Jenkinsfile\'" . groovy-mode))
