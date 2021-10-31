@@ -11,6 +11,8 @@
 ;; Org Export Formats
 (package! ox-jira)
 
+(package! pdf-tools)
+
 ;; Python
 (package! pyenv)
 
