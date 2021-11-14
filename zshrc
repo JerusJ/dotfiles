@@ -364,3 +364,5 @@ export GPG_TTY=$(tty)
 
 # Direnv
 eval "$(direnv hook zsh)"
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"

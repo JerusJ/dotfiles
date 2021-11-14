@@ -1,4 +1,5 @@
 # -*- mode: snippet -*-
+<<<<<<< HEAD
 # name: org-ssh-src-block
 # key: <ssh
 # --
@@ -8,4 +9,14 @@
 
 #+begin_src bash :results output :exports both
 ${3:SSH_COMMANDS}
+=======
+# name: orc-ssh-src-block
+# key: <ssh
+# --
+:PROPERTIES:
+:HEADER-ARGS:bash: :results output :exports both :dir /ssh:${1:USER}@${2:HOST} :session
+:END:
+#+begin_src bash
+${3:CMD}
+>>>>>>> feat(emacs): rest/bash src block snippets
 #+end_src

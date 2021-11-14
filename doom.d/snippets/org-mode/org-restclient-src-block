@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: org-restclient-src-block
+# key: <r
+# --
+#+begin_src restclient :exports both :results output
+${1:REST}
+#+end_src

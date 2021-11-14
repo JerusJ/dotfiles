@@ -1,7 +1,16 @@
 # -*- mode: snippet -*-
+<<<<<<< HEAD
 # name: org-bash-src-block
 # key: <b
 # --
 #+begin_src bash :results verbatim :exports both
 ${1:BASH}
 #+end_src
+=======
+# name: orc-bash-src-block
+# key: <b
+# --
+#+begin_src bash :results output :exports both
+${1:CMD}
+#+end_Src
+>>>>>>> feat(emacs): rest/bash src block snippets

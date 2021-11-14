@@ -10,8 +10,8 @@
 ;; Fonts
 (cond
   ((string-equal system-type "gnu/linux")
-        (setq doom-font (font-spec :family "Source Code Pro" :size 20 :weight 'normal)
-                doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 20))))
+        (setq doom-font (font-spec :family "MonoLisa" :size 18 :weight 'normal)
+                doom-variable-pitch-font (font-spec :family "MonoLisa" :size 18))))
 (cond
   ((string-equal system-type "darwin")
         (setq doom-font (font-spec :family "Source Code Pro" :size 18 :weight 'normal)
@@ -19,10 +19,11 @@
 (cond
   ((string-equal system-type "windows-nt")
         (setq doom-font (font-spec :family "Source Code Pro" :size 20 :weight 'normal)
-                doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 20))))
+              doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 20))))
 
 ;; line-spacing is a buffer-local variable, so we'll need to use 'setq-default'
 (setq-default line-spacing 0.5)
+(setq-default cursor-type 'right-edge)
 
 (setq doom-theme 'doom-gruvbox)
 

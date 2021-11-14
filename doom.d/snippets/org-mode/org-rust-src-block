@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: org-rust-src-block
-# key: <r
+# key: <rust
 # --
 #+begin_src rust :exports both
 fn main() {
