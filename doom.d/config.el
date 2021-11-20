@@ -109,3 +109,13 @@
 (map! :leader
       (:prefix "o"
         :desc "Kubernetes" "K" 'kubernetes-overview))
+
+;; Tramp
+;; Make tramp not horrifically slow with dired
+;; See: https://github.com/hlissner/doom-emacs/issues/3909#issuecomment-786596887
+;; See: https://github.com/seagle0128/doom-modeline/issues/32#issuecomment-427622373
+(defun my-cache-project-root (orig-fn &rest args)
+  (if (local-variable-p 'my-project-root)
+      my-project-root
+    (setq-local my-project-root (apply orig-fn args))))
+(advice-add 'doom-modeline-project-root :around #'my-cache-project-root)
