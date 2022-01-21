@@ -10,6 +10,7 @@
 (package! org-super-agenda)
 ;; Org Export Formats
 (package! ox-jira)
+(package! toc-org)
 
 (package! pdf-tools)
 

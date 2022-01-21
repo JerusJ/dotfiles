@@ -10,8 +10,8 @@
 ;; Fonts
 (cond
   ((string-equal system-type "gnu/linux")
-        (setq doom-font (font-spec :family "MonoLisa" :size 18 :weight 'normal)
-                doom-variable-pitch-font (font-spec :family "MonoLisa" :size 18))))
+        (setq doom-font (font-spec :family "Ubuntu Mono" :size 18 :weight 'normal)
+                doom-variable-pitch-font (font-spec :family "Ubuntu Mono" :size 18))))
 (cond
   ((string-equal system-type "darwin")
         (setq doom-font (font-spec :family "Source Code Pro" :size 18 :weight 'normal)

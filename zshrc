@@ -343,6 +343,9 @@ export GOPATH="$HOME/.gopath"
 export PATH=$PATH:"$GOPATH/bin"
 export PATH=$PATH:"/usr/local/go/bin"
 
+# Rust
+export PATH=$PATH:"$HOME/.cargo/bin"
+
 # Node
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -357,7 +360,6 @@ export PATH="/usr/local/sbin:$PATH"
 source <(kubectl completion zsh)
 alias k=kubectl
 complete -F __start_kubectl k
-
 
 # GPG
 export GPG_TTY=$(tty)
