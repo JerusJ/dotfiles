@@ -1,0 +1,7 @@
+---
+- name: Install Development Environment
+  hosts: localhost
+  gather_facts: yes
+  connection: local
+  roles:
+    - role: install

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: org-groovy-src-block
+# key: <gr
+# --
+#+begin_src groovy :exports both
+${1:CODE}
+#+end_src

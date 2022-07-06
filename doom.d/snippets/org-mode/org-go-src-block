@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: org-go-src-block
+# key: <g
+# --
+#+begin_src go :exports both
+package main
+
+import (
+    "fmt"
+)
+
+func main () {
+    ${1:CODE}
+}
+#+end_src

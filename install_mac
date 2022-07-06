@@ -1,0 +1,49 @@
+#!/usr/bin/env zsh
+
+set -e
+set -u
+
+# See: https://apple.stackexchange.com/questions/14001/how-to-turn-off-all-animations-on-os-x
+function system_settings() {
+    echo "--> Setting Default Keyboard/Mouse Settings..."
+    defaults write -g AppleFontSmoothing -int 0
+    defaults write -g ApplePressAndHoldEnabled -bool false
+    defaults write -g InitialKeyRepeat -int 15 # normal minimum is 15 (225 ms)
+    defaults write -g KeyRepeat -int 1         # normal minimum is 2 (30 ms)
+    defaults write -g com.apple.mouse.scaling -1
+
+    echo "--> Reducing Animations..."
+    defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
+    defaults write -g NSBrowserColumnAnimationSpeedMultiplier -float 0
+    defaults write -g NSDocumentRevisionsWindowTransformAnimation -bool false
+    defaults write -g NSScrollAnimationEnabled -bool false
+    defaults write -g NSScrollViewRubberbanding -bool false
+    defaults write -g NSToolbarFullScreenAnimationDuration -float 0
+    defaults write -g NSWindowResizeTime -float 0.001
+    defaults write -g QLPanelAnimationDuration -float 0
+    defaults write com.apple.Mail DisableReplyAnimations -bool true
+    defaults write com.apple.Mail DisableSendAnimations -bool true
+
+    echo "--> Configuring Dock Settings.... "
+    defaults write com.apple.dock autohide-delay -float 0
+    defaults write com.apple.dock autohide-time-modifier -float 0
+    defaults write com.apple.dock expose-animation-duration -float 0
+    defaults write com.apple.dock expose-animation-duration -int 0
+    defaults write com.apple.dock springboard-hide-duration -float 0
+    defaults write com.apple.dock springboard-page-duration -float 0
+    defaults write com.apple.dock springboard-show-duration -float 0
+    defaults write com.apple.dock workspaces-swoosh-animation-off -bool true
+
+    echo "--> Configuring Finder Settings..."
+    defaults write com.apple.Finder AppleShowAllFiles true
+    defaults write com.apple.finder DisableAllAnimations -bool false
+}
+
+function packages() {
+    echo "--> Installing Homebrew Packages..."
+    brew bundle --cleanup
+    brew cleanup
+}
+
+system_settings
+packages

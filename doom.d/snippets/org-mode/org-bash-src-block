@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: org-bash-src-block
+# key: <b
+# --
+#+begin_src bash :results verbatim :exports both :noweb-ref bash-scripts
+${1:BASH}
+#+end_src

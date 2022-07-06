@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: org-ssh-src-block
+# key: <ssh
+# --
+:PROPERTIES:
+:HEADER-ARGS:bash: :results output :exports both :dir /ssh:${1:USER}@${2:HOST}: :session
+:END:
+#+begin_src bash
+${3:SSH_COMMANDS}
+#+end_src

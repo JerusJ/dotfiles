@@ -1,0 +1,135 @@
+#!/usr/bin/env bash
+
+set -e
+set -u
+
+# Version Vars
+export GOLANG_VERSION=1.16.7
+export KUBECTL_VERSION=1.20.0
+export KUSTOMIZE_VERSION=4.0.5
+export TERRAFORM_VERSION=0.14.9
+export TERRAGRUNT_VERSION=0.28.18
+export PACKER_VERSION=1.7.1
+export HELM_VERSION=3.5.3
+export JUMP_VERSION=0.30.1
+# export VAGRANT_VERSION=2.2.15
+
+echo "--> Installing GO ${GOLANG_VERSION}..."
+GOLANG_DOWNLOAD_URL="https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz"
+echo "--> Downloading ${GOLANG_DOWNLOAD_URL}"
+sudo curl -L ${GOLANG_DOWNLOAD_URL} -o /tmp/go.tar.gz &&
+  rm -rf /usr/local/go &&
+  sudo tar -C /usr/local -xzf /tmp/go.tar.gz
+
+# echo "--> Installing Rust (via rust-up)..."
+# curl -sSf https://static.rust-lang.org/rustup.sh | sh -s -- --default-toolchain=nightly -y
+
+# if [ ! -f /usr/local/bin/tflint ]; then
+#   echo "--> Installing Terraform Linters..."
+#   curl -L "$(curl -Ls https://api.github.com/repos/terraform-linters/tflint/releases/latest | grep -o -E "https://.+?_linux_amd64.zip")" &&
+#     -o tflint.zip &&
+#     unzip tflint.zip &&
+#     rm tflint.zip &&
+#     mv ./tflint* /usr/local/bin/tflint &&
+#     chmod +x /usr/local/bin/tflint
+# fi
+
+# echo "--> Installing Python Poetry..."
+# curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+
+echo "--> Installing Pip Packages for Setup..."
+python3 -m pip install --upgrade \
+  pip \
+  setuptools \
+  suds-jurko \
+  requests
+
+echo "--> Installing Cloud Python Packages"
+python3 -m pip install --upgrade \
+  boto \
+  boto3 \
+  botocore \
+  git+https://github.com/vmware/vsphere-automation-sdk-python.git \
+  kubernetes
+
+
+echo "--> Installing Python Packages for Ansible..."
+python3 -m pip install \
+  ansible \
+  molecule \
+  pyvmomi \
+  jmespath \
+  pywinrm \
+  pexpect \
+  paramiko
+
+echo "--> Installing Docker..."
+sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
+if [ ! -f /usr/local/bin/kubectl ]; then
+  echo "--> Installing Kubectl ${KUBECTL_VERSION}..."
+  sudo curl -L -o /usr/local/bin/kubectl \
+    https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl &&
+    sudo chmod +x /usr/local/bin/kubectl
+fi
+
+if [ ! -f /usr/local/bin/kustomize ]; then
+  echo "--> Installing Kustomize ${KUSTOMIZE_VERSION}..."
+  sudo curl -L \
+    https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v${KUSTOMIZE_VERSION}/kustomize_v${KUSTOMIZE_VERSION}_linux_amd64.tar.gz |
+    sudo tar -xzvC /usr/local/bin/
+fi
+
+if [ ! -f /usr/local/bin/terraform ]; then
+  echo "--> Installing Terraform ${TERRAFORM_VERSION}..."
+  sudo curl -fsSL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -o /tmp/terraform.zip &&
+    sudo unzip /tmp/terraform.zip -d /usr/local/bin &&
+    sudo rm -f /tmp/terraform.zip
+fi
+
+if [ ! -f /usr/local/bin/terragrunt ]; then
+   echo "--> Installing Terragrunt ${TERRAGRUNT_VERSION}..."
+   sudo curl -L -o /usr/local/bin/terragrunt \
+     https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/terragrunt_linux_amd64 \
+     && sudo chmod +x /usr/local/bin/terragrunt
+fi
+
+if [ ! -f /usr/local/bin/packer ]; then
+  echo "--> Installing Packer ${PACKER_VERSION}..."
+  sudo curl -fsSl https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip -o /tmp/packer.zip &&
+    sudo unzip /tmp/packer.zip -d /usr/local/bin &&
+    sudo rm /tmp/packer.zip
+fi
+
+if [ ! -f /usr/local/bin/helm ]; then
+  echo "--> Installing Helm ${HELM_VERSION}..."
+  sudo curl -L https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz |
+    tar -xz &&
+    sudo mv linux-*/helm /usr/local/bin &&
+    sudo rm -rf linux-*
+fi
+
+# if [ ! -f /usr/local/bin/vagrant ]; then
+#   echo "--> installing vagrant ${vagrant_version}..."
+#   sudo curl -fssl https://releases.hashicorp.com/vagrant/${vagrant_version}/vagrant_${vagrant_version}_linux_amd64.zip /tmp/vagrant.zip &&
+#     sudo unzip /tmp/vagrant.zip -d /usr/local/bin &&
+#     sudo rm /tmp/vagrant.zip
+# fi
+
+echo "--> Installing Jump ${JUMP_VERSION} ..."
+wget https://github.com/gsamokovarov/jump/releases/download/v${JUMP_VERSION}/jump_${JUMP_VERSION}_amd64.deb
+sudo dpkg -i jump_${JUMP_VERSION}_amd64.deb
+sudo rm -f jump_${JUMP_VERSION}_amd64.deb
+
+echo "--> Setting up nvim to load .vimrc..."
+NVIM_CONFIG_FILE_PATH=~/.config/nvim/init.vim
+mkdir -p $(dirname ${NVIM_CONFIG_FILE_PATH})
+if [ ! -f "${NVIM_CONFIG_FILE_PATH}" ]; then
+  echo "--> Creating ${NVIM_CONFIG_FILE_PATH}..."
+  cat <<EOF >~/.config/nvim/init.vim
+set runtimepath^=~/.vim runtimepath+=~/.vim/after
+let &packpath=&runtimepath
+source ~/.vimrc
+EOF
+fi

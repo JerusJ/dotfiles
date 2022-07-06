@@ -1,0 +1,7 @@
+---
+- name: Install Ubuntu Packages
+  apt:
+    name: "{{ packages_ubuntu }}"
+    update_cache: true
+    state: present
+  become: true

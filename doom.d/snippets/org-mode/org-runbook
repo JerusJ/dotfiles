@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: org-runbook
+# key: <runbook
+# --
+* Symptoms
+   ${1:SYMPTOMS}
+* Things to Check
+   - ${2:THINGS_TO_CHECK}
+* Resolution
+   ${3:RESOLUTION}
+* Post Checks
+   - ${4:POST_CHECKS}

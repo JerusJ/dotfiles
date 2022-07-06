@@ -1,0 +1,9 @@
+---
+
+- include: fedora.yml
+  when: ansible_distribution == "Fedora"
+
+- include: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"
+
+- include: common.yml

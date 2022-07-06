@@ -1,0 +1,15 @@
+*.deb
+*.deb
+*.deb.*
+*.rpm
+*.swp
+*.zip*
+.DS_store
+.terraform
+.vagrant/
+gitconfig
+node_modules/
+package-lock.json
+packages.microsoft.gpg
+terraform.tfstate*
+tflint

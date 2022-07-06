@@ -1,0 +1,22 @@
+{
+    "border": "normal",
+    "current_border_width": 5,
+    "floating": "auto_off",
+    "geometry": {
+       "height": 2087,
+       "width": 3832,
+       "x": 4,
+       "y": 70
+    },
+    "marks": [],
+    "name": "i3: Layout saving in i3 - Brave",
+    "percent": 1,
+    "swallows": [
+       {
+       "class": "^Brave\\-browser$",
+       "instance": "^brave\\-browser$",
+       "window_role": "^browser$"
+       }
+    ],
+    "type": "con"
+}
