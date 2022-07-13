@@ -24,13 +24,8 @@ local has_fdo, freedesktop = pcall(require, "freedesktop")
 
 -- Widgets
 local batteryarc_widget = require("awesome-wm-widgets.batteryarc-widget.batteryarc")
-local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
-local ram_widget = require("awesome-wm-widgets.ram-widget.ram-widget")
-local docker_widget = require("awesome-wm-widgets.docker-widget.docker")
-local github_prs_widget = require("awesome-wm-widgets.github-prs-widget")
 local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 local brightness_widget = require("awesome-wm-widgets.brightness-widget.brightness")
-local battery_widget = require("awesome-wm-widgets.battery-widget.battery")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -57,10 +52,14 @@ do
 end
 -- }}}
 
+-- Startup NM Aplety
+awful.util.spawn("nm-applet")
+
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-local theme_path = string.format("%s/.config/awesome/themes", os.getenv("HOME"))
-beautiful.init(theme_path .. "/powerarrow-gruvbox/theme.lua")
+-- local theme_path = string.format("%s/.config/awesome/themes", os.getenv("HOME"))
+-- beautiful.init(theme_path .. "/powerarrow-gruvbox/theme.lua")
+beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
@@ -198,7 +197,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+    awful.tag({ "1", "2", "3", "4", "personal", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -239,21 +238,14 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            volume_widget{
+                widget_type = 'arc'
+            },
             mykeyboardlayout,
             wibox.widget.systray(),
             mytextclock,
             s.mylayoutbox,
-            cpu_widget(),
-            ram_widget(),
-            docker_widget(),
-            github_prs_widget {
-                reviewer = 'JerusJ'
-            },
-            volume_widget{
-                widget_type = 'arc'
-            },
             brightness_widget(),
-            battery_widget(),
         },
     }
 end)

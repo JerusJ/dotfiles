@@ -110,9 +110,8 @@
        tmux                       ; an API for interacting with tmux
        upload                     ; map local to remote projects via ssh/ftp
 
-       :os
-       (:if IS-MAC macos)         ; improve compatibility with macOS
-       tty                        ; improve the terminal Emacs experience
+       :os                        ; I Always want TTY. Don't care if it's mac or linux
+       tty
 
        :lang
        ;;agda                     ; types of types of types of types...
@@ -150,7 +149,7 @@
        ;;lean
        ;;factor
        ;;ledger                   ; an accounting system in Emacs
-       ;;lua                      ; one-based indices? one-based indices
+       lua                      ; one-based indices? one-based indices
        markdown                   ; writing docs for people to ignore
        ;;nim                      ; python + lisp at the speed of c
        ;;nix                      ; I hereby declare "nix geht mehr!"
