@@ -32,6 +32,9 @@ ifeq ($(CUR_PLATFORM), $(LINUX_PLATFORM))
 	[ -f ~/.bashrc ] || ln -s $(PWD)/bashrc ~/.bashrc
 	[ -f /usr/local/bin/zsh ] || sudo ln -s /usr/bin/zsh /usr/local/bin/zsh
 	[ -f /usr/local/bin/tmux ] || sudo ln -s /usr/bin/zsh /usr/local/bin/tmux
+	[ -s ~/.config/awesome ] || ln -s $(PWD)/awesome ~/.config
+	[ -d ~/.config/awesome/awesome-wm-widgets ] || git clone https://github.com/streetturtle/awesome-wm-widgets ~/.config/awesome/awesome-wm-widgets
+	[ -f ~/.config/awesome/json.lua ] || wget -P ~/.config/awesome/ https://raw.githubusercontent.com/rxi/json.lua/master/json.lua
 else
 endif
 	[ -f ~/.agignore ] || ln -s $(PWD)/agignore ~/.agignore
