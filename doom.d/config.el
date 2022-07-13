@@ -85,7 +85,7 @@
 (setq company-dabbrev-downcase nil)                  ; don't downcase)
 
 ;; Projectile
-(setq projectile-project-search-path '("~/code/"))
+(setq projectile-project-search-path '(("~/code" . 5)))
 
 ;; Python
 (setq py-python-command "python3")
