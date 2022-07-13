@@ -28,8 +28,8 @@
 ;; Fonts
 (cond
   ((string-equal system-type "gnu/linux")
-        (setq doom-font (font-spec :family "Ubuntu Mono" :size 18 :weight 'normal)
-                doom-variable-pitch-font (font-spec :family "Ubuntu Mono" :size 18))))
+        (setq doom-font (font-spec :family "Ubuntu Mono" :size 22 :weight 'normal)
+                doom-variable-pitch-font (font-spec :family "Ubuntu Mono" :size 22))))
 (cond
   ((string-equal system-type "darwin")
         (setq doom-font (font-spec :family "M+ 2m" :size 16 :weight 'normal)
