@@ -609,4 +609,19 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
+
+-- From: https://superuser.com/questions/1717659/how-to-have-all-floating-windows-always-on-top-in-awesome-wm
+-- Ensure that floating window is always 'on top'
+-- I also always want it to follow across all tags
+client.connect_signal("property::floating", function(c)
+    if c.floating then
+        c.ontop = true
+        c.sticky = true
+    else
+        c.ontop = false
+        c.sticky = false
+    end
+end)
+
+
 -- }}}
