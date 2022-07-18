@@ -28,8 +28,8 @@
 ;; Fonts
 (cond
   ((string-equal system-type "gnu/linux")
-        (setq doom-font (font-spec :family "Ubuntu Mono" :size 22 :weight 'normal)
-                doom-variable-pitch-font (font-spec :family "Ubuntu Mono" :size 22))))
+        (setq doom-font (font-spec :family "3270Medium Nerd Font" :size 34 :weight 'normal)
+                doom-variable-pitch-font (font-spec :family "3270Medium Nerd Font" :size 34))))
 (cond
   ((string-equal system-type "darwin")
         (setq doom-font (font-spec :family "M+ 2m" :size 16 :weight 'normal)
@@ -42,10 +42,10 @@
 ;; line-spacing is a buffer-local variable, so we'll need to use 'setq-default'
 ;; (setq-default line-spacing 0.5)
 
-(setq doom-theme 'doom-gruvbox)
+(setq doom-theme 'doom-material-dark)
 
 ;; Big performance decrease with line numbers :(
-(setq display-line-numbers-type nil)
+;; (setq display-line-numbers-type nil)
 
 ;; Org
 (setq org-directory "~/org/")
@@ -73,7 +73,7 @@
 ;; Company
 ;; Inspiration: https://github.com/iocanel/dotfiles/blob/master/.config/emacs/config.org
 (setq company-tooltip-limit 20)                      ; bigger popup window
-(setq company-idle-delay 0)                          ; decrease delay before autocompletion popup shows
+(setq company-idle-delay 10)                         ; increase delay before autocompletion popup shows
 (setq company-echo-delay 0)                          ; remove annoying blinking
 (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
 (setq company-tooltip-align-annotations t)           ; aligns annotation to the right hand side
