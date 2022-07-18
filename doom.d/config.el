@@ -66,7 +66,7 @@
 ;; Forge Configuration for Private VCS
 
 ;; Deft
-(setq deft-directory "~/org"
+(setq deft-directory "~/notes"
       deft-extensions '("org")
       deft-rerusive t)
 

@@ -35,7 +35,7 @@ ifeq ($(CUR_PLATFORM), $(LINUX_PLATFORM))
 	[ -s ~/.config/awesome ] || ln -s $(PWD)/awesome ~/.config
 	[ -d ~/.config/awesome/awesome-wm-widgets ] || git clone https://github.com/streetturtle/awesome-wm-widgets ~/.config/awesome/awesome-wm-widgets
 	[ -f ~/.config/awesome/json.lua ] || wget -P ~/.config/awesome/ https://raw.githubusercontent.com/rxi/json.lua/master/json.lua
-	[ -f ~/.config/staship.toml ] || ln -s $(PWD)/starship.toml ~/.config/starship.toml
+	[ -f ~/.config/starship.toml ] || ln -s $(PWD)/starship.toml ~/.config/starship.toml
 else
 endif
 	[ -f ~/.agignore ] || ln -s $(PWD)/agignore ~/.agignore
@@ -45,6 +45,7 @@ endif
 	[ -f ~/.tmux.conf ] || ln -s $(PWD)/tmux.conf ~/.tmux.conf
 	[ -f ~/.vimrc ] || ln -s $(PWD)/vimrc ~/.vimrc
 	[ -f ~/.zshrc ] || ln -s $(PWD)/zshrc ~/.zshrc
+	[ -d ~/notes ] || git clone git@github.com:JerusJ/notes.git ~/notes
 
 apps:
 ifeq ($(CUR_PLATFORM), $(MAC_PLATFORM))
@@ -52,6 +53,8 @@ ifeq ($(CUR_PLATFORM), $(MAC_PLATFORM))
 else
 	@./install_linux
 endif
+
+programming_packages: go node
 
 go:
 	GO111MODULE=on go install github.com/cweill/gotests/...@latest
@@ -78,7 +81,7 @@ node:
 ruby:
 	bundle install
 
-emacs: go
+emacs:
 	[ -d ~/.emacs.d ] || git clone https://github.com/hlissner/doom-emacs ~/.emacs.d
 
 clean:
@@ -96,4 +99,4 @@ ifeq ($(CUR_PLATFORM), $(MAC_PLATFORM))
 	brew cleanup
 endif
 
-.PHONY: all clean sync build go emacs dirs ruby
+.PHONY: all clean sync build go node ruby emacs dirs
