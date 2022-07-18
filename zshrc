@@ -368,3 +368,5 @@ export GPG_TTY=$(tty)
 eval "$(direnv hook zsh)"
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+eval "$(starship init zsh)"

@@ -163,3 +163,5 @@ eval "$(direnv hook bash)"
 eval "$(rbenv init -)"
 source "$HOME/.cargo/env"
 . "$HOME/.cargo/env"
+
+eval "$(starship init bash)"

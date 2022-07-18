@@ -35,6 +35,7 @@ ifeq ($(CUR_PLATFORM), $(LINUX_PLATFORM))
 	[ -s ~/.config/awesome ] || ln -s $(PWD)/awesome ~/.config
 	[ -d ~/.config/awesome/awesome-wm-widgets ] || git clone https://github.com/streetturtle/awesome-wm-widgets ~/.config/awesome/awesome-wm-widgets
 	[ -f ~/.config/awesome/json.lua ] || wget -P ~/.config/awesome/ https://raw.githubusercontent.com/rxi/json.lua/master/json.lua
+	[ -f ~/.config/staship.toml ] || ln -s $(PWD)/starship.toml ~/.config/starship.toml
 else
 endif
 	[ -f ~/.agignore ] || ln -s $(PWD)/agignore ~/.agignore
