@@ -27,6 +27,9 @@ local batteryarc_widget = require("awesome-wm-widgets.batteryarc-widget.batterya
 local volume_widget = require('awesome-wm-widgets.volume-widget.volume')
 local brightness_widget = require("awesome-wm-widgets.brightness-widget.brightness")
 
+-- Terminal
+local terminal = "alacritty"
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -62,7 +65,6 @@ awful.util.spawn("nm-applet")
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "alacritty"
 editor = os.getenv("EDITOR") or "emacs"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -197,7 +199,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "personal", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+    awful.tag({ "1", "2", "3", "personal", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -269,14 +271,6 @@ globalkeys = gears.table.join(
             os.execute("rofi -show run -width 95")
         end,
         {description = "show rofi run", group = "launcher"}),
-    awful.key({ modkey }, "w", function ()
-            os.execute("rofi -show windowcd -width 95")
-        end,
-        {description = "show rofi windowcd", group = "launcher"}),
-    awful.key({ modkey }, "f", function ()
-            os.execute("rofi -show window -width 95 -show-icons")
-        end,
-        {description = "show rofi window", group = "launcher"}),
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
