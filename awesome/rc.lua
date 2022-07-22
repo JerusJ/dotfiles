@@ -506,6 +506,7 @@ awful.rules.rules = {
           "pinentry",
         },
         class = {
+          "VirtualBox Machine",
           "Arandr",
           "Blueman-manager",
           "Gpick",
