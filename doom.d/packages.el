@@ -4,7 +4,8 @@
 ;; Additional Syntax
 (package! systemd)
 
-;; Org Mode
+;; Documentation
+;; Org
 (package! org-noter)
 (package! org-jira)
 (package! org-super-agenda)
@@ -14,7 +15,14 @@
 (package! ox-jira)
 (package! toc-org)
 
+;; PDF
 (package! pdf-tools)
+
+;; Markdown
+;; NOTE: this should be a part of :lang markdown but
+;; it's not being installed, so we'll do it implicitly.
+(package! markdown-toc)
+
 
 ;; Python
 (package! pyenv)
@@ -24,3 +32,7 @@
 
 ;; Ruby
 (package! rbenv)
+
+;; Vagrant
+(package! vagrant)
+(package! vagrant-tramp)
