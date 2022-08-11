@@ -41,7 +41,7 @@ function system_settings() {
 
 function packages() {
     echo "--> Installing Homebrew Packages..."
-    brew bundle --cleanup
+    brew bundle
     brew cleanup
 }
 

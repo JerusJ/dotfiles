@@ -15,3 +15,4 @@ package-lock.json
 packages.microsoft.gpg
 terraform.tfstate*
 tflint
+plug.vim

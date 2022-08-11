@@ -32,8 +32,8 @@
                 doom-variable-pitch-font (font-spec :family "3270Medium Nerd Font" :size 34))))
 (cond
   ((string-equal system-type "darwin")
-        (setq doom-font (font-spec :family "M+ 2m" :size 16 :weight 'normal)
-                doom-variable-pitch-font (font-spec :family "M+ 2m" :size 16))))
+        (setq doom-font (font-spec :family "Dank Mono" :size 17 :weight 'normal)
+                doom-variable-pitch-font (font-spec :family "Dank Mono" :size 17))))
 (cond
   ((string-equal system-type "windows-nt")
         (setq doom-font (font-spec :family "Source Code Pro" :size 20 :weight 'normal)
@@ -55,8 +55,8 @@
 
 ;; Syntax Highlighting
 (add-to-list 'auto-mode-alist '("\\Jenkinsfile\'" . groovy-mode))
-(add-to-list 'auto-mode-alist '("\\.hcl\'" . terraform-mode))
 (add-to-list 'auto-mode-alist '("\\Vagrantfile\'" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\hcl\'" . terraform-mode))
 
 ;; Mac Rebindings
 (setq mac-option-modifier 'super)
@@ -81,11 +81,18 @@
 (setq company-dabbrev-downcase nil)                  ; don't downcase)
 
 ;; Projectile
-(setq projectile-project-search-path '(("~/code" . 5)))
+(setq projectile-project-search-path '(("~/code" . 3)))
 
 ;; Python
-(setq py-python-command "python3")
 ;; (setq lsp-pyright-typechecking-mode "strict")
+(setq py-python-command "python3")
+(setq pyenv-installation-dir "/usr/local/bin")
+(use-package pipenv
+  :hook (python-mode . pipenv-mode)
+  :init
+  (setq
+   pipenv-projectile-after-switch-function
+   #'pipenv-projectile-after-switch-extended))
 
 ;; Focus new window after splitting
 (setq evil-split-window-below t
@@ -111,3 +118,7 @@
       my-project-root
     (setq-local my-project-root (apply orig-fn args))))
 (advice-add 'doom-modeline-project-root :around #'my-cache-project-root)
+
+;; Mode line
+(setq doom-modeline-height 0)
+(setq doom-modeline-bar-width 0)

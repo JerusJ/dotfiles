@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: python-test
+# key: <t
+# --
+tests = [
+    {"test": "", "wanted": ""},
+]
+
+def ${1:func}(x):
+    pass
+
+for test in tests:
+    got = $1(test["test"])
+    wanted = test["wanted"]
+
+    print(f"Test: {test['word']} Got: {got} wanted: {wanted}")
+    if got != wanted:
+        raise Exception("error")
+    print("Passed!")

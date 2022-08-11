@@ -20,6 +20,7 @@ ifeq ($(CUR_PLATFORM), $(MAC_PLATFORM))
 	[ -f ~/.config/polybar/config ] || ln -s $(PWD)/polybar/config ~/.config/polybar/config
 	[ -f ~/.config/polybar/launch.sh ] || ln -s $(PWD)/polybar/launch.sh ~/.config/polybar/launch.sh
 	[ -f ~/.bashrc ] || ln -s $(PWD)/bashrc ~/.bashrc
+	ln -s $(PWD)/config/* ~/.config/ || true
 	@touch ~/.hushlogin
 else
 endif

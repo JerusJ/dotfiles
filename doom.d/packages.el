@@ -26,6 +26,7 @@
 
 ;; Python
 (package! pyenv)
+(package! pipenv)
 
 ;; Latex
 (package! lsp-latex)

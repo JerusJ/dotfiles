@@ -34,10 +34,9 @@ window:
 
   dynamic_title: true
 
-
   # Window decorations
   # Setting this to false will result in window without borders and title bar.
-  decorations: full
+  decorations: None
 
 # When true, bold text is drawn using the bright variant of colors.
 draw_bold_text_with_bright_colors: true
@@ -55,21 +54,21 @@ scrolling:
 font:
   # The normal (roman) font face to use.
   normal:
-    family: Source Code Pro
-    style: Semibold
+    family: Dank Mono
+    style: Regular
 
   # The bold font face
   bold:
-    family: Source Code Pro
-    style: Bold
+    family: Dank Mono
+    style: Italic
 
   # The italic font face
   italic:
-    family: Source Code Pro
-    style: Regular Italic
+    family: Dank Mono
+    style: Italic
 
   # Point size of the font
-  size: 16.0
+  size: 18.0
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
