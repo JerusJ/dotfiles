@@ -2,6 +2,8 @@ CUR_PLATFORM	:= $(shell uname)
 LINUX_PLATFORM	:= Linux
 MAC_PLATFORM	:= Darwin
 
+NODE_DIR := ~/.npm_global
+
 all: sync apps emacs
 
 dirs:
@@ -9,6 +11,7 @@ ifeq ($(CUR_PLATFORM), $(MAC_PLATFORM))
 	[ -d ~/.config/polybar ] || mkdir -p ~/.config/polybar
 else
 endif
+	[ -d ${NODE_DIR} ] || mkdir -p ${NODE_DIR}
 	[ -d ~/.config/alacritty ] || mkdir -p ~/.config/alacritty
 	[ -d ~/.config/i3 ] || mkdir -p ~/.config/i3
 	[ -d ~/org ] || mkdir -p ~/org
@@ -27,6 +30,9 @@ endif
 ifeq ($(CUR_PLATFORM), $(LINUX_PLATFORM))
 	[ -f ~/.Xmodmap ] || ln -s $(PWD)/Xmodmap ~/.Xmodmap
 	[ -f ~/.Xresources ] || ln -s $(PWD)/Xresources ~/.Xresources
+	[ -f ~/.xinitrc ] || ln -s $(PWD)/.xinitrc ~/.xinitrc
+	[ -f ~/.config/i3/config ] || ln -s $(PWD)/i3/config ~/.config/i3/config
+	[ -f ~/.config/i3/workspace1.json ] || ln -s $(PWD)/i3/workspace1.json ~/.config/i3/workspace1.json
 	[ -f ~/.config/i3/workspace1.json ] || ln -s $(PWD)/i3/workspace1.json ~/.config/i3/workspace1.json
 	[ -f ~/.config/i3/workspace2.json ] || ln -s $(PWD)/i3/workspace2.json ~/.config/i3/workspace2.json
 	[ -f ~/.config/i3/workspace3.json ] || ln -s $(PWD)/i3/workspace3.json ~/.config/i3/workspace3.json
@@ -34,6 +40,7 @@ ifeq ($(CUR_PLATFORM), $(LINUX_PLATFORM))
 	[ -f /usr/local/bin/zsh ] || sudo ln -s /usr/bin/zsh /usr/local/bin/zsh
 	[ -f /usr/local/bin/tmux ] || sudo ln -s /usr/bin/zsh /usr/local/bin/tmux
 	[ -s ~/.config/awesome ] || ln -s $(PWD)/awesome ~/.config
+	[ -d ~/bin ] || ln -s $(PWD)/bin ~/bin
 	[ -d ~/.config/awesome/awesome-wm-widgets ] || git clone https://github.com/streetturtle/awesome-wm-widgets ~/.config/awesome/awesome-wm-widgets
 	[ -f ~/.config/awesome/json.lua ] || wget -P ~/.config/awesome/ https://raw.githubusercontent.com/rxi/json.lua/master/json.lua
 	[ -f ~/.config/starship.toml ] || ln -s $(PWD)/starship.toml ~/.config/starship.toml
@@ -71,6 +78,7 @@ go:
 	GO111MODULE=on go install golang.org/x/tools/gopls@latest
 
 node:
+	npm config set prefix '${NODE_DIR}'
 	npm install --global \
 		bash-language-server \
 		typescript-language-server \

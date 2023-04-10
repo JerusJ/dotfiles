@@ -8,10 +8,17 @@
 
 case `uname` in
   Linux)
-	  setxkbmap -option ctrl:nocaps
+    setxkbmap -option ctrl:nocaps
+    # Keyboard key repeat rate <TIME_TO_REPEAT> <REPETITIONS_PER_SECOND>
+    xset r rate 200 75
   ;;
 esac
 
+export PATH="$HOME/.config/emacs/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
+
+export EDITOR="emacs"
+export TERMINAL="alacritty"
 
 # =============
 #    ALIAS
@@ -348,6 +355,8 @@ export PATH=$PATH:"$HOME/.cargo/bin"
 
 # Node
 export NVM_DIR="$HOME/.nvm"
+export NPM_MODULES_DIR="$HOME/.npm_global"
+export PATH=$PATH:"${NPM_MODULES_DIR}"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 

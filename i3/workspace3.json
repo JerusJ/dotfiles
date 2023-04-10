@@ -9,12 +9,12 @@
        "y": 70
     },
     "marks": [],
-    "name": "i3: Layout saving in i3 - Brave",
+    "name": "i3: Layout saving in i3 - Firefox",
     "percent": 1,
     "swallows": [
        {
-       "class": "^Brave\\-browser$",
-       "instance": "^brave\\-browser$",
+       "class": "^Firefox\\-browser$",
+       "instance": "^firefox\\-browser$",
        "window_role": "^browser$"
        }
     ],

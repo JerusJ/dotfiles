@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# launch emacsclient with special frame name
+/usr/bin/emacsclient -n -c \
+     "$HOME/scratch.txt" \
+     --frame-parameters "((name . \"_emacs scratchpad_\"))"

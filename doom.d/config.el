@@ -28,8 +28,8 @@
 ;; Fonts
 (cond
   ((string-equal system-type "gnu/linux")
-        (setq doom-font (font-spec :family "3270Medium Nerd Font" :size 34 :weight 'normal)
-                doom-variable-pitch-font (font-spec :family "3270Medium Nerd Font" :size 34))))
+        (setq doom-font (font-spec :family "Iosevka" :size 18 :weight 'normal)
+                doom-variable-pitch-font (font-spec :family "Iosevka" :size 18))))
 (cond
   ((string-equal system-type "darwin")
         (setq doom-font (font-spec :family "Dank Mono" :size 17 :weight 'normal)
@@ -39,13 +39,11 @@
         (setq doom-font (font-spec :family "Source Code Pro" :size 20 :weight 'normal)
               doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 20))))
 
-;; line-spacing is a buffer-local variable, so we'll need to use 'setq-default'
-;; (setq-default line-spacing 0.5)
-
 (setq doom-theme 'doom-material-dark)
 
 ;; Big performance decrease with line numbers :(
 ;; (setq display-line-numbers-type nil)
+(setq display-line-numbers 'relative)
 
 ;; Org
 (setq org-directory "~/org/")
@@ -74,7 +72,7 @@
 ;; Company
 ;; Inspiration: https://github.com/iocanel/dotfiles/blob/master/.config/emacs/config.org
 (setq company-tooltip-limit 20)                      ; bigger popup window
-(setq company-idle-delay 10)                         ; increase delay before autocompletion popup shows
+(setq company-idle-delay nil)                         ; increase delay before autocompletion popup shows
 (setq company-echo-delay 0)                          ; remove annoying blinking
 (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
 (setq company-tooltip-align-annotations t)           ; aligns annotation to the right hand side
@@ -93,6 +91,11 @@
   (setq
    pipenv-projectile-after-switch-function
    #'pipenv-projectile-after-switch-extended))
+
+;; Rust
+;; Sometimes this defaults to RLS, which we do not want, ever.
+(setq lsp-rust-server 'rust-analyzer)
+(setq rustic-lsp-server 'rust-analyzer)
 
 ;; Focus new window after splitting
 (setq evil-split-window-below t
@@ -122,3 +125,4 @@
 ;; Mode line
 (setq doom-modeline-height 0)
 (setq doom-modeline-bar-width 0)
+

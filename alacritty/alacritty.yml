@@ -54,21 +54,21 @@ scrolling:
 font:
   # The normal (roman) font face to use.
   normal:
-    family: Dank Mono
+    family: Iosevka
     style: Regular
 
   # The bold font face
   bold:
-    family: Dank Mono
+    family: Iosevka
     style: Italic
 
   # The italic font face
   italic:
-    family: Dank Mono
+    family: Iosevka
     style: Italic
 
   # Point size of the font
-  size: 18.0
+  size: 12.0
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
