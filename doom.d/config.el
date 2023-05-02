@@ -32,6 +32,7 @@
 ;; always split vertically for big monitor
 (setq split-width-threshold 0)
 (setq split-height-threshold nil)
+(set-popup-rules! '(("*compilation*" :side right :size 0.50 :select t :quit nil)))
 
 ;; Fonts
 (cond

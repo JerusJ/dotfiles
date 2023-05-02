@@ -17,3 +17,4 @@ packages.microsoft.gpg
 terraform.tfstate*
 tflint
 plug.vim
+custom.el
