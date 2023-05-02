@@ -37,3 +37,7 @@
 ;; Vagrant
 (package! vagrant)
 (package! vagrant-tramp)
+
+(package! salt-mode)
+
+(package! json-navigator)

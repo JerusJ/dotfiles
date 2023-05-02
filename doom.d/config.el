@@ -36,8 +36,6 @@
 ;; Fonts
 (cond
   ((string-equal system-type "gnu/linux")
-        (setq doom-font (font-spec :family "Iosevka" :size 18 :weight 'normal)
-                doom-variable-pitch-font (font-spec :family "Iosevka" :size 18))))
         (setq doom-font (font-spec :family "Iosevka" :size 32 :weight 'normal)
                 doom-variable-pitch-font (font-spec :family "Iosevka" :size 32))))
 (cond
@@ -49,7 +47,7 @@
         (setq doom-font (font-spec :family "Source Code Pro" :size 20 :weight 'normal)
               doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 20))))
 
-(setq doom-theme 'doom-material-dark)
+(setq doom-theme 'doom-tomorrow-night)
 
 ;; Big performance decrease with line numbers :(
 ;; (setq display-line-numbers-type nil)
@@ -87,6 +85,9 @@
 (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
 (setq company-tooltip-align-annotations t)           ; aligns annotation to the right hand side
 (setq company-dabbrev-downcase nil)                  ; don't downcase)
+
+(setq company-auto-complete 'company-explicit-action-p)
+(setq ac-auto-start nil)
 
 ;; Projectile
 (setq projectile-project-search-path '(("~/code" . 3)))
@@ -135,6 +136,9 @@
 ;; Mode line
 (setq doom-modeline-height 0)
 (setq doom-modeline-bar-width 0)
+
+;; Debugging
+(setq dap-auto-configure-mode t)
 
 ;; https://gist.github.com/stammw/803e23b4e13c82373127ebe7fa161228
 ;; Always compile from project root, and save all files
