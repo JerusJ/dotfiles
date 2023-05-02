@@ -25,11 +25,21 @@
 (setq user-full-name "Jesse Rusak"
       user-mail-address "rusak.jesse@gmail.com")
 
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(set-frame-parameter nil 'undecorated t)
+
+;; Big monitor
+;; always split vertically for big monitor
+(setq split-width-threshold 0)
+(setq split-height-threshold nil)
+
 ;; Fonts
 (cond
   ((string-equal system-type "gnu/linux")
         (setq doom-font (font-spec :family "Iosevka" :size 18 :weight 'normal)
                 doom-variable-pitch-font (font-spec :family "Iosevka" :size 18))))
+        (setq doom-font (font-spec :family "Iosevka" :size 32 :weight 'normal)
+                doom-variable-pitch-font (font-spec :family "Iosevka" :size 32))))
 (cond
   ((string-equal system-type "darwin")
         (setq doom-font (font-spec :family "Dank Mono" :size 17 :weight 'normal)
@@ -126,3 +136,25 @@
 (setq doom-modeline-height 0)
 (setq doom-modeline-bar-width 0)
 
+;; https://gist.github.com/stammw/803e23b4e13c82373127ebe7fa161228
+;; Always compile from project root, and save all files
+(defun save-all-and-compile ()
+  "Automate compile workflow."
+  (interactive)
+  (save-some-buffers 1)
+  (if (get-buffer-process "*compilation*")
+      (kill-compilation))
+  (projectile-compile-project 'projectile-project-compilation-cmd))
+(defun save-all-and-recompile ()
+  "Automate compile workflow."
+  (interactive)
+  (save-some-buffers 1)
+  (if (get-buffer-process "*compilation*")
+      (kill-compilation))
+  (recompile))
+
+;; Keybindings
+(map!
+        :m "<f6>" #'save-all-and-compile
+        :m "<f5>" #'save-all-and-recompile
+ )
