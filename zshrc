@@ -340,6 +340,9 @@ eval "$(jump shell)"
 
 # Python
 export PATH=$PATH:"$HOME/.local/bin"
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 # Ruby
 eval "$(rbenv init -)"
