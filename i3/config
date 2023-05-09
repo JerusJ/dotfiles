@@ -156,6 +156,7 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+
 # === Application Launch ===
 exec --no-startup-id pasystray
 exec --no-startup-id blueman-applet
@@ -165,12 +166,16 @@ exec --no-startup-id $HOME/pad
 exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/jesse/.config/i3/workspace1.json'"
 exec --no-startup-id "i3-msg 'workspace 2; append_layout /home/jesse/.config/i3/workspace2.json'"
 exec --no-startup-id "i3-msg 'workspace 3; append_layout /home/jesse/.config/i3/workspace3.json'"
-exec --no-startup-id i3-msg 'exec /usr/bin/alacritty'
+exec --no-startup-id i3-msg 'exec /usr/local/bin/alacritty'
 exec --no-startup-id i3-msg 'exec /usr/bin/emacs'
-exec --no-startup-id i3-msg 'exec /usr/bin/brave-browser'
+exec --no-startup-id i3-msg 'exec /usr/bin/firefox'
+
+# === Scratchpad ===
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
 
 # when scratchpad frame is launched, move it to the scratchpad workspace
-for_window [title="_emacs scratchpad_" class="Emacs"] move scratchpad
+# for_window [title="*doom:scratch*" class="Emacs"] move scratchpad
 
 # Swap back and forth between workspaces
 bindsym $mod+Tab  workspace back_and_forth
