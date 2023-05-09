@@ -51,8 +51,7 @@ case `uname` in
     alias ll='ls -al'
     alias ls='ls --color=auto'
     # See: https://askubuntu.com/questions/123798/how-to-hear-my-voice-in-speakers-with-a-mic
-    alias listen_start='pactl load-module module-loopback latency_msec=1'
-    alias listen_stop="pactl unload-module $(pactl list short modules | grep 'module-loopback' | awk '{ print $1 }')"
+    alias listen_mic='arecord --buffer-time=1 - | aplay --buffer-time=1 -'
   ;;
 esac
 
@@ -362,6 +361,10 @@ export NPM_MODULES_DIR="$HOME/.npm_global"
 export PATH=$PATH:"${NPM_MODULES_DIR}"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# C#
+export DOTNET_ROOT=$HOME/.dotnet
+export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
 # Emacs Doom
 export PATH=$PATH:"$HOME/.emacs.d/bin"
