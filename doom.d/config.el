@@ -79,16 +79,29 @@
       deft-rerusive t)
 
 ;; Company
-;; Inspiration: https://github.com/iocanel/dotfiles/blob/master/.config/emacs/config.org
-(setq company-tooltip-limit 20)                      ; bigger popup window
-(setq company-idle-delay nil)                         ; increase delay before autocompletion popup shows
+;; (setq company-tooltip-limit 20)                   ; bigger popup window
 (setq company-echo-delay 0)                          ; remove annoying blinking
 (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
 (setq company-tooltip-align-annotations t)           ; aligns annotation to the right hand side
 (setq company-dabbrev-downcase nil)                  ; don't downcase)
 
-(setq company-auto-complete 'company-explicit-action-p)
-(setq ac-auto-start nil)
+;; Don't start completion automatically
+(setq company-idle-delay nil)
+
+;; Immediately select the first completion entry
+(setq company-auto-complete t)
+
+;; Don't show popup, cycle with TAB instead
+(setq company-tooltip-limit 0)
+(setq company-show-numbers t)
+(setq company-preview-offset 0)
+(setq company-tooltip-offset-display 'scrollbar)
+
+(defun my-company-cycle ()
+  (interactive)
+  (if (not (company-complete-selection))
+      (progn (company-auto-begin)
+             (company-select-next))))
 
 ;; Projectile
 (setq projectile-project-search-path '(("~/code" . 3)))
@@ -158,7 +171,16 @@
       (kill-compilation))
   (recompile))
 
+
 ;; Keybindings
+(map! :map company-active-map
+        "TAB" #'my-company-cycle
+        "<tab>" #'my-company-cycle)
+
+(map! :map company-mode-map
+        "TAB" #'my-company-cycle
+        "<tab>" #'my-company-cycle)
+
 (map!
         :m "<f6>" #'save-all-and-compile
         :m "<f5>" #'save-all-and-recompile
