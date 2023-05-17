@@ -20,8 +20,6 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;;
-;;
 (setq user-full-name "Jesse Rusak"
       user-mail-address "rusak.jesse@gmail.com")
 
@@ -81,27 +79,49 @@
 ;; Company
 ;; (setq company-tooltip-limit 20)                   ; bigger popup window
 (setq company-echo-delay 0)                          ; remove annoying blinking
-(setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
-(setq company-tooltip-align-annotations t)           ; aligns annotation to the right hand side
+;; (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
+;; (setq company-tooltip-align-annotations t)           ; aligns annotation to the right hand side
 (setq company-dabbrev-downcase nil)                  ; don't downcase)
 
 ;; Don't start completion automatically
 (setq company-idle-delay nil)
 
 ;; Immediately select the first completion entry
-(setq company-auto-complete t)
+;; (setq company-auto-complete t)
 
 ;; Don't show popup, cycle with TAB instead
-(setq company-tooltip-limit 0)
-(setq company-show-numbers t)
-(setq company-preview-offset 0)
-(setq company-tooltip-offset-display 'scrollbar)
+;; (setq company-preview-offset 0)
+;; (setq company-tooltip-offset-display 'scrollbar)
 
 (defun my-company-cycle ()
   (interactive)
   (if (not (company-complete-selection))
       (progn (company-auto-begin)
              (company-select-next))))
+
+
+;; If previous char is whitespace, good to indent
+(defun custom/company-tab-complete-or-noop ()
+  (interactive)
+  (if (looking-back "\s" 1)
+      (indent-for-tab-command))
+    (if (company-manual-begin)
+        (company-complete-common)))
+
+(defun custom/company-complete-if-single (command)
+  (when (and (eq command 'manual)
+
+
+             (not (cdr company-candidates)))
+    (company-complete-selection)
+    (company-end-command)))
+
+(add-hook 'company-completion-started-hook 'custom/company-complete-if-single)
+
+(after! company
+  (map! :i "<tab>" #'custom/company-tab-complete-or-noop))
+
+;; (map! :map company-active-map "<tab>" #'company-complete-selection)
 
 ;; Projectile
 (setq projectile-project-search-path '(("~/code" . 3)))
@@ -151,9 +171,6 @@
 (setq doom-modeline-height 0)
 (setq doom-modeline-bar-width 0)
 
-;; Debugging
-(setq dap-auto-configure-mode t)
-
 ;; https://gist.github.com/stammw/803e23b4e13c82373127ebe7fa161228
 ;; Always compile from project root, and save all files
 (defun save-all-and-compile ()
@@ -173,15 +190,7 @@
 
 
 ;; Keybindings
-(map! :map company-active-map
-        "TAB" #'my-company-cycle
-        "<tab>" #'my-company-cycle)
-
-(map! :map company-mode-map
-        "TAB" #'my-company-cycle
-        "<tab>" #'my-company-cycle)
-
 (map!
         :m "<f6>" #'save-all-and-compile
         :m "<f5>" #'save-all-and-recompile
- )
+)
