@@ -6,13 +6,6 @@
 
 ;; Documentation
 ;; Org
-(package! org-noter)
-(package! org-jira)
-(package! org-super-agenda)
-(package! org-download)
-(package! ob-async)
-;; Org Export Formats
-(package! ox-jira)
 (package! toc-org)
 
 ;; PDF
@@ -22,11 +15,6 @@
 ;; NOTE: this should be a part of :lang markdown but
 ;; it's not being installed, so we'll do it implicitly.
 (package! markdown-toc)
-
-
-;; Python
-(package! pyenv)
-(package! pipenv)
 
 ;; Latex
 (package! lsp-latex)
