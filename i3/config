@@ -162,14 +162,6 @@ exec --no-startup-id pasystray
 exec --no-startup-id blueman-applet
 exec --no-startup-id $HOME/pad
 
-# === Workspace ===
-exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/jesse/.config/i3/workspace1.json'"
-exec --no-startup-id "i3-msg 'workspace 2; append_layout /home/jesse/.config/i3/workspace2.json'"
-exec --no-startup-id "i3-msg 'workspace 3; append_layout /home/jesse/.config/i3/workspace3.json'"
-exec --no-startup-id i3-msg 'exec /usr/local/bin/alacritty'
-exec --no-startup-id i3-msg 'exec /usr/bin/emacs'
-exec --no-startup-id i3-msg 'exec /usr/bin/firefox'
-
 # === Scratchpad ===
 bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
