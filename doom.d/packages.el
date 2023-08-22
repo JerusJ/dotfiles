@@ -22,10 +22,13 @@
 ;; Ruby
 (package! rbenv)
 
+;; Go
+(package! go-dlv)
+
 ;; Vagrant
 (package! vagrant)
 (package! vagrant-tramp)
 
+;; Misc
 (package! salt-mode)
-
 (package! json-navigator)

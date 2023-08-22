@@ -35,8 +35,8 @@
 ;; Fonts
 (cond
   ((string-equal system-type "gnu/linux")
-        (setq doom-font (font-spec :family "Iosevka" :size 32 :weight 'normal)
-                doom-variable-pitch-font (font-spec :family "Iosevka" :size 32))))
+        (setq doom-font (font-spec :family "Iosevka" :size 20 :weight 'normal)
+                doom-variable-pitch-font (font-spec :family "Iosevka" :size 20))))
 (cond
   ((string-equal system-type "darwin")
         (setq doom-font (font-spec :family "Dank Mono" :size 17 :weight 'normal)
@@ -46,7 +46,7 @@
         (setq doom-font (font-spec :family "Source Code Pro" :size 20 :weight 'normal)
               doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 20))))
 
-(setq doom-theme 'doom-tomorrow-night)
+(setq doom-theme 'doom-gruvbox)
 
 ;; Big performance decrease with line numbers :(
 ;; (setq display-line-numbers-type nil)
@@ -72,12 +72,12 @@
 ;; Forge Configuration for Private VCS
 
 ;; Deft
-(setq deft-directory "~/notes"
-      deft-extensions '("org")
-      deft-rerusive t)
+;; (setq deft-directory "~/notes"
+;;       deft-extensions '("org")
+;;       deft-rerusive t)
 
 ;; Company
-;; (setq company-tooltip-limit 20)                   ; bigger popup window
+(setq company-tooltip-limit 20)                   ; bigger popup window
 (setq company-echo-delay 0)                          ; remove annoying blinking
 ;; (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
 ;; (setq company-tooltip-align-annotations t)           ; aligns annotation to the right hand side
@@ -93,49 +93,11 @@
 ;; (setq company-preview-offset 0)
 ;; (setq company-tooltip-offset-display 'scrollbar)
 
-(defun my-company-cycle ()
-  (interactive)
-  (if (not (company-complete-selection))
-      (progn (company-auto-begin)
-             (company-select-next))))
-
-
-;; If previous char is whitespace, good to indent
-(defun custom/company-tab-complete-or-noop ()
-  (interactive)
-  (if (looking-back "\s" 1)
-      (indent-for-tab-command))
-    (if (company-manual-begin)
-        (company-complete-common)))
-
-(defun custom/company-complete-if-single (command)
-  (when (and (eq command 'manual)
-
-
-             (not (cdr company-candidates)))
-    (company-complete-selection)
-    (company-end-command)))
-
-(add-hook 'company-completion-started-hook 'custom/company-complete-if-single)
-
-(after! company
-  (map! :i "<tab>" #'custom/company-tab-complete-or-noop))
-
-;; (map! :map company-active-map "<tab>" #'company-complete-selection)
-
 ;; Projectile
 (setq projectile-project-search-path '(("~/code" . 3)))
 
 ;; Python
 ;; (setq lsp-pyright-typechecking-mode "strict")
-(setq py-python-command "python3")
-(setq pyenv-installation-dir "/usr/local/bin")
-(use-package pipenv
-  :hook (python-mode . pipenv-mode)
-  :init
-  (setq
-   pipenv-projectile-after-switch-function
-   #'pipenv-projectile-after-switch-extended))
 
 ;; Rust
 ;; Sometimes this defaults to RLS, which we do not want, ever.
@@ -193,4 +155,6 @@
 (map!
         :m "<f6>" #'save-all-and-compile
         :m "<f5>" #'save-all-and-recompile
+        :m "TAB" #'company-complete-selection
+        :m "<tab>" #'company-complete-selection
 )
