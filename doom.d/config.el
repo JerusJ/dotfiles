@@ -56,7 +56,6 @@
 (setq org-directory "~/org/")
 (setq org-journal-file-format "%Y%m%d.org")
 (setq org-journal-file-type 'weekly)
-(require 'ox-confluence)
 
 ;; Syntax Highlighting
 (add-to-list 'auto-mode-alist '("\\Jenkinsfile\'" . groovy-mode))
@@ -66,15 +65,6 @@
 ;; Mac Rebindings
 (setq mac-option-modifier 'super)
 (setq mac-command-modifier 'meta)
-
-(setq vterm-shell "/usr/local/bin/zsh")
-
-;; Forge Configuration for Private VCS
-
-;; Deft
-;; (setq deft-directory "~/notes"
-;;       deft-extensions '("org")
-;;       deft-rerusive t)
 
 ;; Company
 ;; I want this: https://stackoverflow.com/questions/64466550/auto-insert-and-cycle-through-completions-in-emacs-company-mode
@@ -101,6 +91,9 @@
 
 ;; Python
 ;; (setq lsp-pyright-typechecking-mode "strict")
+(after! lsp-python-ms
+  (setq lsp-python-ms-executable (executable-find "python-language-server"))
+  (set-lsp-priority! 'mspyls 1))
 
 ;; Rust
 ;; Sometimes this defaults to RLS, which we do not want, ever.
