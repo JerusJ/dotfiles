@@ -77,21 +77,24 @@
 ;;       deft-rerusive t)
 
 ;; Company
-(setq company-tooltip-limit 20)                   ; bigger popup window
-(setq company-echo-delay 0)                          ; remove annoying blinking
-;; (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
-;; (setq company-tooltip-align-annotations t)           ; aligns annotation to the right hand side
-(setq company-dabbrev-downcase nil)                  ; don't downcase)
+;; I want this: https://stackoverflow.com/questions/64466550/auto-insert-and-cycle-through-completions-in-emacs-company-mode
+;; =====================================================================
+(setq company-idle-delay nil              ; Disable auto completion
+      company-tooltip-limit 0             ; No tooltips
+      company-echo-delay 0                ; No delay
+      company-dabbrev-downcase nil        ; Don't downcase completions
+      company-require-match 'never        ; Don't require match, allowing free typing
+      company-frontends nil)              ; Disable all frontends for no pop-ups
 
-;; Don't start completion automatically
-(setq company-idle-delay nil)
+(defun my-cycle-through-completions ()
+  "Insert the selected candidate or the first if none are selected."
+  (interactive)
+  (if company-selection
+      (company-complete-selection)
+    (company-complete-number 1)))
 
-;; Immediately select the first completion entry
-;; (setq company-auto-complete t)
-
-;; Don't show popup, cycle with TAB instead
-;; (setq company-preview-offset 0)
-;; (setq company-tooltip-offset-display 'scrollbar)
+(global-set-key (kbd "TAB") 'my-cycle-through-completions)
+;; =====================================================================
 
 ;; Projectile
 (setq projectile-project-search-path '(("~/code" . 3)))
@@ -155,6 +158,4 @@
 (map!
         :m "<f6>" #'save-all-and-compile
         :m "<f5>" #'save-all-and-recompile
-        :m "TAB" #'company-complete-selection
-        :m "<tab>" #'company-complete-selection
 )
