@@ -95,6 +95,8 @@
   (setq lsp-python-ms-executable (executable-find "python-language-server"))
   (set-lsp-priority! 'mspyls 1))
 
+(setq dap-python-debugger 'debugpy)
+
 ;; Rust
 ;; Sometimes this defaults to RLS, which we do not want, ever.
 (setq lsp-rust-server 'rust-analyzer)
