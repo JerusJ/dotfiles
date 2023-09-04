@@ -35,8 +35,8 @@
 ;; Fonts
 (cond
   ((string-equal system-type "gnu/linux")
-        (setq doom-font (font-spec :family "DroidSansM Nerd Font" :size 20 :weight 'normal)
-                doom-variable-pitch-font (font-spec :family "DroidSansM Nerd Font" :size 20))))
+        (setq doom-font (font-spec :family "DroidSansM Nerd Font" :size 17 :weight 'normal)
+                doom-variable-pitch-font (font-spec :family "DroidSansM Nerd Font" :size 17))))
 (cond
   ((string-equal system-type "darwin")
         (setq doom-font (font-spec :family "Dank Mono" :size 17 :weight 'normal)
