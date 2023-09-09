@@ -1,0 +1,167 @@
+#################
+# Packer Caches #
+#################
+**/packer_cache/
+*.mf
+*.ovf
+*.vmdk
+*.vmx
+
+###########
+# Vagrant #
+###########
+**/.vagrant/*
+
+###################
+# Compiled source #
+###################
+*.class
+*.com
+*.dll
+*.exe
+*.o
+*.so
+
+############
+# Packages #
+############
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.out
+*.rar
+*.tar
+*.zip
+
+######################
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+##########
+# Editor #
+##########
+*.*~*
+*.swp*
+*.un*
+.idea
+*.secret
+
+######
+# OS #
+######
+.DS_Store
+.DS_Store?
+.Spotlight-V100
+.Trashes
+._*
+Thumbs.db
+ehthumbs.db
+tmp/
+
+#####################
+# Language-Specific #
+#####################
+
+`(let ((type-ignore (yas-choose-value '("(none)" "python" "latex" "go" "ruby" "java" "js" "haskell" "clojure"))))
+    (string-join
+       (cond ((string= type-ignore "python")
+              '("*.py[cod]"
+                "*.egg"
+                "build"
+                "**/.pytest_cache/"
+                "**/.venv/"
+                "**/__pycache__"
+                "htmlcov"))
+             ((string= type-ignore "latex")
+                '("*.acn"
+                "*.acr"
+                "*.alg"
+                "*.aux"
+                "*.aux"
+                "*.bbl"
+                "*.blg"
+                "*.dvi"
+                "*.fdb_latexmk"
+                "*.fls"
+                "*.glg"
+                "*.glo"
+                "*.gls"
+                "*.idx"
+                "*.ilg"
+                "*.ind"
+                "*.ist"
+                "*.lof"
+                "*.log"
+                "*.lot"
+                "*.maf"
+                "*.mtc"
+                "*.mtc1"
+                "*.out"
+                "*.synctex.gz"
+                "*.toc"
+                "*auctex*"
+                "*temp.tex"))
+             ((string= type-ignore "go")
+                '("go.work"
+                "*.test"))
+             ((string= type-ignore "ruby")
+             '(".ruby-version"
+               ".bundle"
+               "vendor"
+               "Gemfile.lock"
+               "coverage"))
+             ((string= type-ignore "java")
+             '("*.class"
+               "build"))
+             ((string= type-ignore "js")
+             '("*.tern-port"
+               "node_modules/"
+               "npm-debug.log*"
+               "yarn-debug.log*"
+               "yarn-error.log*"
+               "*.tsbuildinfo"
+               ".npm"
+               ".eslintcache"))
+             ((string= type-ignore "haskell")
+             '("dist"
+               "dist-*"
+               "cabal-dev"
+               "*.o"
+               "*.hi"
+               "*.hie"
+               "*.chi"
+               "*.chs.h"
+               "*.dyn_o"
+               "*.dyn_hi"
+               ".hpc"
+               ".hsenv"
+               ".cabal-sandbox/"
+               "cabal.sandbox.config"
+               "*.prof"
+               "*.aux"
+               "*.hp"
+               "*.eventlog"
+               ".stack-work/"
+               "cabal.project.local"
+               "cabal.project.local~"
+               ".HTF/"
+               ".ghc.environment.*"))
+             ((string= type-ignore "clojure")
+              '("/target"
+                "/classes"
+                "/checkouts"
+                "profiles.clj"
+                "pom.xml"
+                "pom.xml.asc"
+                "*.jar"
+                "*.class"
+                "/.lein-*"
+                "/.nrepl-port"
+                "/.prepl-port"
+                "/.cpcache")))
+       "\n"))`

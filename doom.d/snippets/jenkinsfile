@@ -3,7 +3,7 @@
 # key: <j
 # --
 /* groovylint-disable DuplicateNumberLiteral, LineLength, NestedBlockDepth, NestedForLoop, NoDef, UnnecessaryGetter, UnusedVariable, VariableName, VariableTypeRequired */
-@Library('dpx-jenkins-pipeline-library@master') _
+@Library('jenkins-pipeline-library@master') _
 
 node('docker') {
     runCheckout()
