@@ -23,6 +23,9 @@
 (setq user-full-name "Jesse Rusak"
       user-mail-address "rusak.jesse@gmail.com")
 
+;; ===============================
+;; Theming
+;; ===============================
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (set-frame-parameter nil 'undecorated t)
 
@@ -34,17 +37,17 @@
 
 ;; Fonts
 (cond
-  ((string-equal system-type "gnu/linux")
-        (setq doom-font (font-spec :family "DroidSansM Nerd Font" :size 17 :weight 'normal)
-                doom-variable-pitch-font (font-spec :family "DroidSansM Nerd Font" :size 17))))
+ ((string-equal system-type "gnu/linux")
+  (setq doom-font (font-spec :family "DroidSansM Nerd Font" :size 17 :weight 'normal)
+        doom-variable-pitch-font (font-spec :family "DroidSansM Nerd Font" :size 17))))
 (cond
-  ((string-equal system-type "darwin")
-        (setq doom-font (font-spec :family "Dank Mono" :size 17 :weight 'normal)
-                doom-variable-pitch-font (font-spec :family "Dank Mono" :size 17))))
+ ((string-equal system-type "darwin")
+  (setq doom-font (font-spec :family "Dank Mono" :size 17 :weight 'normal)
+        doom-variable-pitch-font (font-spec :family "Dank Mono" :size 17))))
 (cond
-  ((string-equal system-type "windows-nt")
-        (setq doom-font (font-spec :family "Source Code Pro" :size 20 :weight 'normal)
-              doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 20))))
+ ((string-equal system-type "windows-nt")
+  (setq doom-font (font-spec :family "Source Code Pro" :size 20 :weight 'normal)
+        doom-variable-pitch-font (font-spec :family "Source Code Pro" :size 20))))
 
 (setq doom-theme 'doom-gruvbox)
 
@@ -52,41 +55,64 @@
 ;; (setq display-line-numbers-type nil)
 (setq display-line-numbers 'relative)
 
+;; ===============================
 ;; Org
+;; ===============================
 (setq org-directory "~/org/")
 (setq org-journal-file-format "%Y%m%d.org")
 (setq org-journal-file-type 'weekly)
 
+;; ===============================
 ;; Syntax Highlighting
+;; ===============================
 (add-to-list 'auto-mode-alist '("\\Jenkinsfile\'" . groovy-mode))
 (add-to-list 'auto-mode-alist '("\\Vagrantfile\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\hcl\'" . terraform-mode))
 
-;; Mac Rebindings
+;; ===============================
+;; Mac
+;; ===============================
 (setq mac-option-modifier 'super)
 (setq mac-command-modifier 'meta)
 
+;; ===============================
 ;; Company
-;; I want this: https://stackoverflow.com/questions/64466550/auto-insert-and-cycle-through-completions-in-emacs-company-mode
-;; =====================================================================
-(setq company-idle-delay nil              ; Disable auto completion
-      company-tooltip-limit 0             ; No tooltips
-      company-echo-delay 0                ; No delay
-      company-dabbrev-downcase nil        ; Don't downcase completions
-      company-require-match 'never        ; Don't require match, allowing free typing
-      company-frontends nil)              ; Disable all frontends for no pop-ups
+;; ===============================
+;; Enable +tng for TAB key
+(setq company-frontends '(company-tng-frontend company-echo-metadata-frontend))
+(setq company-idle-delay nil)
 
-(defun my-cycle-through-completions ()
-  "Insert the selected candidate or the first if none are selected."
+;; Define a function to cycle through completions with TAB
+(defun my/company-cycle-next-tab ()
   (interactive)
-  (if company-selection
-      (company-complete-selection)
-    (company-complete-number 1)))
+  (if (company-manual-begin)
+      (if (or (not company-candidates)
+              (eq last-command 'my/company-cycle-next-tab))
+          (company-select-next)
+        (progn
+          (company-complete-common)
+          (setq this-command 'my/company-cycle-next-tab)))
+    (if (eq last-command 'my/company-cycle-next-tab)
+        (progn
+          (company-abort)
+          (setq this-command 'my/company-cycle-next-tab))
+      (setq this-command 'my/company-cycle-next-tab))))
 
-(global-set-key (kbd "TAB") 'my-cycle-through-completions)
-;; =====================================================================
+;; Bind TAB to the custom completion cycling function
+(map! :map company-active-map
+      [tab] 'my/company-cycle-next-tab)
 
+;; Configure TAB for both indent and completion
+(map! :map evil-insert-state-map
+      [tab] 'my/company-cycle-next-tab)
+
+;; Ensure TAB still indents when not in a completion context
+(map! :map evil-normal-state-map
+      [tab] 'indent-for-tab-command)
+
+;; ===============================
 ;; Projectile
+;; ===============================
 (setq projectile-project-search-path '(("~/code" . 3)))
 
 ;; Python
@@ -97,7 +123,9 @@
 
 (setq dap-python-debugger 'debugpy)
 
+;; ===============================
 ;; Rust
+;; ===============================
 ;; Sometimes this defaults to RLS, which we do not want, ever.
 (setq lsp-rust-server 'rust-analyzer)
 (setq rustic-lsp-server 'rust-analyzer)
@@ -106,7 +134,9 @@
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
 
+;; ===============================
 ;; Tramp
+;; ===============================
 ;; Make tramp not horrifically slow with dired
 ;; See: https://github.com/seagle0128/doom-modeline/issues/32#issuecomment-427622373
 ;; NOTE: you will also need SSH config (to not log in EVERY single time for dired buffer changes),
@@ -127,10 +157,15 @@
     (setq-local my-project-root (apply orig-fn args))))
 (advice-add 'doom-modeline-project-root :around #'my-cache-project-root)
 
+;; ===============================
 ;; Mode line
+;; ===============================
 (setq doom-modeline-height 0)
 (setq doom-modeline-bar-width 0)
 
+;; ===============================
+;; Compilation
+;; ===============================
 ;; https://gist.github.com/stammw/803e23b4e13c82373127ebe7fa161228
 ;; Always compile from project root, and save all files
 (defun save-all-and-compile ()
@@ -149,8 +184,7 @@
   (recompile))
 
 
-;; Keybindings
 (map!
-        :m "<f6>" #'save-all-and-compile
-        :m "<f5>" #'save-all-and-recompile
-)
+ :m "<f6>" #'save-all-and-compile
+ :m "<f5>" #'save-all-and-recompile
+ )
