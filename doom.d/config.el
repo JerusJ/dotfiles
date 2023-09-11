@@ -26,6 +26,8 @@
 ;; ===============================
 ;; Theming
 ;; ===============================
+(setq doom-modeline-height 0)
+(setq doom-modeline-bar-width 0)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (set-frame-parameter nil 'undecorated t)
 
@@ -158,10 +160,10 @@
 (advice-add 'doom-modeline-project-root :around #'my-cache-project-root)
 
 ;; ===============================
-;; Mode line
+;; Kubernetes
 ;; ===============================
-(setq doom-modeline-height 0)
-(setq doom-modeline-bar-width 0)
+(setq k8s-site-docs-url "https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/")
+(setq k8s-site-docs-version "v1.27")
 
 ;; ===============================
 ;; Compilation

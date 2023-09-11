@@ -32,3 +32,6 @@
 ;; Misc
 (package! salt-mode)
 (package! json-navigator)
+
+;; Kubernetes
+(package! k8s-mode)
