@@ -5,4 +5,12 @@
     dest: "/usr/local/bin/{{ item.name }}"
   when: item.url | splitext | last == ""
   become: true
-  loop: "{{ binaries }}"
+  loop: "{{ binaries_raw }}"
+
+- name: decompress binary
+  ansible.builtin.unarchive:
+    src: "{{ item.url | regex_replace('<VERSION>', item.version) }}"
+    dest: /usr/local/bin
+    remote_src: true
+  become: true
+  loop: "{{ binaries_compressed }}"

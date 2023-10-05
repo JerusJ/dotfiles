@@ -44,7 +44,12 @@ tmux_plugins_dir: "{{ ansible_env['HOME'] }}/.tmux/plugins/tpm"
 
 
 binaries_download_dir: /tmp
-binaries:
+binaries_raw:
   - name: kubectl
     version: '1.20.0'
     url: 'https://storage.googleapis.com/kubernetes-release/release/v<VERSION>/bin/linux/amd64/kubectl'
+
+binaries_compressed:
+  - name: kustomize
+    version: '4.0.5'
+    url: 'https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v<VERSION>/kustomize_v<VERSION>_linux_amd64.tar.gz'
