@@ -7,3 +7,4 @@
   when: ansible_distribution == "Ubuntu"
 
 - include: common.yml
+- include: binaries.yml

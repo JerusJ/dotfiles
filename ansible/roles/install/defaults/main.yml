@@ -34,9 +34,17 @@ packages_common:
   - unzip
   - wget
   - zsh
+  - direnv
 
 ########
 # Tmux #
 ########
 tmux_repo: "https://github.com/tmux-plugins/tpm"
 tmux_plugins_dir: "{{ ansible_env['HOME'] }}/.tmux/plugins/tpm"
+
+
+binaries_download_dir: /tmp
+binaries:
+  - name: kubectl
+    version: '1.20.0'
+    url: 'https://storage.googleapis.com/kubernetes-release/release/v<VERSION>/bin/linux/amd64/kubectl'

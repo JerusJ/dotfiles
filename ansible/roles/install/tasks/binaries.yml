@@ -1,0 +1,8 @@
+---
+- name: download raw binary
+  ansible.builtin.get_url:
+    url: "{{ item.url | regex_replace('<VERSION>', item.version) }}"
+    dest: "/usr/local/bin/{{ item.name }}"
+  when: item.url | splitext | last == ""
+  become: true
+  loop: "{{ binaries }}"
