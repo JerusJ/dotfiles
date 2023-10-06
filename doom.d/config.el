@@ -40,8 +40,8 @@
 ;; Fonts
 (cond
  ((string-equal system-type "gnu/linux")
-  (setq doom-font (font-spec :family "FiraCode Nerd Font" :size 16 :weight 'semi-bold)
-        doom-variable-pitch-font (font-spec :family "FiraCode Nerd Font" :size 16))))
+  (setq doom-font (font-spec :family "Ubuntu Mono" :size 16 :weight 'semi-bold)
+        doom-variable-pitch-font (font-spec :family "Ubuntu Mono" :size 16))))
 (cond
  ((string-equal system-type "darwin")
   (setq doom-font (font-spec :family "Dank Mono" :size 17 :weight 'normal)

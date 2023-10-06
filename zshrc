@@ -339,12 +339,6 @@ eval "$(jump shell)"
 
 # Python
 export PATH=$PATH:"$HOME/.local/bin"
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-# Ruby
-eval "$(rbenv init -)"
 
 # Go
 export GO111MODULE=on
@@ -381,7 +375,3 @@ export GPG_TTY=$(tty)
 
 # Direnv
 eval "$(direnv hook zsh)"
-
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
-eval "$(starship init zsh)"
