@@ -5,18 +5,37 @@ import logging
 import requests
 import os
 from dataclasses import dataclass
+import json
 
 LOGGER = logging.getLogger()
 
-VERSIONS_ENV_FILE = "versions.env"
-VERSIONS_REPLACE_STR = "<REPLACE>"
 
-@dataclass
-class VersionItem:
-    env_version: str
+@dataclass(order=True)
+class ToolItem:
     version: str
-    url_template: str
-    git_repo_url: str
+    url: str
+    git_repository: str
+
+    def get_formatted_url(self):
+        return self.url.replace("<REPLACE>", self.version)
+
+
+class ToolsDownloader():
+    def __init__(self, json_path: str):
+        data = {}
+        with open(json_path, "r") as f:
+            json_data = json.load(f)
+            for k, v in json_data.items():
+                data[k] = ToolItem(
+                    v["VERSION"],
+                    v["URL"],
+                    v["GIT_REPOSITORY"],
+                )
+        self.data = data
+
+    def update(self, tool_name: str):
+        print(self.data[tool_name.upper()].version)
+
 
 async def download_binary(url, version, dest):
     if VERSIONS_REPLACE_STR not in url:
@@ -36,10 +55,9 @@ async def download_binary(url, version, dest):
 
 
 async def main():
-    versions = [
-        VersionItem("DOCKER_VERSION", 1.27.4)
-    ]
-    pass
+    downloader = ToolsDownloader("tools.json")
+
+    downloader.update("terraform")
 
 if __name__ == "__main__":
-    asyncio.run(main)
+    asyncio.run(main())
