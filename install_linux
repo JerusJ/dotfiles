@@ -3,16 +3,7 @@
 set -e
 set -u
 
-# Version Vars
-export GOLANG_VERSION=1.16.7
-export KUBECTL_VERSION=1.20.0
-export KUSTOMIZE_VERSION=4.0.5
-export TERRAFORM_VERSION=0.14.9
-export TERRAGRUNT_VERSION=0.28.18
-export PACKER_VERSION=1.7.1
-export HELM_VERSION=3.5.3
-export JUMP_VERSION=0.30.1
-# export VAGRANT_VERSION=2.2.15
+source versions.env
 
 echo "--> Installing GO ${GOLANG_VERSION}..."
 GOLANG_DOWNLOAD_URL="https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz"
@@ -21,51 +12,21 @@ sudo curl -L ${GOLANG_DOWNLOAD_URL} -o /tmp/go.tar.gz &&
   rm -rf /usr/local/go &&
   sudo tar -C /usr/local -xzf /tmp/go.tar.gz
 
-# echo "--> Installing Rust (via rust-up)..."
-# curl -sSf https://static.rust-lang.org/rustup.sh | sh -s -- --default-toolchain=nightly -y
-
-# if [ ! -f /usr/local/bin/tflint ]; then
-#   echo "--> Installing Terraform Linters..."
-#   curl -L "$(curl -Ls https://api.github.com/repos/terraform-linters/tflint/releases/latest | grep -o -E "https://.+?_linux_amd64.zip")" &&
-#     -o tflint.zip &&
-#     unzip tflint.zip &&
-#     rm tflint.zip &&
-#     mv ./tflint* /usr/local/bin/tflint &&
-#     chmod +x /usr/local/bin/tflint
-# fi
-
-# echo "--> Installing Python Poetry..."
-# curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
-
 echo "--> Installing Pip Packages for Setup..."
 python3 -m pip install --upgrade \
   pip \
-  setuptools \
-  suds-jurko \
-  requests
+  setuptools
 
-echo "--> Installing Cloud Python Packages"
-python3 -m pip install --upgrade \
-  boto \
-  boto3 \
-  botocore \
-  git+https://github.com/vmware/vsphere-automation-sdk-python.git \
-  kubernetes
-
-
-echo "--> Installing Python Packages for Ansible..."
-python3 -m pip install \
-  ansible \
-  molecule \
-  pyvmomi \
-  jmespath \
-  pywinrm \
-  pexpect \
-  paramiko
+echo "--> Installing Python Poetry..."
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 
 echo "--> Installing Docker..."
-sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/${DOCKER_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
+
+if [ ! -f /usr/local/bin/kubectl ]; then
+  sudo curl -fsSL https://github.com/BurntSushi/ripgrep/releases/download/${RIPGREP_VERSION}/ripgrep-${RIPGREP_VERSION}-x86_64-unknown-linux-musl.tar.gz
+fi
 
 if [ ! -f /usr/local/bin/kubectl ]; then
   echo "--> Installing Kubectl ${KUBECTL_VERSION}..."
