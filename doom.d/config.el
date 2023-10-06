@@ -37,6 +37,9 @@
 (setq split-height-threshold nil)
 (set-popup-rules! '(("*compilation*" :side right :size 0.50 :select t :quit nil)))
 
+;; Allow :W to save
+(evil-ex-define-cmd "W" 'evil-write)
+
 ;; Fonts
 (cond
  ((string-equal system-type "gnu/linux")
