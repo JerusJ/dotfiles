@@ -5,7 +5,7 @@
     "GIT_REPOSITORY": null
   },
   "DOCKER": {
-    "VERSION": "1.27.4",
+    "VERSION": "2.22.0",
     "URL": "https://github.com/docker/compose/releases/download/<REPLACE>/docker-compose-$(uname -s)-$(uname -m)",
     "GIT_REPOSITORY": "https://github.com/docker/compose"
   },
@@ -20,37 +20,37 @@
     "GIT_REPOSITORY": "https://github.com/sharkdp/fd"
   },
   "KUBECTL": {
-    "VERSION": "1.20.0",
+    "VERSION": "1.25.14",
     "URL": "https://storage.googleapis.com/kubernetes-release/release/v<REPLACE>/bin/linux/amd64/kubectl",
     "GIT_REPOSITORY": "https://github.com/kubernetes/kubernetes"
   },
   "KUSTOMIZE": {
-    "VERSION": "4.0.5",
+    "VERSION": "5.1.1",
     "URL": "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v<REPLACE>/kustomize_v<REPLACE>_linux_amd64.tar.gz",
     "GIT_REPOSITORY": "https://github.com/kubernetes-sigs/kustomize"
   },
   "TERRAFORM": {
-    "VERSION": "0.14.9",
+    "VERSION": "1.6.0",
     "URL": "https://releases.hashicorp.com/terraform/<REPLACE>/terraform_<REPLACE>_linux_amd64.zip",
     "GIT_REPOSITORY": "https://github.com/hashicorp/terraform"
   },
   "TERRAGRUNT": {
-    "VERSION": "0.28.18",
+    "VERSION": "0.52.0",
     "URL": "https://github.com/gruntwork-io/terragrunt/releases/download/v<REPLACE>/terragrunt_linux_amd64",
     "GIT_REPOSITORY": "https://github.com/gruntwork-io/terragrunt"
   },
   "PACKER": {
-    "VERSION": "1.7.1",
+    "VERSION": "1.9.4",
     "URL": "https://releases.hashicorp.com/packer/<REPLACE>/packer_<REPLACE>_linux_amd64.zip",
     "GIT_REPOSITORY": "https://github.com/hashicorp/packer"
   },
   "HELM": {
-    "VERSION": "3.5.3",
+    "VERSION": "3.13.0",
     "URL": "https://get.helm.sh/helm-v<REPLACE>-linux-amd64.tar.gz",
     "GIT_REPOSITORY": "https://github.com/helm/helm"
   },
   "JUMP": {
-    "VERSION": "0.30.1",
+    "VERSION": "0.51.0",
     "URL": "https://github.com/gsamokovarov/jump/releases/download/v<REPLACE>/jump_<REPLACE>_amd64.deb",
     "GIT_REPOSITORY": "https://github.com/gsamokovarov/jump"
   }
