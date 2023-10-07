@@ -41,6 +41,7 @@
 *.log
 *.sql
 *.sqlite
+*-sqlite
 
 ##########
 # Editor #
