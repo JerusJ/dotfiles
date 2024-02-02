@@ -21,6 +21,7 @@ LOGGER = logging.getLogger()
 
 SEMVER_REGEX = re.compile(r"(\d+\.\d+\.\d+)")
 
+TOOL_DEST_DIR = os.path.join(os.getenv("HOME"), "tools")
 
 @dataclass(order=True)
 class ToolItem:
@@ -100,21 +101,23 @@ class ToolsDownloader:
                 filename_clean = filename_clean.replace(r, "")
             ext = pathlib.Path(filename).suffix
 
-            tool_dest_dir = os.path.join(os.getenv("HOME"), "bin")
+            tool_bin_dest = os.path.join(TOOL_DEST_DIR, "bin")
+            os.makedirs(tool_bin_dest, exist_ok=True)
+
             if ext == "":
-                tool_dest = os.path.join(tool_dest_dir, filename_clean)
+                tool_dest = os.path.join(tool_bin_dest, filename_clean)
                 print(f"DOWNLOADING: '{tool_name}' to: {tool_dest}...")
                 self.download_file(tool_url, tool_dest)
             elif ext == ".deb":
-                tool_dest = os.path.join(tool_dest_dir, filename)
+                tool_dest = os.path.join(TOOL_DEST_DIR, filename)
                 print(f"DOWNLOADING: '{tool_name}' to: {tool_dest}...")
                 self.download_file(tool_url, tool_dest)
                 subprocess.call(["sudo", "dpkg", "-i", tool_dest])
             else:
-                archive_dest = os.path.join(tool_dest_dir, filename)
+                archive_dest = os.path.join(TOOL_DEST_DIR, filename)
                 print(f"DOWNLOADING: '{tool_name}' to: {archive_dest}...")
                 self.download_file(tool_url, archive_dest)
-                decompress_file(archive_dest, tool_dest_dir, subdirs=None, remove_input=False)
+                decompress_file(archive_dest, tool_bin_dest, subdirs=None, remove_input=False)
             
 
     def download_file(self, url, filename):
@@ -157,8 +160,12 @@ def decompress_file(file_path, destination_path, subdirs=None, remove_input=Fals
         os.remove(file_path)
 
 
+
+
 async def main():
     downloader = ToolsDownloader("tools.json")
+
+    os.makedirs(TOOL_DEST_DIR, exist_ok=True)
     downloader.update_all()
     downloader.download_all()
 
