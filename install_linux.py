@@ -1,11 +1,19 @@
 #!/usr/bin/env python3
 
+import os
 import asyncio
 import json
+import subprocess
+import pathlib
 import logging
 import re
+import tarfile
+import zipfile
 from dataclasses import dataclass
 from urllib.parse import urlparse
+import requests
+from distutils.spawn import find_executable
+
 
 import requests_cache
 
@@ -47,7 +55,7 @@ class ToolsDownloader:
 
     def update(self, tool_name: str):
         tool = self.data[tool_name.upper()]
-        print(tool)
+        print(f"UPDATING: {tool}")
 
         tool_parse = urlparse(tool["GIT_REPOSITORY"])
         repo = str(tool_parse.path).lstrip("/")
@@ -77,6 +85,47 @@ class ToolsDownloader:
         else:
             print("WARNING: could not get semver.")
 
+    def download_all(self):
+        for tool_name, tool_data in self.data.items():
+            tool_url = tool_data["URL"].replace("<REPLACE>", tool_data["VERSION"])
+            filename = pathlib.Path(urlparse(tool_url).path).name
+
+            replacements = [
+                "-linux-x86_64",
+                "_linux_x86_64",
+                "_linux_amd64",
+            ]
+            filename_clean = filename
+            for r in replacements:
+                filename_clean = filename_clean.replace(r, "")
+            ext = pathlib.Path(filename).suffix
+
+            tool_dest_dir = os.path.join(os.getenv("HOME"), "bin")
+            if ext == "":
+                tool_dest = os.path.join(tool_dest_dir, filename_clean)
+                print(f"DOWNLOADING: '{tool_name}' to: {tool_dest}...")
+                self.download_file(tool_url, tool_dest)
+            elif ext == ".deb":
+                tool_dest = os.path.join(tool_dest_dir, filename)
+                print(f"DOWNLOADING: '{tool_name}' to: {tool_dest}...")
+                self.download_file(tool_url, tool_dest)
+                subprocess.call(["sudo", "dpkg", "-i", tool_dest])
+            else:
+                archive_dest = os.path.join(tool_dest_dir, filename)
+                print(f"DOWNLOADING: '{tool_name}' to: {archive_dest}...")
+                self.download_file(tool_url, archive_dest)
+                decompress_file(archive_dest, tool_dest_dir, subdirs=None, remove_input=False)
+            
+
+    def download_file(self, url, filename):
+        if os.path.isfile(filename):
+            return
+        with requests.get(url, stream=True) as r:
+            r.raise_for_status()
+            with open(filename, "wb") as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+
 
 def extract_semver(text):
     match = SEMVER_REGEX.search(text)
@@ -89,33 +138,29 @@ def versiontuple(v: str):
     return tuple(map(int, (v.split("."))))
 
 
-# async def download_binary(url, version, dest):
-#     if VERSIONS_REPLACE_STR not in url:
-#         raise Exception(f"URL: {url} does not have replace string: {VERSIONS_REPLACE_STR}")
+def decompress_file(file_path, destination_path, subdirs=None, remove_input=False):
+    subdirs = set(subdirs) if subdirs else None  # Convert list of subdirs to set for faster lookup
 
-#     local_file = url.split("/")[-1]
-#     dest_path = os.path.join(dest, local_file)
+    if file_path.endswith('.tar.gz'):
+        with tarfile.open(file_path, 'r:gz') as tar:
+            members = [m for m in tar.getmembers() if not subdirs or any(m.name.startswith(sd + '/') for sd in subdirs)]
+            tar.extractall(path=destination_path, members=members)
+    elif file_path.endswith('.zip'):
+        with zipfile.ZipFile(file_path, 'r') as zip_ref:
+            all_files = zip_ref.namelist()
+            extract_files = [f for f in all_files if not subdirs or any(f.startswith(sd + '/') for sd in subdirs)]
+            zip_ref.extractall(destination_path, members=extract_files)
+    else:
+        raise ValueError(f"Unsupported file format: {file_path}")
 
-#     with requests.get(url, stream=True) as r:
-#         r.raise_for_status()
-#         with open(local_filename, "wb") as f:
-#             for chunk in r.iter_content(hcunk_size=8192):
-#                 f.write(chunk)
-
-#     os.chmod(dest_path, 0o755)
-#     return dest_path
+    if remove_input:
+        os.remove(file_path)
 
 
 async def main():
     downloader = ToolsDownloader("tools.json")
     downloader.update_all()
-
-    # downloader.update("docker")
-    # downloader.update("ripgrep")
-    # downloader.update("fd")
-    # downloader.update("terraform")
-    # downloader.update("packer")
-
+    downloader.download_all()
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -2,12 +2,7 @@
   "GOLANG": {
     "VERSION": "1.16.7",
     "URL": "https://golang.org/dl/go<REPLACE>.linux-amd64.tar.gz",
-    "GIT_REPOSITORY": null
-  },
-  "DOCKER": {
-    "VERSION": "2.22.0",
-    "URL": "https://github.com/docker/compose/releases/download/<REPLACE>/docker-compose-$(uname -s)-$(uname -m)",
-    "GIT_REPOSITORY": "https://github.com/docker/compose"
+    "GIT_REPOSITORY": ""
   },
   "RIPGREP": {
     "VERSION": "13.0.0",
