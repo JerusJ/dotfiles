@@ -47,8 +47,8 @@ ifeq ($(CUR_PLATFORM), $(LINUX_PLATFORM))
 else
 endif
 	[ -f ~/.agignore ] || ln -s $(PWD)/agignore ~/.agignore
-	[ -f ~/.config/alacritty/alacritty.yml ] || ln -s $(PWD)/alacritty/alacritty.yml ~/.config/alacritty/alacritty.yml
-	[ -f ~/.config/alacritty/color.yml ] || ln -s $(PWD)/alacritty/color.yml ~/.config/alacritty/color.yml
+	[ -f ~/.config/alacritty/alacritty.toml ] || ln -s $(PWD)/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
+	[ -f ~/.config/alacritty/color.toml ] || ln -s $(PWD)/alacritty/color.toml ~/.config/alacritty/color.toml
 	[ -d ~/.doom.d ] || ln -s $(PWD)/doom.d ~/.doom.d
 	[ -f ~/.tmux.conf ] || ln -s $(PWD)/tmux.conf ~/.tmux.conf
 	[ -f ~/.vimrc ] || ln -s $(PWD)/vimrc ~/.vimrc
@@ -96,7 +96,7 @@ emacs:
 clean:
 	rm -f ~/.vimrc
 	rm -f ~/.config/nvim/init.vim
-	rm -f ~/.config/alacritty/alacritty.yml
+	rm -f ~/.config/ritty/alacritty.yml
 	rm -f ~/.bashrc
 	rm -f ~/.zshrc
 	rm -f ~/.tmux.conf
