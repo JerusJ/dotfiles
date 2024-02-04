@@ -1,6 +1,5 @@
 import = ["/home/jerus/.config/alacritty/color.toml"]
 live_config_reload = true
-"window.opacity" = 1.0
 
 [bell]
 animation = "EaseOutExpo"
@@ -664,15 +663,6 @@ hide_when_typing = true
 [[mouse.bindings]]
 action = "PasteSelection"
 mouse = "Middle"
-
-[mouse.double_click]
-threshold = 300
-
-[mouse.hints]
-launcher = "open"
-
-[mouse.triple_click]
-threshold = 300
 
 [scrolling]
 history = 10000
