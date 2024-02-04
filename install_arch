@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+function git_makepkg() {
+	repo=$1
+	dest=$(echo "$repo" | rev | cut -d "/" -f 1 | rev)
+
+	if [[ -f $dest ]]; then
+		echo "--> ${dest} repo already exists, updating..."
+		pushd $dest
+		git pull --rebase
+		popd
+	else
+		echo "--> ${dest} repo not exists, cloning..."
+		git clone $1 $2
+	fi
+
+	pushd $dest
+	makepkg -si
+	popd
+}
+
+sudo pacman -S --needed --noconfirm \
+	tmux \
+	kitty \
+	kubectl \
+	kustomize \
+	terraform \
+	ripgrep \
+	fd \
+	make \
+	bazel \
+	helmfile \
+	downgrade \
+	helm \
+	emacs \
+	go \
+	dagger \
+	fzf \
+	dive \
+	docker \
+	docker-compose \
+	jq \
+	yq \
+	k9s \
+	protobuf \
+	zsh \
+	zsh-autosuggestions \
+	zsh-syntax-highlighting \
+	code \
+	kubectx \
+	aws-cli \
+	lazygit \
+	npm \
+	htop \
+	pyenv \
+	direnv \
+	python-pip \
+	ttf-firacode-nerd \
+	alacritty \
+	base-devel
+
+mkdir -p $HOME/third-party-packages
+pushd $HOME/third-party-packages
+
+yay_path="$(which yay)"
+if [[ ! -x "$yay_path" ]]; then
+	git_makepkg https://aur.archlinux.org/yay
+fi
+
+popd
+
+ran_yay_gendb="$HOME/.ran_yay_gendb"
+if [[ ! -f "$ran_yay_gendb" ]]; then
+	yay -Y --gendb
+	touch $ran_yay_gendb
+fi
+
+yay -S --needed --noconfirm \
+	jump \
+	golangci-lint \
+	pyenv-virtualenv \
+	kube-ps1 \
+	zsh-theme-powerlevel10k

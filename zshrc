@@ -14,9 +14,6 @@ case `uname` in
   ;;
 esac
 
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="suvash"
-
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 
@@ -275,37 +272,10 @@ function switchgo() {
   echo "Switched to ${go_bin_path}"
 }
 
-# ===================
-#    PLUGINS (oh-my-zsh)
-# ===================
-plugins=(
-	git 
-	kubectl 
-	kubectx
-  kube-ps1
-	dotenv
-	brew
-	aws
-  zsh-autosuggestions
-  zsh-fzf-history-search
-)
-
-source $ZSH/oh-my-zsh.sh
-
-case `uname` in
-  Darwin)
-	source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-	source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-  ;;
-  Linux)
-	source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-	source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-  ;;
-esac
-
 # =============
 #    PROMPT
 # =============
+source '/opt/kube-ps1/kube-ps1.sh'
 PROMPT='$(kube_ps1)'$PROMPT 
 
 # ===================
@@ -320,9 +290,6 @@ export PATH=$PATH:"$HOME/.local/bin"
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
-
-# Ruby
-eval "$(rbenv init -)"
 
 # Go
 export GO111MODULE=on

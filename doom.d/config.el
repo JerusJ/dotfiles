@@ -29,7 +29,6 @@
 (setq doom-modeline-height 0)
 (setq doom-modeline-bar-width 0)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-(set-frame-parameter nil 'undecorated t)
 
 ;; Big monitor
 ;; always split vertically for big monitor
