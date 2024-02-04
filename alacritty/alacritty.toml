@@ -677,7 +677,6 @@ args = ["new-session", "-A", "-D", "-s", "main"]
 program = "tmux"
 
 [window]
-decorations = "none"
 dynamic_padding = false
 dynamic_title = true
 
