@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 function git_makepkg() {
 	repo=$1
 	dest=$(echo "$repo" | rev | cut -d "/" -f 1 | rev)
@@ -28,9 +30,7 @@ sudo pacman -S --needed --noconfirm \
 	ripgrep \
 	fd \
 	make \
-	bazel \
 	helmfile \
-	downgrade \
 	helm \
 	emacs \
 	go \
@@ -57,6 +57,8 @@ sudo pacman -S --needed --noconfirm \
 	python-pip \
 	ttf-firacode-nerd \
 	alacritty \
+	i3-wm \
+	i3status \
 	base-devel
 
 mkdir -p $HOME/third-party-packages
