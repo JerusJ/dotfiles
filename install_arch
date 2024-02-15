@@ -44,6 +44,7 @@ sudo pacman -S --needed --noconfirm \
 	k9s \
 	protobuf \
 	zsh \
+	zsh-completions \
 	zsh-autosuggestions \
 	zsh-syntax-highlighting \
 	code \
@@ -59,6 +60,10 @@ sudo pacman -S --needed --noconfirm \
 	alacritty \
 	i3-wm \
 	i3status \
+	powerline-go \
+	rofi \
+	gtkmm3 \
+	powerline-fonts \
 	base-devel
 
 mkdir -p $HOME/third-party-packages
