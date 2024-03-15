@@ -46,7 +46,6 @@ sudo pacman -S --needed --noconfirm \
 	zsh-completions \
 	zsh-autosuggestions \
 	zsh-syntax-highlighting \
-	code \
 	kubectx \
 	aws-cli \
 	lazygit \
@@ -59,7 +58,6 @@ sudo pacman -S --needed --noconfirm \
 	alacritty \
 	i3-wm \
 	i3status \
-	powerline-go \
 	rofi \
 	gtkmm3 \
 	powerline-fonts \
