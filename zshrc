@@ -5,9 +5,21 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+  eval `ssh-agent`
+  ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+fi
+export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+ssh-add -l > /dev/null || ssh-add
+
+alias kb="kustomize build"
+
+source /etc/profile.d/google-cloud-cli.sh
+
 # =============
 #    INIT
 # =============
+export PATH="$HOME/fzf-zsh-plugin/bin:$PATH"
 
 # Senstive functions which are not pushed to Github
 # It contains GOPATH, some functions, aliases etc...
@@ -335,3 +347,5 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+source $HOME/fzf-zsh-plugin/fzf-zsh-plugin.plugin.zsh

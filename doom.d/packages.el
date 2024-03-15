@@ -35,3 +35,6 @@
 
 ;; Kubernetes
 (package! k8s-mode)
+
+;; Bazel
+(package! bazel)

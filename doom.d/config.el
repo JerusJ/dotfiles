@@ -21,7 +21,7 @@
 ;; they are implemented.
 
 (setq user-full-name "Jesse Rusak"
-      user-mail-address "rusak.jesse@gmail.com")
+      user-mail-address "jesse.rusak@truefootage.tech")
 
 ;; ===============================
 ;; Theming
@@ -69,47 +69,13 @@
 (add-to-list 'auto-mode-alist '("\\Jenkinsfile\'" . groovy-mode))
 (add-to-list 'auto-mode-alist '("\\Vagrantfile\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\hcl\'" . terraform-mode))
+(add-to-list 'auto-mode-alist '("\\Tiltfile\'" . bazel-starlark-mode))
 
 ;; ===============================
 ;; Mac
 ;; ===============================
 (setq mac-option-modifier 'super)
 (setq mac-command-modifier 'meta)
-
-;; ===============================
-;; Company
-;; ===============================
-;; Enable +tng for TAB key
-(setq company-frontends '(company-tng-frontend company-echo-metadata-frontend))
-(setq company-idle-delay nil)
-
-;; Define a function to cycle through completions with TAB
-(defun my/company-cycle-next-tab ()
-  (interactive)
-  (if (company-manual-begin)
-      (if (or (not company-candidates)
-              (eq last-command 'my/company-cycle-next-tab))
-          (company-select-next)
-        (progn
-          (company-complete-common)
-          (setq this-command 'my/company-cycle-next-tab)))
-    (if (eq last-command 'my/company-cycle-next-tab)
-        (progn
-          (company-abort)
-          (setq this-command 'my/company-cycle-next-tab))
-      (setq this-command 'my/company-cycle-next-tab))))
-
-;; Bind TAB to the custom completion cycling function
-(map! :map company-active-map
-      [tab] 'my/company-cycle-next-tab)
-
-;; Configure TAB for both indent and completion
-(map! :map evil-insert-state-map
-      [tab] 'my/company-cycle-next-tab)
-
-;; Ensure TAB still indents when not in a completion context
-(map! :map evil-normal-state-map
-      [tab] 'indent-for-tab-command)
 
 ;; ===============================
 ;; Projectile

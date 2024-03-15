@@ -32,7 +32,6 @@ sudo pacman -S --needed --noconfirm \
 	make \
 	helmfile \
 	helm \
-	emacs \
 	go \
 	dagger \
 	fzf \
@@ -87,4 +86,8 @@ yay -S --needed --noconfirm \
 	golangci-lint \
 	pyenv-virtualenv \
 	kube-ps1 \
-	zsh-theme-powerlevel10k
+	zsh-theme-powerlevel10k \
+	google-cloud-cli \
+	google-cloud-cli-gke-gcloud-auth-plugin \
+	kind \
+	emacs-nativecomp
