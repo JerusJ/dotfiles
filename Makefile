@@ -45,6 +45,7 @@ ifeq ($(CUR_PLATFORM), $(LINUX_PLATFORM))
 	[ -f ~/.config/starship.toml ] || ln -s $(PWD)/starship.toml ~/.config/starship.toml
 else
 endif
+	[ -d ~/.config/nvim ] || ln -s $(PWD)/config/nvim ~/.config/nvim
 	[ -f ~/.agignore ] || ln -s $(PWD)/agignore ~/.agignore
 	[ -f ~/.config/alacritty/alacritty.toml ] || ln -s $(PWD)/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
 	[ -f ~/.config/alacritty/color.toml ] || ln -s $(PWD)/alacritty/color.toml ~/.config/alacritty/color.toml
