@@ -66,8 +66,10 @@ sudo pacman -S --needed --noconfirm \
 mkdir -p $HOME/third-party-packages
 pushd $HOME/third-party-packages
 
+set +e
 yay_path="$(which yay)"
-if [[ ! -x "$yay_path" ]]; then
+set -e
+if [[ ! -x "${yay_path}" ]]; then
 	git_makepkg https://aur.archlinux.org/yay
 fi
 
