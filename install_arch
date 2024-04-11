@@ -23,6 +23,7 @@ function git_makepkg() {
 
 sudo pacman -S --needed --noconfirm \
 	tmux \
+	wget \
 	kitty \
 	kubectl \
 	kustomize \
@@ -61,7 +62,7 @@ sudo pacman -S --needed --noconfirm \
 	rofi \
 	gtkmm3 \
 	powerline-fonts \
-	base-devel
+	base-devel \
 
 mkdir -p $HOME/third-party-packages
 pushd $HOME/third-party-packages
@@ -90,4 +91,6 @@ yay -S --needed --noconfirm \
 	google-cloud-cli \
 	google-cloud-cli-gke-gcloud-auth-plugin \
 	kind \
-	emacs-nativecomp
+	emacs-nativecomp \
+	slack-desktop \
+	vscodium-bin

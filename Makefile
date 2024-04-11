@@ -54,12 +54,12 @@ endif
 	[ -f ~/.vimrc ] || ln -s $(PWD)/vimrc ~/.vimrc
 	[ -f ~/.zshrc ] || ln -s $(PWD)/zshrc ~/.zshrc
 	[ -d ~/notes ] || git clone git@github.com:JerusJ/notes.git ~/notes
+	[ -d ~/fzf-zsh-plugin ] || git clone https://github.com/unixorn/fzf-zsh-plugin.git ~/fzf-zsh-plugin
+	[ -d ~/powerlevel10k ] || git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 
 apps:
 ifeq ($(CUR_PLATFORM), $(MAC_PLATFORM))
 	@./install_mac
-else
-	@./install_linux
 endif
 
 programming_packages: go node

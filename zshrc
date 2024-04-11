@@ -5,12 +5,17 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+export ZSH=$HOME/.oh-my-zsh
+
 if [ ! -S ~/.ssh/ssh_auth_sock ]; then
   eval `ssh-agent`
   ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
 fi
 export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 ssh-add -l > /dev/null || ssh-add
+
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf-zsh-plugin kubectl kubectx)
+source $ZSH/oh-my-zsh.sh
 
 alias kb="kustomize build"
 
@@ -19,7 +24,6 @@ source /etc/profile.d/google-cloud-cli.sh
 # =============
 #    INIT
 # =============
-export PATH="$HOME/fzf-zsh-plugin/bin:$PATH"
 
 # Senstive functions which are not pushed to Github
 # It contains GOPATH, some functions, aliases etc...
@@ -343,9 +347,12 @@ export GPG_TTY=$(tty)
 
 # Direnv
 eval "$(direnv hook zsh)"
-source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-source $HOME/fzf-zsh-plugin/fzf-zsh-plugin.plugin.zsh
+# source $HOME/fzf-zsh-plugin/fzf-zsh-plugin.plugin.zsh
+# export PATH="$HOME/fzf-zsh-plugin/bin:$PATH"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
