@@ -22,6 +22,9 @@ function git_makepkg() {
 }
 
 sudo pacman -S --needed --noconfirm \
+	alsa-firmware \
+	sof-firmware \
+	alsa-ucm-conf \
 	zip \
 	unzip \
 	tmux \
