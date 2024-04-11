@@ -54,6 +54,7 @@
 
 ;; Big performance decrease with line numbers :(
 ;; (setq display-line-numbers-type nil)
+(global-display-line-numbers-mode 1)
 (setq display-line-numbers 'relative)
 
 ;; ===============================
