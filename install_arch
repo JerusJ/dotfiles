@@ -63,6 +63,7 @@ sudo pacman -S --needed --noconfirm \
 	gtkmm3 \
 	powerline-fonts \
 	base-devel \
+	ttf-droid
 
 mkdir -p $HOME/third-party-packages
 pushd $HOME/third-party-packages
