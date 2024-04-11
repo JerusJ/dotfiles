@@ -61,9 +61,10 @@ sudo pacman -S --needed --noconfirm \
 	i3status \
 	rofi \
 	gtkmm3 \
-	powerline-fonts \
 	base-devel \
-	ttf-droid
+	powerline-fonts \
+	ttf-droid \
+	nerd-fonts
 
 mkdir -p $HOME/third-party-packages
 pushd $HOME/third-party-packages
