@@ -22,6 +22,8 @@ function git_makepkg() {
 }
 
 sudo pacman -S --needed --noconfirm \
+	zip \
+	unzip \
 	tmux \
 	wget \
 	kitty \
