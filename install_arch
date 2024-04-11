@@ -62,6 +62,7 @@ sudo pacman -S --needed --noconfirm \
 	rofi \
 	gtkmm3 \
 	base-devel \
+	minikube \
 	powerline-fonts \
 	ttf-droid \
 	nerd-fonts
@@ -95,4 +96,5 @@ yay -S --needed --noconfirm \
 	kind \
 	emacs-nativecomp \
 	slack-desktop \
-	vscodium-bin
+	vscodium-bin \
+	tilt-bin
