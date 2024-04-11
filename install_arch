@@ -97,4 +97,5 @@ yay -S --needed --noconfirm \
 	emacs-nativecomp \
 	slack-desktop \
 	vscodium-bin \
-	tilt-bin
+	tilt-bin \
+	bazelisk
