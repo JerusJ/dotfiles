@@ -6,56 +6,10 @@ NODE_DIR := ~/.npm_global
 
 all: sync apps emacs
 
-dirs:
-ifeq ($(CUR_PLATFORM), $(MAC_PLATFORM))
-	[ -d ~/.config/polybar ] || mkdir -p ~/.config/polybar
-else
-endif
-	[ -d ${NODE_DIR} ] || mkdir -p ${NODE_DIR}
-	[ -d ~/.config/alacritty ] || mkdir -p ~/.config/alacritty
-	[ -d ~/.config/i3 ] || mkdir -p ~/.config/i3
-	[ -d ~/org ] || mkdir -p ~/org
-
-sync: dirs
-ifeq ($(CUR_PLATFORM), $(MAC_PLATFORM))
-	[ -f ~/.skhdrc ] || ln -s $(PWD)/yabai/skhdrc ~/.skhdrc
-	[ -f ~/.yabairc ] || ln -s $(PWD)/yabai/yabairc ~/.yabairc
-	[ -f ~/.config/polybar/config ] || ln -s $(PWD)/polybar/config ~/.config/polybar/config
-	[ -f ~/.config/polybar/launch.sh ] || ln -s $(PWD)/polybar/launch.sh ~/.config/polybar/launch.sh
-	[ -f ~/.bashrc ] || ln -s $(PWD)/bashrc ~/.bashrc
-	ln -s $(PWD)/config/* ~/.config/ || true
-	@touch ~/.hushlogin
-else
-endif
-ifeq ($(CUR_PLATFORM), $(LINUX_PLATFORM))
-	[ -f ~/.Xmodmap ] || ln -s $(PWD)/Xmodmap ~/.Xmodmap
-	[ -f ~/.Xresources ] || ln -s $(PWD)/Xresources ~/.Xresources
-	[ -f ~/.xinitrc ] || ln -s $(PWD)/.xinitrc ~/.xinitrc
-	[ -f ~/.config/i3/config ] || ln -s $(PWD)/i3/config ~/.config/i3/config
-	[ -f ~/.config/i3/workspace1.json ] || ln -s $(PWD)/i3/workspace1.json ~/.config/i3/workspace1.json
-	[ -f ~/.config/i3/workspace1.json ] || ln -s $(PWD)/i3/workspace1.json ~/.config/i3/workspace1.json
-	[ -f ~/.config/i3/workspace2.json ] || ln -s $(PWD)/i3/workspace2.json ~/.config/i3/workspace2.json
-	[ -f ~/.config/i3/workspace3.json ] || ln -s $(PWD)/i3/workspace3.json ~/.config/i3/workspace3.json
-	[ -f ~/.bashrc ] || ln -s $(PWD)/bashrc ~/.bashrc
-	[ -f /usr/local/bin/zsh ] || sudo ln -s /usr/bin/zsh /usr/local/bin/zsh
-	[ -s ~/.config/awesome ] || ln -s $(PWD)/awesome ~/.config
-	[ -d ~/bin ] || ln -s $(PWD)/bin ~/bin
-	[ -d ~/.config/awesome/awesome-wm-widgets ] || git clone https://github.com/streetturtle/awesome-wm-widgets ~/.config/awesome/awesome-wm-widgets
-	[ -f ~/.config/awesome/json.lua ] || wget -P ~/.config/awesome/ https://raw.githubusercontent.com/rxi/json.lua/master/json.lua
-	[ -f ~/.config/starship.toml ] || ln -s $(PWD)/starship.toml ~/.config/starship.toml
-else
-endif
-	[ -d ~/.config/nvim ] || ln -s $(PWD)/config/nvim ~/.config/nvim
-	[ -f ~/.agignore ] || ln -s $(PWD)/agignore ~/.agignore
-	[ -f ~/.config/alacritty/alacritty.toml ] || ln -s $(PWD)/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
-	[ -f ~/.config/alacritty/color.toml ] || ln -s $(PWD)/alacritty/color.toml ~/.config/alacritty/color.toml
-	[ -d ~/.doom.d ] || ln -s $(PWD)/doom.d ~/.doom.d
-	[ -f ~/.tmux.conf ] || ln -s $(PWD)/tmux.conf ~/.tmux.conf
-	[ -f ~/.vimrc ] || ln -s $(PWD)/vimrc ~/.vimrc
-	[ -f ~/.zshrc ] || ln -s $(PWD)/zshrc ~/.zshrc
-	[ -d ~/notes ] || git clone git@github.com:JerusJ/notes.git ~/notes
+sync: 
 	[ -d ~/fzf-zsh-plugin ] || git clone https://github.com/unixorn/fzf-zsh-plugin.git ~/fzf-zsh-plugin
 	[ -d ~/powerlevel10k ] || git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+	stow */
 
 apps:
 ifeq ($(CUR_PLATFORM), $(MAC_PLATFORM))

@@ -29,14 +29,6 @@ source /etc/profile.d/google-cloud-cli.sh
 # It contains GOPATH, some functions, aliases etc...
 [ -r ~/.zsh_private ] && source ~/.zsh_private
 
-case `uname` in
-  Linux)
-    setxkbmap -option ctrl:nocaps
-    # Keyboard key repeat rate <TIME_TO_REPEAT> <REPETITIONS_PER_SECOND>
-    xset r rate 200 75
-  ;;
-esac
-
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 

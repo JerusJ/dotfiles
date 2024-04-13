@@ -103,4 +103,5 @@ yay -S --needed --noconfirm \
 	slack-desktop \
 	vscodium-bin \
 	tilt-bin \
-	bazelisk
+	bazelisk \
+	wdisplays
