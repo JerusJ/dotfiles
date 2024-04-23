@@ -21,11 +21,23 @@ return {
 		end,
 	},
 	{
-		"tpope/vim-fugitive",
-		config = function ()
-			local map = require("helpers.keys").map
-			map("n", "<leader>ga", "<cmd>Git add %<cr>", "Stage the current file")
-			map("n", "<leader>gb", "<cmd>Git blame<cr>", "Show the blame")
-		end
-	}
+	  "NeogitOrg/neogit",
+	  dependencies = {
+		"nvim-lua/plenary.nvim",         -- required
+		"sindrets/diffview.nvim",        -- optional - Diff integration
+
+		-- Only one of these is needed, not both.
+		"nvim-telescope/telescope.nvim", -- optional
+		"ibhagwan/fzf-lua",              -- optional
+	  },
+    config = function()
+      local neogit = require("neogit")
+        neogit.setup({
+            kind = "split",
+        })
+
+        local map = require("helpers.keys").map
+        map("n", "<leader>gg", neogit.open, "Open NeoGit")
+    end,
+    }
 }
