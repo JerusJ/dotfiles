@@ -22,6 +22,7 @@ return {
 
 			-- Enable telescope fzf native, if installed
 			pcall(require("telescope").load_extension, "fzf")
+			pcall(require("telescope").load_extension, "dap")
 
 			local map = require("helpers.keys").map
 			map("n", "<leader>fr", require("telescope.builtin").oldfiles, "Recently opened")

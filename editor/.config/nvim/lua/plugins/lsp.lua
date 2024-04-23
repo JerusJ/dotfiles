@@ -21,6 +21,12 @@ return {
 				ensure_installed = {
 					"lua_ls",
 					"pylsp",
+					"gopls",
+					"pyright",
+					"yamlls",
+					"tsserver",
+					"terraformls",
+					"jsonls",
 				},
 				automatic_installation = true,
 			})
