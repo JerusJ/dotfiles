@@ -1,4 +1,12 @@
 return {
+  -- Global
+  {
+    "ThePrimeagen/git-worktree.nvim",
+    config = function()
+      require("git-worktree").setup()
+    end
+  },
+
   -- GitHub
   {
     "pwntester/octo.nvim",
