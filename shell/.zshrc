@@ -5,7 +5,17 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export ZSH=$HOME/.oh-my-zsh
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+plugins=(
+  git
+  kubectl
+  kubectx
+  zsh-autosuggestions
+)
+
+source $ZSH/oh-my-zsh.sh
 
 if [ ! -S ~/.ssh/ssh_auth_sock ]; then
   eval `ssh-agent`
@@ -14,9 +24,6 @@ fi
 export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 ssh-add -l > /dev/null || ssh-add
 
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf-zsh-plugin kubectl kubectx)
-source $ZSH/oh-my-zsh.sh
-
 alias kb="kustomize build"
 
 source /etc/profile.d/google-cloud-cli.sh
@@ -24,15 +31,25 @@ source /etc/profile.d/google-cloud-cli.sh
 # =============
 #    INIT
 # =============
+export PATH="$HOME/fzf-zsh-plugin/bin:$PATH"
+export PATH="$HOME/GoLand/bin:$PATH"
 
 # Senstive functions which are not pushed to Github
 # It contains GOPATH, some functions, aliases etc...
 [ -r ~/.zsh_private ] && source ~/.zsh_private
 
+case `uname` in
+  Linux)
+    setxkbmap -option ctrl:nocaps
+    # Keyboard key repeat rate <TIME_TO_REPEAT> <REPETITIONS_PER_SECOND>
+    xset r rate 200 75
+  ;;
+esac
+
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 
-export EDITOR="emacs"
+export EDITOR="nvim"
 export TERMINAL="alacritty"
 
 # =============
@@ -43,8 +60,8 @@ alias gr="git rebase"
 alias ..='cd ..'
 
 alias d='git diff'
-alias vi='vim'
-alias notes="vi ${HOME}/vimwiki/index.wiki"
+alias vi='nvim'
+alias vim='nvim'
 
 function save_notes() (
 	pushd $HOME/org
@@ -90,7 +107,7 @@ alias b='git branch'
 # open seperate tmux buffer and search for a file, open with vim
 function fe() (
   IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
-  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+  [[ -n "$files" ]] && ${EDITOR:-nvim} "${files[@]}"
 )
 
 
@@ -120,7 +137,6 @@ export LANG="en_US.UTF-8"
 
 export PATH="$HOME/go/bin:$GOBIN:/usr/local/go/bin:$GOBIN:$HOME/.cargo/bin:$PATH"
 
-export EDITOR="vim"
 export LSCOLORS=cxBxhxDxfxhxhxhxhxcxcx
 export CLICOLOR=1
 
@@ -339,12 +355,9 @@ export GPG_TTY=$(tty)
 
 # Direnv
 eval "$(direnv hook zsh)"
+source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# source $HOME/fzf-zsh-plugin/fzf-zsh-plugin.plugin.zsh
-# export PATH="$HOME/fzf-zsh-plugin/bin:$PATH"
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source $HOME/fzf-zsh-plugin/fzf-zsh-plugin.plugin.zsh
