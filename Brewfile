@@ -104,9 +104,11 @@ brew 'zsh-syntax-highlighting'
 brew 'gh'
 # brew 'starship'
 brew 'sops'
+brew 'stow'
 
 # GUI
 cask 'alacritty'
+cask 'kitty'
 cask 'docker'
 cask 'font-menlo-for-powerline'
 cask 'google-chrome'

@@ -10,6 +10,11 @@ return {
 		},
 		config = function()
 			require("telescope").setup({
+				pickers = {
+					find_files = {
+						hidden = true,
+					},
+				},
 				defaults = {
 					mappings = {
 						i = {
@@ -20,8 +25,6 @@ return {
 				},
 			})
 
-			-- Enable telescope fzf native, if installed
-			pcall(require("telescope").load_extension, "fzf")
 			pcall(require("telescope").load_extension, "dap")
 			pcall(require("telescope").load_extension, "git_worktree")
 
@@ -41,11 +44,20 @@ return {
 			map("n", "<leader>sw", require("telescope.builtin").grep_string, "Current word")
 			map("n", "<leader>sg", require("telescope.builtin").live_grep, "Grep")
 			map("n", "<leader>sd", require("telescope.builtin").diagnostics, "Diagnostics")
-			map("n", "<leader>sr", "<CMD>lua require('telescope').extensions.git_worktree.git_worktrees()<CR>", "Search Git Worktrees")
-			map("n", "<leader>sR", "<CMD>lua require('telescope').extensions.git_worktree.create_git_worktree()<CR>", "Create Git Worktree")
+			map(
+				"n",
+				"<leader>sr",
+				"<CMD>lua require('telescope').extensions.git_worktree.git_worktrees()<CR>",
+				"Search Git Worktrees"
+			)
+			map(
+				"n",
+				"<leader>sR",
+				"<CMD>lua require('telescope').extensions.git_worktree.create_git_worktree()<CR>",
+				"Create Git Worktree"
+			)
 
 			map("n", "<C-p>", require("telescope.builtin").keymaps, "Search keymaps")
-
 		end,
 	},
 }

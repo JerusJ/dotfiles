@@ -27,6 +27,8 @@ return {
 					"tsserver",
 					"terraformls",
 					"jsonls",
+					"tsserver",
+					"dockerls",
 				},
 				automatic_installation = true,
 			})
@@ -74,7 +76,7 @@ return {
 				lsp_map("<leader>lr", vim.lsp.buf.rename, bufnr, "Rename symbol")
 				lsp_map("<leader>la", vim.lsp.buf.code_action, bufnr, "Code action")
 				lsp_map("<leader>ld", vim.lsp.buf.type_definition, bufnr, "Type definition")
-				lsp_map("<leader>ls", require("telescope.builtin").lsp_document_symbols, bufnr, "Document symbols")
+				lsp_map("<leader>sl", require("telescope.builtin").lsp_document_symbols, bufnr, "Document symbols")
 
 				lsp_map("gd", vim.lsp.buf.definition, bufnr, "Goto Definition")
 				lsp_map("gr", require("telescope.builtin").lsp_references, bufnr, "Goto References")
@@ -96,6 +98,50 @@ return {
 			-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+			-- Golang
+			require("lspconfig")["gopls"].setup({
+				on_attach = on_attach,
+				capabilities = capabilities,
+				settings = {
+					gopls = {
+						gofumpt = true,
+						codelenses = {
+							gc_details = false,
+							generate = true,
+							regenerate_cgo = true,
+							run_govulncheck = true,
+							test = true,
+							tidy = true,
+							upgrade_dependency = true,
+							vendor = true,
+						},
+						hints = {
+							assignVariableTypes = false,
+							compositeLiteralFields = false,
+							compositeLiteralTypes = false,
+							constantValues = false,
+							functionTypeParameters = false,
+							parameterNames = false,
+							rangeVariableTypes = false,
+						},
+						analyses = {
+							fieldalignment = true,
+							nilness = true,
+							unusedparams = true,
+							unusedwrite = true,
+							useany = true,
+						},
+						usePlaceholders = true,
+						completeUnimported = true,
+						staticcheck = true,
+						directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+						semanticTokens = false,
+					},
+				},
+				luasnip = true,
+				trouble = true,
+			})
 
 			-- Lua
 			require("lspconfig")["lua_ls"].setup({
@@ -119,6 +165,25 @@ return {
 				},
 			})
 
+			-- Docker
+			require("lspconfig")["dockerls"].setup({
+				on_attach = on_attach,
+				capabilities = capabilities,
+			})
+
+
+			-- TypeScript
+			require("lspconfig")["tsserver"].setup({
+				on_attach = on_attach,
+				capabilities = capabilities,
+			})
+
+			-- JSON
+			require("lspconfig")["jsonls"].setup({
+				on_attach = on_attach,
+				capabilities = capabilities,
+			})
+
 			-- YAML
 			require("lspconfig")["yamlls"].setup({
 				on_attach = on_attach,
@@ -136,10 +201,14 @@ return {
 							["http://json.schemastore.org/chart"] = "Chart.{yml,yaml}",
 							["https://json.schemastore.org/dependabot-v2"] = ".github/dependabot.{yml,yaml}",
 							["https://json.schemastore.org/gitlab-ci"] = "*gitlab-ci*.{yml,yaml}",
-							["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "*api*.{yml,yaml}",
-							["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "*docker-compose*.{yml,yaml}",
-							["https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json"] = "*flow*.{yml,yaml}",
-							["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.0/schema.yaml"] = "/*",
+							["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] =
+							"*api*.{yml,yaml}",
+							["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] =
+							"*docker-compose*.{yml,yaml}",
+							["https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json"] =
+							"*flow*.{yml,yaml}",
+							["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.0/schema.yaml"] =
+							"/*",
 						},
 					},
 				},

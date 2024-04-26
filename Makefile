@@ -9,6 +9,7 @@ all: sync apps emacs
 sync: 
 	[ -d ~/fzf-zsh-plugin ] || git clone https://github.com/unixorn/fzf-zsh-plugin.git ~/fzf-zsh-plugin
 	[ -d ~/powerlevel10k ] || git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+	[ -d ~/.tmux/plugins/tpm ] || mkdir -p ~/.tmux/plugins && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm || true
 	stow */
 
 apps:

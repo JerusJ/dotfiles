@@ -6,6 +6,7 @@ local opts = {
 	termguicolors = true,
 	number = true,
 	relativenumber = true,
+	clipboard = "unnamedplus"
 }
 
 -- Set options from table

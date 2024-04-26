@@ -3,6 +3,8 @@
 set -e
 set -u
 
+export HOMEBREW_NO_AUTO_UPDATE=1
+
 # See: https://apple.stackexchange.com/questions/14001/how-to-turn-off-all-animations-on-os-x
 function system_settings() {
     echo "--> Setting Default Keyboard/Mouse Settings..."

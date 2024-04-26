@@ -9,6 +9,7 @@ fi
 export ZSH="$HOME/.oh-my-zsh"
 
 plugins=(
+  aws
   git
   kubectl
   kubectx
@@ -26,7 +27,9 @@ ssh-add -l > /dev/null || ssh-add
 
 alias kb="kustomize build"
 
-source /etc/profile.d/google-cloud-cli.sh
+if [ -f /etc/profile.d/google-cloud-cli.sh ]; then
+  source /etc/profile.d/google-cloud-cli.sh
+fi
 
 # =============
 #    INIT
