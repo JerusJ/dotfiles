@@ -43,8 +43,8 @@
         doom-variable-pitch-font (font-spec :family "DroidSansM Nerd Font" :size 17))))
 (cond
  ((string-equal system-type "darwin")
-  (setq doom-font (font-spec :family "Dank Mono" :size 17 :weight 'normal)
-        doom-variable-pitch-font (font-spec :family "Dank Mono" :size 17))))
+  (setq doom-font (font-spec :family "Monaco" :size 17 :weight 'normal)
+        doom-variable-pitch-font (font-spec :family "Monaco" :size 17))))
 (cond
  ((string-equal system-type "windows-nt")
   (setq doom-font (font-spec :family "Source Code Pro" :size 20 :weight 'normal)
