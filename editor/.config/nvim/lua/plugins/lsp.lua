@@ -23,7 +23,6 @@ return {
 					"gopls",
 					"jsonls",
 					"lua_ls",
-					"markdown-toc",
 					"pylsp",
 					"pyright",
 					"terraformls",
