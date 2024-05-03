@@ -21,7 +21,7 @@
 ;; they are implemented.
 
 (setq user-full-name "Jesse Rusak"
-      user-mail-address "jesse.rusak@truefootage.tech")
+      user-mail-address "rusak.jesse@gmail.com")
 
 ;; ===============================
 ;; Theming
