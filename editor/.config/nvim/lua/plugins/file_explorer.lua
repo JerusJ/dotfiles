@@ -8,6 +8,11 @@ return {
         local oil = require("oil")
       oil.setup({
         default_file_explorer = true,
+        columns = {
+          "icon",
+          "permissions",
+          "size",
+        },
         view_options = {
           show_hidden = true,
         }
