@@ -352,6 +352,7 @@ export PATH="/usr/local/sbin:$PATH"
 
 # Kubernetes
 alias k=kubectl
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # GPG
 export GPG_TTY=$(tty)
