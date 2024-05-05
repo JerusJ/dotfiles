@@ -18,8 +18,7 @@ return {
 				},
 			})
 
-			local map = require("helpers.keys").map
-			map("n", "<leader>.", oil.open, "Open Oil")
+			vim.keymap.set("n", "<leader>.", oil.open, { desc = "Open Oil" })
 		end,
 	},
 	{

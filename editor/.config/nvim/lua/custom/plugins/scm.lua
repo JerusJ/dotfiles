@@ -146,8 +146,7 @@ return {
 				},
 			})
 
-			local map = require("helpers.keys").map
-			map("n", "<leader>ghprc", "<CMD>Octo pr create<CR>", "GitHub: Create PR")
+			vim.keymap.set("n", "<leader>ghprc", "<CMD>Octo pr create<CR>", { desc = "GitHub: Create PR" })
 		end,
 	},
 
@@ -170,35 +169,44 @@ return {
 			local gitlab = require("gitlab")
 			gitlab.setup()
 
-			local map = require("helpers.keys").map
-			map("n", "<leader>glb", gitlab.choose_merge_request, "GitLab: Choose Merge Request")
-			map("n", "<leader>glr", gitlab.review, "GitLab: Review")
-			map("n", "<leader>gls", gitlab.summary, "GitLab: Summary")
-			map("n", "<leader>glA", gitlab.approve, "Gitlab: Approve")
-			map("n", "<leader>glR", gitlab.revoke, "GitLab: Revoke")
-			map("n", "<leader>glc", gitlab.create_comment, "GitLab: Create Comment")
-			map("v", "<leader>glc", gitlab.create_multiline_comment, "GitLab: Create MultiLine Comment")
-			map("v", "<leader>glC", gitlab.create_comment_suggestion, "GitLab: Create Comment Suggestion")
-			map("n", "<leader>glO", gitlab.create_mr, "GitLab: Create MR")
-			map(
+			vim.keymap.set("n", "<leader>glb", gitlab.choose_merge_request, { desc = "GitLab: Choose Merge Request" })
+			vim.keymap.set("n", "<leader>glr", gitlab.review, { desc = "GitLab: Review" })
+			vim.keymap.set("n", "<leader>gls", gitlab.summary, { desc = "GitLab: Summary" })
+			vim.keymap.set("n", "<leader>glA", gitlab.approve, { desc = "Gitlab: Approve" })
+			vim.keymap.set("n", "<leader>glR", gitlab.revoke, { desc = "GitLab: Revoke" })
+			vim.keymap.set("n", "<leader>glc", gitlab.create_comment, { desc = "GitLab: Create Comment" })
+			vim.keymap.set(
+				"v",
+				"<leader>glc",
+				gitlab.create_multiline_comment,
+				{ desc = "GitLab: Create MultiLine Comment" }
+			)
+			vim.keymap.set(
+				"v",
+				"<leader>glC",
+				gitlab.create_comment_suggestion,
+				{ desc = "GitLab: Create Comment Suggestion" }
+			)
+			vim.keymap.set("n", "<leader>glO", gitlab.create_mr, { desc = "GitLab: Create MR" })
+			vim.keymap.set(
 				"n",
 				"<leader>glm",
 				gitlab.move_to_discussion_tree_from_diagnostic,
-				"GitLab: Move To Discussion Tree from Diagnostic"
+				{ desc = "GitLab: Move To Discussion Tree from Diagnostic" }
 			)
-			map("n", "<leader>gln", gitlab.create_note, "GitLab: Create Note")
-			map("n", "<leader>gld", gitlab.toggle_discussions, "GitLab: Toggle Discussions")
-			map("n", "<leader>glaa", gitlab.add_assignee, "GitLab: Add Assignee")
-			map("n", "<leader>glad", gitlab.delete_assignee, "GitLab: Delete Assignee")
-			map("n", "<leader>glla", gitlab.add_label, "GitLab: Add Label")
-			map("n", "<leader>glld", gitlab.delete_label, "GitLab: Delete Label")
-			map("n", "<leader>glra", gitlab.add_reviewer, "GitLab: Add Reviewer")
-			map("n", "<leader>glrd", gitlab.delete_reviewer, "GitLab: Delete Reviewer")
-			map("n", "<leader>glp", gitlab.pipeline, "GitLab: Pipeline")
-			map("n", "<leader>glo", gitlab.open_in_browser, "GitLab: Open in Browser")
-			map("n", "<leader>glM", gitlab.merge, "GitLab: Merge")
-			map("n", "<leader>glu", gitlab.copy_mr_url, "GitLab: Copy MR URL")
-			map("n", "<leader>glP", gitlab.publish_all_drafts, "GitLab: Publish All Drafts")
+			vim.keymap.set("n", "<leader>gln", gitlab.create_note, { desc = "GitLab: Create Note" })
+			vim.keymap.set("n", "<leader>gld", gitlab.toggle_discussions, { desc = "GitLab: Toggle Discussions" })
+			vim.keymap.set("n", "<leader>glaa", gitlab.add_assignee, { desc = "GitLab: Add Assignee" })
+			vim.keymap.set("n", "<leader>glad", gitlab.delete_assignee, { desc = "GitLab: Delete Assignee" })
+			vim.keymap.set("n", "<leader>glla", gitlab.add_label, { desc = "GitLab: Add Label" })
+			vim.keymap.set("n", "<leader>glld", gitlab.delete_label, { desc = "GitLab: Delete Label" })
+			vim.keymap.set("n", "<leader>glra", gitlab.add_reviewer, { desc = "GitLab: Add Reviewer" })
+			vim.keymap.set("n", "<leader>glrd", gitlab.delete_reviewer, { desc = "GitLab: Delete Reviewer" })
+			vim.keymap.set("n", "<leader>glp", gitlab.pipeline, { desc = "GitLab: Pipeline" })
+			vim.keymap.set("n", "<leader>glo", gitlab.open_in_browser, { desc = "GitLab: Open in Browser" })
+			vim.keymap.set("n", "<leader>glM", gitlab.merge, { desc = "GitLab: Merge" })
+			vim.keymap.set("n", "<leader>glu", gitlab.copy_mr_url, { desc = "GitLab: Copy MR URL" })
+			vim.keymap.set("n", "<leader>glP", gitlab.publish_all_drafts, { desc = "GitLab: Publish All Drafts" })
 		end,
 	},
 }

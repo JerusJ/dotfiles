@@ -2,8 +2,7 @@
 return {
 	"nvim-lualine/lualine.nvim",
 	config = function()
-		local colorscheme = require("helpers.colorscheme")
-		local lualine_theme = colorscheme == "default" and "auto" or colorscheme
+		local lualine_theme = "auto"
 		require("lualine").setup({
 			options = {
 				icons_enabled = true,
