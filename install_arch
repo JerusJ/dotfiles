@@ -104,4 +104,6 @@ yay -S --needed --noconfirm \
 	vscodium-bin \
 	tilt-bin \
 	bazelisk \
-	wdisplays
+	wdisplays \
+	github-cli-git \
+	oh-my-zsh-git

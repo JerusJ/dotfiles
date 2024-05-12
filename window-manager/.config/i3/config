@@ -189,3 +189,6 @@ bar {
 #         format_muted = "♪: muted (%volume)"
 #         device = "pulse:1"
 # }
+
+# NOTE: below is for copy and paste to work with VMware
+exec --no-startup-id vmware-user
