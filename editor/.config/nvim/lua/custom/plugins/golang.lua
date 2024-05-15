@@ -7,6 +7,7 @@ return {
 		},
 		config = function()
 			require("go").setup()
+			require("go.format").goimports() -- goimports + gofmt
 		end,
 		event = { "CmdlineEnter" },
 		ft = { "go", "gomod" },
