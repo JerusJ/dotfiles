@@ -20,6 +20,7 @@ return {
 			})
 
 			vim.keymap.set("n", "<leader>.", oil.open, { desc = "Open Oil" })
+			vim.keymap.set("n", "<C-x>d", oil.open, { desc = "Open Oil" })
 		end,
 	},
 	{

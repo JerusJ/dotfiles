@@ -52,11 +52,15 @@ return { -- LSP Configuration & Plugins
 
 					-- Fuzzy find all the symbols in your current document.
 					--  Symbols are things like variables, functions, types, etc.
-					map("<leader>sbs", require("telescope.builtin").lsp_document_symbols, "[S]earch [B]uffer [S]ymbols")
+					map("<leader>sbl", require("telescope.builtin").lsp_document_symbols, "[S]earch [B]uffer [S]ymbols")
 
 					-- Fuzzy find all the symbols in your current workspace.
 					--  Similar to document symbols, except searches over your entire project.
-					map("<leader>ss", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[S]earch [S]ymbols")
+					map(
+						"<leader>sps",
+						require("telescope.builtin").lsp_dynamic_workspace_symbols,
+						"[S]earch [P]roject [S]ymbols"
+					)
 
 					-- Rename the variable under your cursor.
 					--  Most Language Servers support renaming across files, etc.
