@@ -310,7 +310,7 @@ function switchgo() {
 #    PROMPT
 # =============
 source '/opt/kube-ps1/kube-ps1.sh'
-PROMPT='$(kube_ps1)'$PROMPT 
+PROMPT='$(kube_ps1)'$PROMPT
 
 # ===================
 #    THIRD PARTY
@@ -365,3 +365,6 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 source $HOME/fzf-zsh-plugin/fzf-zsh-plugin.plugin.zsh
+
+export PROMPT_COMMAND='if [ -d .git -a ! -x .git/hooks/pre-commit -a -e .pre-commit-config.yaml ] && which pre-commit >& /dev/null; then pre-commit install; fi; '"$PROMPT_COMMAND"
+precmd() { eval "$PROMPT_COMMAND" }
