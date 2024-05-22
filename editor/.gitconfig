@@ -1,0 +1,25 @@
+[user]
+        name = Jesse Rusak
+
+[github]
+        user = Jesse Rusak
+
+[core]
+        pager = cat
+[merge]
+        autoStash = true
+[rebase]
+        autoStash = true
+[pull]
+        rebase = true
+
+# Enforce SSH
+[url "ssh://git@github.com/"]
+  insteadOf = https://github.com/
+[url "ssh://git@gitlab.com/"]
+  insteadOf = https://gitlab.com/
+[url "ssh://git@bitbucket.org/"]
+  insteadOf = https://bitbucket.org/
+
+[include]
+    path = ~/.gitconfig_private
