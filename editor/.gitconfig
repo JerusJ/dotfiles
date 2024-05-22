@@ -6,12 +6,27 @@
 
 [core]
         pager = cat
+[commit]
+	verbose = true
 [merge]
         autoStash = true
+	conflictstyle = diff3
+[rerere]
+	enabled = true
+	autoupdate = true
 [rebase]
         autoStash = true
+	updateRefs = true
+[push]
+	autoSetupRemote = true
+	default = current
 [pull]
         rebase = true
+[fetch]
+	prune = true
+	writeCommitGraph = true
+[diff]
+	algorithm = histogram
 
 # Enforce SSH
 [url "ssh://git@github.com/"]
