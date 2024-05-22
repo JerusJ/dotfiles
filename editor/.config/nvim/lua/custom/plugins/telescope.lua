@@ -10,6 +10,10 @@ return {
 		config = function()
 			require("telescope").setup({
 				pickers = {
+					find_files = {
+						hidden = true,
+						file_ignore_patterns = { "node_modules", ".git", ".venv" },
+					},
 					find_command = {
 						"rg",
 						"--files",
@@ -21,6 +25,7 @@ return {
 						"!**/node_modules/*",
 					},
 				},
+
 				defaults = {
 					mappings = {
 						i = {
@@ -29,15 +34,25 @@ return {
 						},
 					},
 				},
+
+				extensions = {
+					"fzf",
+				},
 			})
 
 			pcall(require("telescope").load_extension, "dap")
+			pcall(require("telescope").load_extension, "fzf")
 			pcall(require("telescope").load_extension, "git_worktree")
 
 			vim.keymap.set("n", "<leader>fr", require("telescope.builtin").oldfiles, { desc = "Recently opened" })
 			vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "Open buffers" })
-			vim.keymap.set("n", "<leader>/", function() end, { desc = "Search in current buffer" })
-
+			vim.keymap.set(
+				"n",
+				"<leader>sb",
+				require("telescope.builtin").current_buffer_fuzzy_find,
+				{ desc = "Search current buffer" }
+			)
+			vim.keymap.set("n", "<leader>sB", require("telescope.builtin").buffers, { desc = "Search ALL buffers" })
 			vim.keymap.set("n", "<leader>sf", require("telescope.builtin").find_files, { desc = "Files" })
 			vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "Help" })
 			vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "Current word" })
