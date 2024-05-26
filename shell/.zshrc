@@ -26,6 +26,8 @@ export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 ssh-add -l > /dev/null || ssh-add
 
 alias kb="kustomize build"
+alias t="terragrunt"
+alias tp="terragrunt plan"
 
 if [ -f /etc/profile.d/google-cloud-cli.sh ]; then
   source /etc/profile.d/google-cloud-cli.sh
