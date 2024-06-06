@@ -22,55 +22,57 @@ function git_makepkg() {
 }
 
 sudo pacman -S --needed --noconfirm \
+	alacritty \
 	alsa-firmware \
-	sof-firmware \
 	alsa-ucm-conf \
-	zip \
-	unzip \
-	tmux \
-	wget \
-	kitty \
-	kubectl \
-	kustomize \
-	terraform \
-	ripgrep \
-	fd \
-	make \
-	helmfile \
-	helm \
-	go \
+	aws-cli \
+	base-devel \
 	dagger \
-	fzf \
+	direnv \
 	dive \
 	docker \
 	docker-compose \
-	jq \
-	yq \
-	k9s \
-	protobuf \
-	zsh \
-	zsh-completions \
-	zsh-autosuggestions \
-	zsh-syntax-highlighting \
-	kubectx \
-	aws-cli \
-	lazygit \
-	npm \
+	fd \
+	fzf \
+	go \
+	gtkmm3 \
+	helm \
+	helmfile \
 	htop \
-	pyenv \
-	direnv \
-	python-pip \
-	ttf-firacode-nerd \
-	alacritty \
+	hunspell \
 	i3-wm \
 	i3status \
-	rofi \
-	gtkmm3 \
-	base-devel \
+	jq \
+	k9s \
+	kitty \
+	kubectl \
+	kubectx \
+	kustomize \
+	lazygit \
+	make \
 	minikube \
-	powerline-fonts \
-	ttf-droid \
 	nerd-fonts
+	npm \
+	powerline-fonts \
+	protobuf \
+	pyenv \
+	python-pip \
+	ripgrep \
+	rofi \
+	sof-firmware \
+	terraform \
+	texlive \
+	tmux \
+	ttf-droid \
+	ttf-firacode-nerd \
+	unzip \
+	wget \
+	yq \
+	zip \
+	zsh \
+	zsh-autosuggestions \
+	zsh-completions \
+	zsh-syntax-highlighting
 
 mkdir -p $HOME/third-party-packages
 pushd $HOME/third-party-packages
