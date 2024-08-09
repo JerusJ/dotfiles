@@ -158,6 +158,8 @@ return { -- LSP Configuration & Plugins
 				dockerls = {},
 				jsonls = {},
 				terraformls = {},
+				texlab = {},
+
 				yamlls = {
 					settings = {
 						yaml = {

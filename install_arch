@@ -61,13 +61,16 @@ sudo pacman -S --needed --noconfirm \
 	rofi \
 	sof-firmware \
 	terraform \
+	texlab \
 	texlive \
+	texlive-binextra \
 	tmux \
 	ttf-droid \
 	ttf-firacode-nerd \
 	unzip \
 	wget \
 	yq \
+	zathura \
 	zip \
 	zsh \
 	zsh-autosuggestions \
