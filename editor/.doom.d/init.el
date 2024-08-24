@@ -20,12 +20,12 @@
        ;;layout                    ; auie,ctsrnm is the superior home row
 
        :completion
-       (company +tng)                     ; the ultimate code completion backend
+       (corfu)
        ;;(helm
        ;;+fuzzy
        ;;+icons)
        ;;ido                       ; the other *other* search engine...
-       (ivy
+       (vertico
         +icons)                    ; a search engine for love and life
 
        :ui
@@ -97,14 +97,15 @@
        ;;ein                       ; tame Jupyter notebooks with emacs
        (eval +overlay)             ; run code, run (also, repls)
        ;;gist                      ; interacting with github gists
-       lookup                      ; navigate your code and its documentation
+       (lookup 
+         +docsets 
+         +dictionary)              ; navigate your code and its documentation
        lsp
-       (magit +forge)                       ; a git porcelain for Emacs
+       (magit +forge)              ; a git porcelain for Emacs
        make                        ; run make tasks from Emacs
        ;;pass                      ; password manager for nerds
        pdf                         ; pdf enhancements
        ;;prodigy                   ; FIXME managing external services & code builders
-       rgb                         ; creating color strings
        ;;taskrunner                ; taskrunner for all your projects
        terraform                   ; infrastructure as code
        ;;tmux                      ; an API for interacting with tmux

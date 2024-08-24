@@ -63,6 +63,7 @@ sudo pacman -S --needed --noconfirm \
 	ripgrep \
 	rofi \
 	sof-firmware \
+	gdb \
 	terraform \
 	texlab \
 	texlive \
