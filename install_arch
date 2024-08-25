@@ -37,6 +37,7 @@ sudo pacman -S --needed --noconfirm \
 	docker-compose \
 	fd \
 	fzf \
+	gdb \
 	go \
 	gtkmm3 \
 	helm \
@@ -54,6 +55,7 @@ sudo pacman -S --needed --noconfirm \
 	lazygit \
 	make \
 	minikube \
+	neovim \
 	nerd-fonts \
 	npm \
 	powerline-fonts \
@@ -63,7 +65,6 @@ sudo pacman -S --needed --noconfirm \
 	ripgrep \
 	rofi \
 	sof-firmware \
-	gdb \
 	terraform \
 	texlab \
 	texlive \
