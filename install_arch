@@ -30,6 +30,7 @@ sudo pacman -S --needed --noconfirm \
 	alsa-ucm-conf \
 	aws-cli \
 	base-devel \
+	chromium \
 	dagger \
 	direnv \
 	dive \
@@ -100,12 +101,23 @@ if [[ ! -f "$ran_yay_gendb" ]]; then
 	touch $ran_yay_gendb
 fi
 
+# Deps for playwright, see: https://github.com/microsoft/playwright/issues/2621#issuecomment-1333085109
+sudo pacman -S --needed --noconfirm \
+	libwebp \
+	pcre \
+	x264
+
+sudo ln -s /usr/lib/libwebp.so.7 /usr/lib/libwebp.so.6 || true
+sudo ln -s /usr/lib/libpcre.so /usr/lib/libpcre.so.3 || true
+
+yay -S --needed --noconfirm \
+	enchant icu66 libffi7 gtk3 nss alsa-lib dbus-glib woff2 libwebp hyphen flite1
+
 yay -S --needed --noconfirm \
 	jump \
 	golangci-lint \
 	pyenv-virtualenv \
 	kube-ps1 \
-	zsh-theme-powerlevel10k \
 	google-cloud-cli \
 	google-cloud-cli-gke-gcloud-auth-plugin \
 	kind \
@@ -117,3 +129,4 @@ yay -S --needed --noconfirm \
 	wdisplays \
 	github-cli-git \
 	oh-my-zsh-git
+
