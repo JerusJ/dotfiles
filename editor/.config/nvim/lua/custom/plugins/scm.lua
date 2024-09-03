@@ -151,62 +151,62 @@ return {
 	},
 
 	-- GitLab
-	{
-		"harrisoncramer/gitlab.nvim",
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			"nvim-lua/plenary.nvim",
-			"sindrets/diffview.nvim",
-			"stevearc/dressing.nvim", -- Recommended but not required. Better UI for pickers.
-			"nvim-tree/nvim-web-devicons", -- Recommended but not required. Icons in discussion tree.
-		},
-		enabled = true,
-		build = function()
-			require("gitlab.server").build(true)
-		end, -- Builds the Go binary
-
-		config = function()
-			local gitlab = require("gitlab")
-			gitlab.setup()
-
-			vim.keymap.set("n", "<leader>glb", gitlab.choose_merge_request, { desc = "GitLab: Choose Merge Request" })
-			vim.keymap.set("n", "<leader>glr", gitlab.review, { desc = "GitLab: Review" })
-			vim.keymap.set("n", "<leader>gls", gitlab.summary, { desc = "GitLab: Summary" })
-			vim.keymap.set("n", "<leader>glA", gitlab.approve, { desc = "Gitlab: Approve" })
-			vim.keymap.set("n", "<leader>glR", gitlab.revoke, { desc = "GitLab: Revoke" })
-			vim.keymap.set("n", "<leader>glc", gitlab.create_comment, { desc = "GitLab: Create Comment" })
-			vim.keymap.set(
-				"v",
-				"<leader>glc",
-				gitlab.create_multiline_comment,
-				{ desc = "GitLab: Create MultiLine Comment" }
-			)
-			vim.keymap.set(
-				"v",
-				"<leader>glC",
-				gitlab.create_comment_suggestion,
-				{ desc = "GitLab: Create Comment Suggestion" }
-			)
-			vim.keymap.set("n", "<leader>glO", gitlab.create_mr, { desc = "GitLab: Create MR" })
-			vim.keymap.set(
-				"n",
-				"<leader>glm",
-				gitlab.move_to_discussion_tree_from_diagnostic,
-				{ desc = "GitLab: Move To Discussion Tree from Diagnostic" }
-			)
-			vim.keymap.set("n", "<leader>gln", gitlab.create_note, { desc = "GitLab: Create Note" })
-			vim.keymap.set("n", "<leader>gld", gitlab.toggle_discussions, { desc = "GitLab: Toggle Discussions" })
-			vim.keymap.set("n", "<leader>glaa", gitlab.add_assignee, { desc = "GitLab: Add Assignee" })
-			vim.keymap.set("n", "<leader>glad", gitlab.delete_assignee, { desc = "GitLab: Delete Assignee" })
-			vim.keymap.set("n", "<leader>glla", gitlab.add_label, { desc = "GitLab: Add Label" })
-			vim.keymap.set("n", "<leader>glld", gitlab.delete_label, { desc = "GitLab: Delete Label" })
-			vim.keymap.set("n", "<leader>glra", gitlab.add_reviewer, { desc = "GitLab: Add Reviewer" })
-			vim.keymap.set("n", "<leader>glrd", gitlab.delete_reviewer, { desc = "GitLab: Delete Reviewer" })
-			vim.keymap.set("n", "<leader>glp", gitlab.pipeline, { desc = "GitLab: Pipeline" })
-			vim.keymap.set("n", "<leader>glo", gitlab.open_in_browser, { desc = "GitLab: Open in Browser" })
-			vim.keymap.set("n", "<leader>glM", gitlab.merge, { desc = "GitLab: Merge" })
-			vim.keymap.set("n", "<leader>glu", gitlab.copy_mr_url, { desc = "GitLab: Copy MR URL" })
-			vim.keymap.set("n", "<leader>glP", gitlab.publish_all_drafts, { desc = "GitLab: Publish All Drafts" })
-		end,
-	},
+	-- {
+	-- 	"harrisoncramer/gitlab.nvim",
+	-- 	dependencies = {
+	-- 		"MunifTanjim/nui.nvim",
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"sindrets/diffview.nvim",
+	-- 		"stevearc/dressing.nvim", -- Recommended but not required. Better UI for pickers.
+	-- 		"nvim-tree/nvim-web-devicons", -- Recommended but not required. Icons in discussion tree.
+	-- 	},
+	-- 	enabled = true,
+	-- 	build = function()
+	-- 		require("gitlab.server").build(true)
+	-- 	end, -- Builds the Go binary
+	--
+	-- 	config = function()
+	-- 		local gitlab = require("gitlab")
+	-- 		gitlab.setup()
+	--
+	-- 		vim.keymap.set("n", "<leader>glb", gitlab.choose_merge_request, { desc = "GitLab: Choose Merge Request" })
+	-- 		vim.keymap.set("n", "<leader>glr", gitlab.review, { desc = "GitLab: Review" })
+	-- 		vim.keymap.set("n", "<leader>gls", gitlab.summary, { desc = "GitLab: Summary" })
+	-- 		vim.keymap.set("n", "<leader>glA", gitlab.approve, { desc = "Gitlab: Approve" })
+	-- 		vim.keymap.set("n", "<leader>glR", gitlab.revoke, { desc = "GitLab: Revoke" })
+	-- 		vim.keymap.set("n", "<leader>glc", gitlab.create_comment, { desc = "GitLab: Create Comment" })
+	-- 		vim.keymap.set(
+	-- 			"v",
+	-- 			"<leader>glc",
+	-- 			gitlab.create_multiline_comment,
+	-- 			{ desc = "GitLab: Create MultiLine Comment" }
+	-- 		)
+	-- 		vim.keymap.set(
+	-- 			"v",
+	-- 			"<leader>glC",
+	-- 			gitlab.create_comment_suggestion,
+	-- 			{ desc = "GitLab: Create Comment Suggestion" }
+	-- 		)
+	-- 		vim.keymap.set("n", "<leader>glO", gitlab.create_mr, { desc = "GitLab: Create MR" })
+	-- 		vim.keymap.set(
+	-- 			"n",
+	-- 			"<leader>glm",
+	-- 			gitlab.move_to_discussion_tree_from_diagnostic,
+	-- 			{ desc = "GitLab: Move To Discussion Tree from Diagnostic" }
+	-- 		)
+	-- 		vim.keymap.set("n", "<leader>gln", gitlab.create_note, { desc = "GitLab: Create Note" })
+	-- 		vim.keymap.set("n", "<leader>gld", gitlab.toggle_discussions, { desc = "GitLab: Toggle Discussions" })
+	-- 		vim.keymap.set("n", "<leader>glaa", gitlab.add_assignee, { desc = "GitLab: Add Assignee" })
+	-- 		vim.keymap.set("n", "<leader>glad", gitlab.delete_assignee, { desc = "GitLab: Delete Assignee" })
+	-- 		vim.keymap.set("n", "<leader>glla", gitlab.add_label, { desc = "GitLab: Add Label" })
+	-- 		vim.keymap.set("n", "<leader>glld", gitlab.delete_label, { desc = "GitLab: Delete Label" })
+	-- 		vim.keymap.set("n", "<leader>glra", gitlab.add_reviewer, { desc = "GitLab: Add Reviewer" })
+	-- 		vim.keymap.set("n", "<leader>glrd", gitlab.delete_reviewer, { desc = "GitLab: Delete Reviewer" })
+	-- 		vim.keymap.set("n", "<leader>glp", gitlab.pipeline, { desc = "GitLab: Pipeline" })
+	-- 		vim.keymap.set("n", "<leader>glo", gitlab.open_in_browser, { desc = "GitLab: Open in Browser" })
+	-- 		vim.keymap.set("n", "<leader>glM", gitlab.merge, { desc = "GitLab: Merge" })
+	-- 		vim.keymap.set("n", "<leader>glu", gitlab.copy_mr_url, { desc = "GitLab: Copy MR URL" })
+	-- 		vim.keymap.set("n", "<leader>glP", gitlab.publish_all_drafts, { desc = "GitLab: Publish All Drafts" })
+	-- 	end,
+	-- },
 }
