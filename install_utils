@@ -28,7 +28,7 @@ function git_clone() {
 	dest=$2
 
 	if [ -z "$repo" ]; then
-		echo "!!! repo cannot be empty"
+		pretty_print "!!! repo cannot be empty" "red"
 		exit 1
 	fi
 	if [ -z "$dest" ]; then

@@ -8,18 +8,20 @@ source "$SCRIPT_DIR/install_utils"
 source "$SCRIPT_DIR/install_utils_arch"
 source "$SCRIPT_DIR/install_utils_mac"
 
-
 function main() {
+	pretty_print "Installing everything..." "yellow"
+
 	# Platform-specific
 	if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 	    if [[ -f /etc/arch-release ]]; then
 		pretty_print "Running on Arch Linux" "blue"
+
 		arch_install_base_packages
 		arch_install_yay
 		arch_install_playwright_deps
 		arch_install_aur_packages
 	    else
-		echo "!!! Unsupported Linux distribution. Exiting..."
+		pretty_print "!!! Unsupported Linux distribution. Exiting..." "red"
 		exit 1
 	    fi
 
@@ -29,7 +31,7 @@ function main() {
 		mac_set_system_settings
 		mac_install_packages
 	else
-	    echo "!!! Unsupported operating system. Exiting..."
+	    pretty_print "!!! Unsupported operating system. Exiting..." "red"
 	    exit 1
 	fi
 
@@ -38,5 +40,8 @@ function main() {
 	install_tmux_tpm
 	install_go_packages
 	install_node_packages
+
+	pretty_print "DONE installing everything." "green"
 }
+
 main
