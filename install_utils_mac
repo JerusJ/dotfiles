@@ -2,14 +2,14 @@
 
 # See: https://apple.stackexchange.com/questions/14001/how-to-turn-off-all-animations-on-os-x
 function mac_set_system_settings() {
-    echo "--> Setting Default Keyboard/Mouse Settings..."
+    pretty_print "Setting Default Keyboard/Mouse Settings..." "yellow"
     defaults write -g AppleFontSmoothing -int 0
     defaults write -g ApplePressAndHoldEnabled -bool false
     defaults write -g InitialKeyRepeat -int 15 # normal minimum is 15 (225 ms)
     defaults write -g KeyRepeat -int 1         # normal minimum is 2 (30 ms)
     defaults write -g com.apple.mouse.scaling -1
 
-    echo "--> Reducing Animations..."
+    pretty_print "Reducing Animations..." "yellow"
     defaults write -g NSAutomaticWindowAnimationsEnabled -bool false
     defaults write -g NSBrowserColumnAnimationSpeedMultiplier -float 0
     defaults write -g NSDocumentRevisionsWindowTransformAnimation -bool false
@@ -21,7 +21,7 @@ function mac_set_system_settings() {
     defaults write com.apple.Mail DisableReplyAnimations -bool true
     defaults write com.apple.Mail DisableSendAnimations -bool true
 
-    echo "--> Configuring Dock Settings.... "
+    pretty_print "Configuring Dock Settings.... " "yellow"
     defaults write com.apple.dock autohide-delay -float 0
     defaults write com.apple.dock autohide-time-modifier -float 0
     defaults write com.apple.dock expose-animation-duration -float 0
@@ -31,14 +31,18 @@ function mac_set_system_settings() {
     defaults write com.apple.dock springboard-show-duration -float 0
     defaults write com.apple.dock workspaces-swoosh-animation-off -bool true
 
-    echo "--> Configuring Finder Settings..."
+    pretty_print "Configuring Finder Settings..." "yellow"
     defaults write com.apple.Finder AppleShowAllFiles true
     defaults write com.apple.finder DisableAllAnimations -bool false
+
+    pretty_print "DONE with Mac System Settings" "green"
 }
 
 function mac_install_packages() {
-    export HOMEBREW_NO_AUTO_UPDATE=1
+    pretty_print "Installing Homebrew Packages..." "yellow"
 
-    echo "--> Installing Homebrew Packages..."
+    export HOMEBREW_NO_AUTO_UPDATE=1
     brew bundle
+
+    pretty_print "DONE Installing Homebrew Packages..." "green"
 }

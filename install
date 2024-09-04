@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+set -e
+
+SCRIPT_DIR=$(dirname "$0")
+
+source "$SCRIPT_DIR/install_utils"
+source "$SCRIPT_DIR/install_utils_arch"
+source "$SCRIPT_DIR/install_utils_mac"
+
+
+function main() {
+	# Platform-specific
+	if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+	    if [[ -f /etc/arch-release ]]; then
+		pretty_print "Running on Arch Linux" "blue"
+		arch_install_base_packages
+		arch_install_yay
+		arch_install_playwright_deps
+		arch_install_aur_packages
+	    else
+		echo "!!! Unsupported Linux distribution. Exiting..."
+		exit 1
+	    fi
+
+	elif [[ "$OSTYPE" == "darwin"* ]]; then
+		pretty_print "Running on Mac" "blue"
+
+		mac_set_system_settings
+		mac_install_packages
+	else
+	    echo "!!! Unsupported operating system. Exiting..."
+	    exit 1
+	fi
+
+	# Generic
+	install_git_repos
+	install_tmux_tpm
+	install_go_packages
+	install_node_packages
+}
+main

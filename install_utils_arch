@@ -1,14 +1,6 @@
 #!/usr/bin/env bash
 
-
-SCRIPT_DIR=$(dirname "$0")
-
-source "$SCRIPT_DIR/install_utils"
-source "$SCRIPT_DIR/install_utils_mac"
-
-set -e
-
-function git_makepkg() {
+function arch_git_makepkg() {
 	repo=$1
 	dest=$2
 
@@ -19,8 +11,11 @@ function git_makepkg() {
 	popd
 }
 
+function arch_install_base_packages() {
+	pretty_print "Installing Arch Base Packages..." "yellow"
 
-function install_base_packages() {
+	sudo pacman -Sy
+
 	sudo pacman -S --needed --noconfirm \
 		alacritty \
 		alsa-firmware \
@@ -79,9 +74,13 @@ function install_base_packages() {
 		zsh-autosuggestions \
 		zsh-completions \
 		zsh-syntax-highlighting
+
+	pretty_print "DONE installing Arch Base Packages." "green"
 }
 
-function install_yay() {
+function arch_install_yay() {
+	pretty_print "Installing 'yay' CLI for AUR download/installs..." "yellow"
+
 	mkdir -p $HOME/third-party-packages
 	pushd $HOME/third-party-packages
 
@@ -99,9 +98,13 @@ function install_yay() {
 		yay -Y --gendb
 		touch $ran_yay_gendb
 	fi
+
+	pretty_print "DONE installing 'yay' CLI for AUR download/installs." "green"
 }
 
-function install_playwright_deps() {
+function arch_install_playwright_deps() {
+	pretty_print "Installing Playwright system library dependencies." "yellow"
+
 	# Deps for playwright, see: https://github.com/microsoft/playwright/issues/2621#issuecomment-1333085109
 	sudo pacman -S --needed --noconfirm \
 		libwebp \
@@ -113,59 +116,29 @@ function install_playwright_deps() {
 
 	yay -S --needed --noconfirm \
 		enchant libffi7 gtk3 nss alsa-lib dbus-glib woff2 libwebp hyphen flite1
+
+	pretty_print "DONE installing Playwright system library dependencies." "green"
 }
 
-function install_aur_packages() {
+function arch_install_aur_packages() {
+	pretty_print "Installing AUR packages..." "yellow"
+
 	yay -S --needed --noconfirm \
-		jump \
+		emacs-nativecomp \
+		github-cli-git \
 		golangci-lint \
-		pyenv-virtualenv \
-		kube-ps1 \
 		google-cloud-cli \
 		google-cloud-cli-gke-gcloud-auth-plugin \
+		jump \
 		kind \
-		emacs-nativecomp \
+		kube-ps1 \
+		oh-my-zsh-git \
+		pyenv-virtualenv \
 		slack-desktop \
-		vscodium-bin \
 		tilt-bin \
-		bazelisk \
-		wdisplays \
-		github-cli-git \
-		oh-my-zsh-git
+		vscodium-bin \
+		wdisplays
+
+	pretty_print "DONE installing AUR packages." "green"
 }
 
-
-
-function main() {
-	# Platform-specific
-	if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-	    if [[ -f /etc/arch-release ]]; then
-		echo "--> Running on Arch Linux"
-		sudo pacman -Sy
-
-		install_base_packages
-
-		install_yay
-
-		install_playwright_deps
-		install_aur_packages
-	    else
-		echo "!!! Unsupported Linux distribution. Exiting..."
-		exit 1
-	    fi
-
-	elif [[ "$OSTYPE" == "darwin"* ]]; then
-	    echo "--> Running on macOS"
-	    mac_set_system_settings
-	    mac_install_packages
-	else
-	    echo "!!! Unsupported operating system. Exiting..."
-	    exit 1
-	fi
-
-	# Generic
-	install_git_repos
-	install_tmux_tpm
-	install_go_packages
-}
-main
