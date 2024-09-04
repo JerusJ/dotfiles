@@ -4,9 +4,9 @@ function arch_git_makepkg() {
 	repo=$1
 	dest=$2
 
-	git_clone $repo
+	git_clone "$repo"
 
-	pushd $dest
+	pushd "$dest"
 	makepkg -si
 	popd
 }
@@ -143,4 +143,3 @@ function arch_install_aur_packages() {
 
 	pretty_print "DONE installing AUR packages." "green"
 }
-

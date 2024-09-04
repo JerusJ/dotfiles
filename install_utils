@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
 
 function pretty_print() {
-    local message=$1
-    local color=$2
+	local message=$1
+	local color=$2
 
-    case $color in
-        "red")
-            echo -e "\033[31m--> $message\033[0m"
-            ;;
-        "green")
-            echo -e "\033[32m✓ $message\033[0m"
-            ;;
-        "blue")
-            echo -e "\033[34m--> $message\033[0m"
-            ;;
-        "yellow")
-            echo -e "\033[33m--> $message\033[0m"
-            ;;
-        *)
-            echo "$message"
-            ;;
-    esac
+	case $color in
+	"red")
+		echo -e "\033[31m--> $message\033[0m"
+		;;
+	"green")
+		echo -e "\033[32m✓ $message\033[0m"
+		;;
+	"blue")
+		echo -e "\033[34m--> $message\033[0m"
+		;;
+	"yellow")
+		echo -e "\033[33m--> $message\033[0m"
+		;;
+	*)
+		echo "$message"
+		;;
+	esac
 }
 
 function git_clone() {
@@ -41,7 +41,7 @@ function git_clone() {
 		echo "--> ${dest} repo already exists, skipping..."
 	else
 		echo "--> ${dest} repo does not exist, cloning..."
-		git clone --depth=1 $1 $2
+		git clone --depth=1 "${repo}" "${dest}"
 	fi
 }
 
@@ -88,11 +88,11 @@ function install_tmux_tpm() {
 function install_node_packages() {
 	pretty_print "Installing Node Packages..." "yellow"
 
-	NODE_DIR=$HOME/.npm_global
+	NODE_DIR="$HOME/.npm_global"
 	echo "--> Installing Node packages to NODE_DIR: '${NODE_DIR}'"
 
-	mkdir -p ${NODE_DIR}
-	npm config set prefix ${NODE_DIR}
+	mkdir -p "${NODE_DIR}"
+	npm config set prefix "${NODE_DIR}"
 	npm install --global \
 		bash-language-server \
 		typescript-language-server \
@@ -107,7 +107,7 @@ function install_node_packages() {
 function install_doom_emacs() {
 	pretty_print "Installing Doom Emacs..." "yellow"
 
-    $HOME/.emacs.d/bin/doom install
+	$HOME/.emacs.d/bin/doom install
 
 	pretty_print "DONE installing Doom Emacs." "green"
 }

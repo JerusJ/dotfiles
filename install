@@ -13,17 +13,17 @@ function main() {
 
 	# Platform-specific
 	if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-	    if [[ -f /etc/arch-release ]]; then
-		pretty_print "Running on Arch Linux" "blue"
+		if [[ -f /etc/arch-release ]]; then
+			pretty_print "Running on Arch Linux" "blue"
 
-		arch_install_base_packages
-		arch_install_yay
-		arch_install_playwright_deps
-		arch_install_aur_packages
-	    else
-		pretty_print "!!! Unsupported Linux distribution. Exiting..." "red"
-		exit 1
-	    fi
+			arch_install_base_packages
+			arch_install_yay
+			arch_install_playwright_deps
+			arch_install_aur_packages
+		else
+			pretty_print "!!! Unsupported Linux distribution. Exiting..." "red"
+			exit 1
+		fi
 
 	elif [[ "$OSTYPE" == "darwin"* ]]; then
 		pretty_print "Running on Mac" "blue"
@@ -31,8 +31,8 @@ function main() {
 		mac_set_system_settings
 		mac_install_packages
 	else
-	    pretty_print "!!! Unsupported operating system. Exiting..." "red"
-	    exit 1
+		pretty_print "!!! Unsupported operating system. Exiting..." "red"
+		exit 1
 	fi
 
 	# Generic
