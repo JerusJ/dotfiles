@@ -21,112 +21,130 @@ function git_makepkg() {
 	popd
 }
 
+function install_base_packages() {
+	sudo pacman -S --needed --noconfirm \
+		alacritty \
+		alsa-firmware \
+		alsa-ucm-conf \
+		aws-cli \
+		base-devel \
+		chromium \
+		dagger \
+		direnv \
+		dive \
+		docker \
+		docker-compose \
+		fd \
+		fzf \
+		gdb \
+		go \
+		gtkmm3 \
+		helm \
+		helmfile \
+		htop \
+		hunspell \
+		i3-wm \
+		i3status \
+		jq \
+		k9s \
+		kitty \
+		kubectl \
+		kubectx \
+		kustomize \
+		lazygit \
+		make \
+		minikube \
+		neovim \
+		nerd-fonts \
+		npm \
+		powerline-fonts \
+		protobuf \
+		pyenv \
+		python-pip \
+		ripgrep \
+		rofi \
+		sof-firmware \
+		terraform \
+		texlab \
+		texlive \
+		texlive-binextra \
+		tmux \
+		ttf-droid \
+		ttf-firacode-nerd \
+		unzip \
+		wget \
+		yq \
+		zathura \
+		zip \
+		zsh \
+		zsh-autosuggestions \
+		zsh-completions \
+		zsh-syntax-highlighting
+}
 
-sudo pacman -Sy
+function install_yay() {
+	mkdir -p $HOME/third-party-packages
+	pushd $HOME/third-party-packages
 
-sudo pacman -S --needed --noconfirm \
-	alacritty \
-	alsa-firmware \
-	alsa-ucm-conf \
-	aws-cli \
-	base-devel \
-	chromium \
-	dagger \
-	direnv \
-	dive \
-	docker \
-	docker-compose \
-	fd \
-	fzf \
-	gdb \
-	go \
-	gtkmm3 \
-	helm \
-	helmfile \
-	htop \
-	hunspell \
-	i3-wm \
-	i3status \
-	jq \
-	k9s \
-	kitty \
-	kubectl \
-	kubectx \
-	kustomize \
-	lazygit \
-	make \
-	minikube \
-	neovim \
-	nerd-fonts \
-	npm \
-	powerline-fonts \
-	protobuf \
-	pyenv \
-	python-pip \
-	ripgrep \
-	rofi \
-	sof-firmware \
-	terraform \
-	texlab \
-	texlive \
-	texlive-binextra \
-	tmux \
-	ttf-droid \
-	ttf-firacode-nerd \
-	unzip \
-	wget \
-	yq \
-	zathura \
-	zip \
-	zsh \
-	zsh-autosuggestions \
-	zsh-completions \
-	zsh-syntax-highlighting
+	set +e
+	yay_path="$(which yay)"
+	set -e
+	if [[ ! -x "${yay_path}" ]]; then
+		git_makepkg https://aur.archlinux.org/yay
+	fi
 
-mkdir -p $HOME/third-party-packages
-pushd $HOME/third-party-packages
+	popd
 
-set +e
-yay_path="$(which yay)"
-set -e
-if [[ ! -x "${yay_path}" ]]; then
-	git_makepkg https://aur.archlinux.org/yay
-fi
+	ran_yay_gendb="$HOME/.ran_yay_gendb"
+	if [[ ! -f "$ran_yay_gendb" ]]; then
+		yay -Y --gendb
+		touch $ran_yay_gendb
+	fi
+}
 
-popd
+function install_playwright_deps() {
+	# Deps for playwright, see: https://github.com/microsoft/playwright/issues/2621#issuecomment-1333085109
+	sudo pacman -S --needed --noconfirm \
+		libwebp \
+		pcre \
+		x264
 
-ran_yay_gendb="$HOME/.ran_yay_gendb"
-if [[ ! -f "$ran_yay_gendb" ]]; then
-	yay -Y --gendb
-	touch $ran_yay_gendb
-fi
+	sudo ln -s /usr/lib/libwebp.so.7 /usr/lib/libwebp.so.6 || true
+	sudo ln -s /usr/lib/libpcre.so /usr/lib/libpcre.so.3 || true
 
-# Deps for playwright, see: https://github.com/microsoft/playwright/issues/2621#issuecomment-1333085109
-sudo pacman -S --needed --noconfirm \
-	libwebp \
-	pcre \
-	x264
+	yay -S --needed --noconfirm \
+		enchant icu66 libffi7 gtk3 nss alsa-lib dbus-glib woff2 libwebp hyphen flite1
+}
 
-sudo ln -s /usr/lib/libwebp.so.7 /usr/lib/libwebp.so.6 || true
-sudo ln -s /usr/lib/libpcre.so /usr/lib/libpcre.so.3 || true
+function install_aur_packages() {
+	yay -S --needed --noconfirm \
+		jump \
+		golangci-lint \
+		pyenv-virtualenv \
+		kube-ps1 \
+		google-cloud-cli \
+		google-cloud-cli-gke-gcloud-auth-plugin \
+		kind \
+		emacs-nativecomp \
+		slack-desktop \
+		vscodium-bin \
+		tilt-bin \
+		bazelisk \
+		wdisplays \
+		github-cli-git \
+		oh-my-zsh-git
+}
 
-yay -S --needed --noconfirm \
-	enchant icu66 libffi7 gtk3 nss alsa-lib dbus-glib woff2 libwebp hyphen flite1
 
-yay -S --needed --noconfirm \
-	jump \
-	golangci-lint \
-	pyenv-virtualenv \
-	kube-ps1 \
-	google-cloud-cli \
-	google-cloud-cli-gke-gcloud-auth-plugin \
-	kind \
-	emacs-nativecomp \
-	slack-desktop \
-	vscodium-bin \
-	tilt-bin \
-	bazelisk \
-	wdisplays \
-	github-cli-git \
-	oh-my-zsh-git
 
+function main() {
+	sudo pacman -Sy
+
+	install_base_packages
+
+	install_yay
+
+	install_playwright_deps
+	install_aur_packages
+}
+main
