@@ -113,7 +113,7 @@ function install_playwright_deps() {
 	sudo ln -s /usr/lib/libpcre.so /usr/lib/libpcre.so.3 || true
 
 	yay -S --needed --noconfirm \
-		enchant icu66 libffi7 gtk3 nss alsa-lib dbus-glib woff2 libwebp hyphen flite1
+		enchant libffi7 gtk3 nss alsa-lib dbus-glib woff2 libwebp hyphen flite1
 }
 
 function install_aur_packages() {
