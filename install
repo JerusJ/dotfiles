@@ -40,6 +40,7 @@ function main() {
 	install_tmux_tpm
 	install_go_packages
 	install_node_packages
+	install_doom_emacs
 
 	pretty_print "DONE installing everything." "green"
 }

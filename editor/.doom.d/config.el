@@ -82,6 +82,12 @@
 ;; Projectile
 ;; ===============================
 (setq projectile-project-search-path '(("~/code" . 3)))
+(defun my-proj-relative-buf-name ()
+  (ignore-errors
+    (rename-buffer
+     (file-relative-name buffer-file-name (projectile-project-root)))))
+
+(add-hook 'find-file-hook #'my-proj-relative-buf-name)
 
 ;; Python
 ;; (setq lsp-pyright-typechecking-mode "strict")

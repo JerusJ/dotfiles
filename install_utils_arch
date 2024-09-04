@@ -57,6 +57,8 @@ function arch_install_base_packages() {
 		python-pip \
 		ripgrep \
 		rofi \
+		shfmt \
+		shellcheck \
 		sof-firmware \
 		terraform \
 		texlab \

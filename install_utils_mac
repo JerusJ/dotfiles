@@ -2,6 +2,8 @@
 
 # See: https://apple.stackexchange.com/questions/14001/how-to-turn-off-all-animations-on-os-x
 function mac_set_system_settings() {
+    pretty_print "Configuring Mac System Settings..." "yellow"
+
     pretty_print "Setting Default Keyboard/Mouse Settings..." "yellow"
     defaults write -g AppleFontSmoothing -int 0
     defaults write -g ApplePressAndHoldEnabled -bool false
@@ -35,7 +37,7 @@ function mac_set_system_settings() {
     defaults write com.apple.Finder AppleShowAllFiles true
     defaults write com.apple.finder DisableAllAnimations -bool false
 
-    pretty_print "DONE with Mac System Settings" "green"
+    pretty_print "DONE configuring Mac System Settings." "green"
 }
 
 function mac_install_packages() {
@@ -44,5 +46,5 @@ function mac_install_packages() {
     export HOMEBREW_NO_AUTO_UPDATE=1
     brew bundle
 
-    pretty_print "DONE Installing Homebrew Packages..." "green"
+    pretty_print "DONE installing Homebrew Packages." "green"
 }
