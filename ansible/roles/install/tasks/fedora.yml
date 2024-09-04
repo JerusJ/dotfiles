@@ -1,7 +1,0 @@
----
-- name: Install Fedora Packages
-  dnf:
-    name: "{{ packages_fedora }}"
-    update_cache: true
-    state: present
-  become: true

@@ -1,12 +1,7 @@
-#!/usr/bin/env zsh
-
-set -e
-set -u
-
-export HOMEBREW_NO_AUTO_UPDATE=1
+#!/usr/bin/env bash
 
 # See: https://apple.stackexchange.com/questions/14001/how-to-turn-off-all-animations-on-os-x
-function system_settings() {
+function mac_set_system_settings() {
     echo "--> Setting Default Keyboard/Mouse Settings..."
     defaults write -g AppleFontSmoothing -int 0
     defaults write -g ApplePressAndHoldEnabled -bool false
@@ -41,11 +36,9 @@ function system_settings() {
     defaults write com.apple.finder DisableAllAnimations -bool false
 }
 
-function packages() {
+function mac_install_packages() {
+    export HOMEBREW_NO_AUTO_UPDATE=1
+
     echo "--> Installing Homebrew Packages..."
     brew bundle
-    brew cleanup
 }
-
-system_settings
-packages
