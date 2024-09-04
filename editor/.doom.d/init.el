@@ -98,9 +98,9 @@
        (eval +overlay)             ; run code, run (also, repls)
        ;;gist                      ; interacting with github gists
        (lookup
-         +docsets
-         +dictionary)              ; navigate your code and its documentation
-       lsp
+        +docsets
+        +dictionary)              ; navigate your code and its documentation
+       (lsp +eglot)
        (magit +forge)              ; a git porcelain for Emacs
        make                        ; run make tasks from Emacs
        ;;pass                      ; password manager for nerds

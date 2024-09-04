@@ -26,8 +26,10 @@ return {
 			"nvim-lua/plenary.nvim",
 		},
 		config = function()
-			local lazy = require("lazy")
 			vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>", { desc = "Open LazyGit" })
 		end,
+	},
+	{
+		"sindrets/diffview.nvim",
 	},
 }
