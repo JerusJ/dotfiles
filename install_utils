@@ -99,7 +99,9 @@ function install_node_packages() {
 		prettier \
 		pyright \
 		stylelint \
-		js-beautify
+		js-beautify \
+		yarn \
+		n
 
 	pretty_print "DONE installing Node Packages." "green"
 }

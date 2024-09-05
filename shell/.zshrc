@@ -135,7 +135,7 @@ export LANG="en_US.UTF-8"
 # =============
 #
 
-export PATH="$HOME/go/bin:$GOBIN:/usr/local/go/bin:$GOBIN:$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/go/bin:$GOBIN:/usr/local/go/bin:$GOBIN:$HOME/.cargo/bin:$HOME/.npm_global/bin:$PATH"
 
 export LSCOLORS=cxBxhxDxfxhxhxhxhxcxcx
 export CLICOLOR=1
