@@ -5,13 +5,13 @@ return {
 			local wk = require("which-key")
 			wk.setup()
 			wk.add({
-				{ "<leader>c", group = "[C]ode" },
-				{ "<leader>d", group = "[D]ocument" },
-				{ "<leader>r", group = "[R]ename" },
-				{ "<leader>s", group = "[S]earch" },
-				{ "<leader>w", group = "[W]orkspace" },
-				{ "<leader>t", group = "[T]oggle" },
-				{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
+                { "<leader>f" , group = "File" },
+                { "<leader>d" , group = "Delete/Close" },
+                { "<leader>q" , group = "Quit" },
+                { "<leader>s" , group = "Search" },
+                { "<leader>l" , group = "LSP" },
+                { "<leader>b" , group = "Debugging" },
+                { "<leader>g" , group = "Git" },
 			})
 		end,
 	},
