@@ -109,7 +109,9 @@ function install_node_packages() {
 function install_doom_emacs() {
 	pretty_print "Installing Doom Emacs..." "yellow"
 
-	$HOME/.emacs.d/bin/doom install
+	DOOM="$HOME/.emacs.d/bin/doom "
+	$DOOM install
+	$DOOM sync
 
 	pretty_print "DONE installing Doom Emacs." "green"
 }

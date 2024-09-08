@@ -36,11 +36,13 @@ function main() {
 	fi
 
 	# Generic
-	install_git_repos
-	install_tmux_tpm
-	install_go_packages
-	install_node_packages
-	install_doom_emacs
+	install_git_repos &
+	install_tmux_tpm &
+	install_go_packages &
+	install_node_packages &
+	install_doom_emacs &
+
+	wait
 
 	pretty_print "DONE installing everything." "green"
 }
