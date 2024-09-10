@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+# NOTE(jesse): from: https://github.com/emilwojcik93/aur-boost/blob/main/aur-boost.sh
+function findStringFn() {
+	# grep values in file
+	if grep -q "${1}" ${2}; then
+		return 0
+	else
+		return 1
+	fi
+}
+
 function arch_git_makepkg() {
 	repo=$1
 	dest=$2
@@ -9,6 +19,42 @@ function arch_git_makepkg() {
 	pushd "$dest"
 	makepkg -si
 	popd
+}
+
+# NOTE(jesse): from: https://github.com/emilwojcik93/aur-boost/blob/main/aur-boost.sh
+function arch_tune_makepkg() {
+	pretty_print "Tuning Arch Makepkg Conf to use all available cores and native architecture..." "yellow"
+
+	local file="/etc/makepkg.conf"
+	if findStringFn '\-march=x86-64 -mtune=generic' ${file}; then
+		sudo sed -i 's#-march=x86-64 -mtune=generic#-march=native#g' ${file}
+		echo -e "Value in \"${file}\" successfuly replaced to: $(grep "^CFLAGS" ${file})"
+	else
+		echo -e "Can not find target value: \"-march=x86-64 -mtune=generic\"\nCurrent value: \"$(grep "^CFLAGS" ${file})\""
+	fi
+
+	if findStringFn 'MAKEFLAGS="-j2"' ${file}; then
+		sudo sed -i 's#MAKEFLAGS="-j2"#MAKEFLAGS="-j$(nproc)"#g' ${file}
+		echo -e "Value in \"${file}\" successfuly replaced to: $(grep "^MAKEFLAGS" ${file})"
+	else
+		echo -e "Can not find target value: MAKEFLAGS=\"-j2\"\nCurrent value: \"$(grep "^MAKEFLAGS" ${file})\""
+	fi
+
+	if findStringFn '#BUILDDIR=/tmp/makepkg' ${file}; then
+		sudo sed -i 's|#BUILDDIR=/tmp/makepkg|BUILDDIR=/tmp/makepkg|g' ${file}
+		echo -e "Value in \"${file}\" successfuly replaced to: $(grep "^BUILDDIR" ${file})"
+	else
+		echo -e "Can not find target value: #BUILDDIR=/tmp/makepkg\nCurrent value: \"$(grep "^BUILDDIR" ${file})\""
+	fi
+
+	if findStringFn 'COMPRESSZST=(zstd -c -z -q -)' ${file}; then
+		sudo sed -i 's#COMPRESSZST=(zstd -c -z -q -)#COMPRESSZST=(zstd -1 -c -z -q -)#g' ${file}
+		echo -e "Value in \"${file}\" successfuly replaced to: \"$(grep "^COMPRESSZST" ${file})\""
+	else
+		echo -e "Can not find target value: \"COMPRESSZST=(zstd -c -z -q -)\"\nCurrent value: \"$(grep "^COMPRESSZST" ${file})\""
+	fi
+
+	pretty_print "DONE tuning Arch Makepkg Conf to use all available cores and native architecture." "green"
 }
 
 function arch_install_base_packages() {
@@ -46,6 +92,8 @@ function arch_install_base_packages() {
 		kubectx \
 		kustomize \
 		lazygit \
+		llvm \
+		llvm-libs \
 		make \
 		minikube \
 		neovim \
@@ -57,8 +105,8 @@ function arch_install_base_packages() {
 		python-pip \
 		ripgrep \
 		rofi \
-		shfmt \
 		shellcheck \
+		shfmt \
 		sof-firmware \
 		terraform \
 		texlab \
@@ -117,7 +165,42 @@ function arch_install_playwright_deps() {
 	sudo ln -s /usr/lib/libpcre.so /usr/lib/libpcre.so.3 || true
 
 	yay -S --needed --noconfirm \
-		enchant libffi7 gtk3 nss alsa-lib dbus-glib woff2 libwebp hyphen flite1
+		alsa-lib \
+		dbus-glib \
+		enchant \
+		gtk3 \
+		hyphen \
+		libffi7 \
+		libwebp \
+		nss \
+		icu66 \
+		woff2
+
+	# Taken from: https://github.com/microsoft/playwright/issues/2621#issuecomment-2083083392
+	# There are some missing libraries that flite does not download by itself from AUR,
+	# so we'll compile it ourselves.
+	pretty_print "Installing flite1 from source..." "yellow"
+	DIR_FLITE="$DIR_THIRD_PARTY/flite"
+	git_clone "https://github.com/festvox/flite.git" "$DIR_FLITE"
+	pushd "$DIR_FLITE"
+	./configure --enable-shared
+	make
+	make get_voices
+	sudo cp build/x86_64-linux-gnu/lib/libflite.so.1 /usr/lib
+	sudo cp build/x86_64-linux-gnu/lib/libflite_cmu_grapheme_lang.so.1 /usr/lib
+	sudo cp build/x86_64-linux-gnu/lib/libflite_cmu_grapheme_lex.so.1 /usr/lib
+	sudo cp build/x86_64-linux-gnu/lib/libflite_cmu_indic_lang.so.1 /usr/lib
+	sudo cp build/x86_64-linux-gnu/lib/libflite_cmu_indic_lex.so.1 /usr/lib
+	sudo cp build/x86_64-linux-gnu/lib/libflite_cmu_time_awb.so.1 /usr/lib
+	sudo cp build/x86_64-linux-gnu/lib/libflite_cmu_us_awb.so.1 /usr/lib
+	sudo cp build/x86_64-linux-gnu/lib/libflite_cmu_us_kal.so.1 /usr/lib
+	sudo cp build/x86_64-linux-gnu/lib/libflite_cmu_us_kal16.so.1 /usr/lib
+	sudo cp build/x86_64-linux-gnu/lib/libflite_cmu_us_rms.so.1 /usr/lib
+	sudo cp build/x86_64-linux-gnu/lib/libflite_cmu_us_slt.so.1 /usr/lib
+	sudo cp build/x86_64-linux-gnu/lib/libflite_cmulex.so.1 /usr/lib
+	sudo cp build/x86_64-linux-gnu/lib/libflite_usenglish.so.1 /usr/lib
+	popd
+	pretty_print "DONE installing flite1 from source." "yellow"
 
 	pretty_print "DONE installing Playwright system library dependencies." "green"
 }

@@ -11,11 +11,14 @@ source "$SCRIPT_DIR/install_utils_mac"
 function main() {
 	pretty_print "Installing everything..." "yellow"
 
+	install_dirs
+
 	# Platform-specific
 	if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 		if [[ -f /etc/arch-release ]]; then
 			pretty_print "Running on Arch Linux" "blue"
 
+			arch_tune_makepkg
 			arch_install_base_packages
 			arch_install_yay
 			arch_install_playwright_deps

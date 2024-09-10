@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export DIR_THIRD_PARTY="$HOME/third-party-packages"
+
 function pretty_print() {
 	local message=$1
 	local color=$2
@@ -43,6 +45,10 @@ function git_clone() {
 		echo "--> ${dest} repo does not exist, cloning..."
 		git clone --depth=1 "${repo}" "${dest}"
 	fi
+}
+
+function install_dirs() {
+	mkdir -p "$DIR_THIRD_PARTY"
 }
 
 function install_go_packages() {
