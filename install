@@ -44,6 +44,7 @@ function main() {
 	install_go_packages &
 	install_node_packages &
 	install_doom_emacs &
+	install_shell &
 
 	wait
 

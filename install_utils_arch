@@ -57,10 +57,15 @@ function arch_tune_makepkg() {
 	pretty_print "DONE tuning Arch Makepkg Conf to use all available cores and native architecture." "green"
 }
 
+
 function arch_install_base_packages() {
 	pretty_print "Installing Arch Base Packages..." "yellow"
 
 	sudo pacman -Sy
+
+	# Speed up mirrors with reflector
+	sudo pacman -S --needed --noconfirm reflector
+	sudo sh -c "reflector >/etc/pacman.d/mirrorlist"
 
 	sudo pacman -S --needed --noconfirm \
 		alacritty \
@@ -75,6 +80,7 @@ function arch_install_base_packages() {
 		docker \
 		docker-compose \
 		fd \
+		stow \
 		fzf \
 		gdb \
 		go \
@@ -92,8 +98,6 @@ function arch_install_base_packages() {
 		kubectx \
 		kustomize \
 		lazygit \
-		llvm \
-		llvm-libs \
 		make \
 		minikube \
 		neovim \
@@ -138,7 +142,7 @@ function arch_install_yay() {
 	yay_path="$(which yay)"
 	set -e
 	if [[ ! -x "${yay_path}" ]]; then
-		git_makepkg https://aur.archlinux.org/yay
+		arch_git_makepkg https://aur.archlinux.org/yay
 	fi
 
 	popd

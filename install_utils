@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+export DIR_CODE="$HOME/code"
 export DIR_THIRD_PARTY="$HOME/third-party-packages"
 
 function pretty_print() {
@@ -48,7 +49,10 @@ function git_clone() {
 }
 
 function install_dirs() {
+	pretty_print "Installing Directories..." "yellow"
+	mkdir -p "$DIR_CODE"
 	mkdir -p "$DIR_THIRD_PARTY"
+	pretty_print "DONE installing Directories." "green"
 }
 
 function install_go_packages() {
@@ -120,4 +124,10 @@ function install_doom_emacs() {
 	$DOOM sync
 
 	pretty_print "DONE installing Doom Emacs." "green"
+}
+
+function install_shell() {
+	pretty_print "Installing Shell..." "yellow"
+	chsh -s "$(which zsh)"
+	pretty_print "DONE installing Shell..." "green"
 }
