@@ -128,6 +128,7 @@ function arch_install_base_packages() {
 		zsh-autosuggestions \
 		zsh-completions \
 		zsh-syntax-highlighting
+
 	pretty_print "DONE installing Arch Base Packages." "green"
 }
 
