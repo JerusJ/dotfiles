@@ -73,6 +73,7 @@ function arch_install_base_packages() {
 		aws-cli \
 		base-devel \
 		chromium \
+		cmake \
 		dagger \
 		direnv \
 		dive \
