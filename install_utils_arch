@@ -57,7 +57,6 @@ function arch_tune_makepkg() {
 	pretty_print "DONE tuning Arch Makepkg Conf to use all available cores and native architecture." "green"
 }
 
-
 function arch_install_base_packages() {
 	pretty_print "Installing Arch Base Packages..." "yellow"
 
@@ -80,7 +79,7 @@ function arch_install_base_packages() {
 		docker \
 		docker-compose \
 		fd \
-		stow \
+		firefox \
 		fzf \
 		gdb \
 		go \
@@ -112,6 +111,7 @@ function arch_install_base_packages() {
 		shellcheck \
 		shfmt \
 		sof-firmware \
+		stow \
 		terraform \
 		texlab \
 		texlive \
@@ -128,7 +128,6 @@ function arch_install_base_packages() {
 		zsh-autosuggestions \
 		zsh-completions \
 		zsh-syntax-highlighting
-
 	pretty_print "DONE installing Arch Base Packages." "green"
 }
 
