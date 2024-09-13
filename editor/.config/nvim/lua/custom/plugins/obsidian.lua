@@ -1,7 +1,7 @@
 return {
 	"epwalsh/obsidian.nvim",
 	version = "*", -- recommended, use latest release instead of latest commit
-	lazy = true,
+	lazy = false,
 	ft = "markdown",
 	-- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
 	-- event = {
@@ -18,58 +18,39 @@ return {
 		-- see below for full list of optional dependencies 👇
 	},
 
-	opts = {
-		-- otherwise this is some WHACKY RANDOM ID, "Zettelkasten" format... The heck?
-		note_id_func = function(title)
-			return title
-		end,
+	config = function()
+		local obsidian = require("obsidian")
 
-		mappings = {
-			["<leader>nn"] = {
-				action = function()
-					return require("obsidian.mapping").new_note()
-				end,
-				opts = { noremap = false, expr = true, buffer = true },
-			},
-			-- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-			["gf"] = {
-				action = function()
-					return require("obsidian").util.gf_passthrough()
-				end,
-				opts = { noremap = false, expr = true, buffer = true },
-			},
-			-- Toggle check-boxes.
-			["<leader>ch"] = {
-				action = function()
-					return require("obsidian").util.toggle_checkbox()
-				end,
-				opts = { buffer = true },
-			},
-			-- Smart action depending on context, either follow link or toggle checkbox.
-			["<cr>"] = {
-				action = function()
-					return require("obsidian").util.smart_action()
-				end,
-				opts = { buffer = true, expr = true },
-			},
-		},
-		workspaces = {
-			{
-				name = "personal",
-				path = "~/vaults/personal",
-			},
-			{
-				name = "work",
-				path = "~/vaults/work",
-			},
-		},
+		obsidian.setup({
+			open_notes_in = "vsplit",
 
-		templates = {
-			folder = "templates",
-			date_format = "%Y-%m-%d-%a",
-			time_format = "%H:%M",
-			-- A map for custom variables, the key should be the variable and the value a function
-			substitutions = {},
-		},
-	},
+			-- otherwise this is some WHACKY RANDOM ID, "Zettelkasten" format... The heck?
+			note_id_func = function(title)
+				return title
+			end,
+
+			workspaces = {
+				{
+					name = "personal",
+					path = "~/vaults/personal",
+				},
+				{
+					name = "work",
+					path = "~/vaults/work",
+				},
+			},
+			templates = {
+				folder = "templates",
+				date_format = "%Y-%m-%d-%a",
+				time_format = "%H:%M",
+				-- A map for custom variables, the key should be the variable and the value a function
+				substitutions = {},
+			},
+		})
+
+		vim.keymap.set("n", "<leader>nn", "<cmd>ObsidianNew<cr>")
+		vim.keymap.set("n", "<leader>ns", "<cmd>ObsidianSearch<cr>")
+		vim.keymap.set("n", "<leader>nb", "<cmd>ObsidianQuickSwitch<cr>")
+		vim.keymap.set("n", "<leader>np", "<cmd>ObsidianPasteImg<cr>")
+	end,
 }
