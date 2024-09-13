@@ -122,6 +122,7 @@ function arch_install_base_packages() {
 		ttf-firacode-nerd \
 		unzip \
 		wget \
+		xclip \
 		yq \
 		zathura \
 		zip \
