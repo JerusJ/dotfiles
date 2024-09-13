@@ -2,6 +2,9 @@
 
 export DIR_CODE="$HOME/code"
 export DIR_THIRD_PARTY="$HOME/third-party-packages"
+export DIR_NOTES_ROOT="$HOME/vaults"
+export DIR_NOTES_PERSONAL="$DIR_NOTES_ROOT/personal"
+export DIR_NOTES_WORK="$DIR_NOTES_ROOT/work"
 
 function pretty_print() {
 	local message=$1
@@ -35,6 +38,8 @@ function git_clone() {
 		exit 1
 	fi
 	if [ -z "$dest" ]; then
+		mkdir -p "$DIR_NOTES_PERSONAL"
+		mkdir -p "$DIR_NOTES_WORK"
 		dest=$(echo "$repo" | rev | cut -d "/" -f 1 | rev)
 	fi
 
@@ -50,8 +55,13 @@ function git_clone() {
 
 function install_dirs() {
 	pretty_print "Installing Directories..." "yellow"
+
 	mkdir -p "$DIR_CODE"
 	mkdir -p "$DIR_THIRD_PARTY"
+	mkdir -p "$DIR_NOTES_ROOT"
+	git_clone "git@github.com:JerusJ/notes-personal.git" "$DIR_NOTES_PERSONAL"
+	mkdir -p "$DIR_NOTES_WORK"
+
 	pretty_print "DONE installing Directories." "green"
 }
 
