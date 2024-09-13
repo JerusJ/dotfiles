@@ -68,11 +68,6 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
---
--- Obsidian Configurations
--- See: https://github.com/epwalsh/obsidian.nvim/issues/286
-vim.opt_local.conceallevel = 2
-
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
