@@ -77,8 +77,6 @@ function arch_install_base_packages() {
 		dagger \
 		direnv \
 		dive \
-		docker \
-		docker-compose \
 		fd \
 		firefox \
 		fzf \
@@ -132,6 +130,19 @@ function arch_install_base_packages() {
 		zsh-syntax-highlighting
 
 	pretty_print "DONE installing Arch Base Packages." "green"
+}
+
+function arch_install_docker() {
+	pretty_print "Installing Docker..." "green"
+
+	sudo pacman -S --needed --noconfirm \
+		docker \
+		docker-compose
+
+	sudo usermod -aG docker "$USER"
+	sudo systemctl enable docker
+
+	pretty_print "DONE installing Docker." "green"
 }
 
 function arch_install_yay() {
