@@ -333,6 +333,8 @@ export PATH=$PATH:"$HOME/.cargo/bin"
 
 # Node
 export NVM_DIR="$HOME/.nvm"
+export NODE_VERSIONS="${NVM_DIR}/versions/node"
+export NODE_VERSIONS_PREFIX="v"
 export NPM_MODULES_DIR="$HOME/.npm_global"
 export PATH=$PATH:"${NPM_MODULES_DIR}"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

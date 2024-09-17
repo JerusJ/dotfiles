@@ -1,6 +1,7 @@
 realpath() {
     [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
 }
+
 layout_python-venv() {
     local python=${1:-python3}
     [[ $# -gt 0 ]] && shift
@@ -24,4 +25,47 @@ layout_python-venv() {
 
     PATH="${VIRTUAL_ENV}/bin:${PATH}"
     export PATH
+}
+
+# inspired from: https://gist.github.com/gudleik/7ae3ef00f42440671f16
+layout_node() {
+    # Check if 'n' is installed
+    if ! command -v n >/dev/null 2>&1; then
+        echo "Error: 'n' is not installed. Please install it first with 'npm install -g n'."
+        exit 1
+    fi
+
+    # Specify the Node.js version you want to use
+    NODE_VERSION="10.13.0" # Change this to your desired version
+
+    # Set N_PREFIX to a local directory in your project
+    export N_PREFIX="$PWD/.n"
+
+    # Add N_PREFIX/bin to PATH
+    export PATH="$N_PREFIX/bin:$PATH"
+
+    # Function to check if the desired Node.js version is installed
+    check_node_version() {
+        if [ -x "$N_PREFIX/bin/node" ]; then
+            INSTALLED_VERSION="$("$N_PREFIX/bin/node" -v)"
+            if [ "$INSTALLED_VERSION" = "v$NODE_VERSION" ]; then
+                return 0
+            fi
+        fi
+        return 1
+    }
+
+    # Install the Node.js version if not already installed
+    if ! check_node_version; then
+        echo "Installing Node.js version $NODE_VERSION..."
+        N_PREFIX="$N_PREFIX" n "$NODE_VERSION"
+    fi
+
+    # Verify installation
+    if check_node_version; then
+        echo "Node.js version $NODE_VERSION is now active."
+    else
+        echo "Failed to install Node.js version $NODE_VERSION."
+        exit 1
+    fi
 }
