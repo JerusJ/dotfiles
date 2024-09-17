@@ -121,6 +121,7 @@ function arch_install_base_packages() {
 		unzip \
 		wget \
 		xclip \
+		xsel \
 		yq \
 		zathura \
 		zip \
