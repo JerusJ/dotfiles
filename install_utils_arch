@@ -97,6 +97,8 @@ function arch_install_base_packages() {
 		kustomize \
 		lazygit \
 		make \
+		maim \
+		tidy \
 		minikube \
 		neovim \
 		nerd-fonts \
@@ -228,6 +230,7 @@ function arch_install_aur_packages() {
 
 	yay -S --needed --noconfirm \
 		python2 \
+		grip \
 		emacs-nativecomp \
 		github-cli-git \
 		golangci-lint \

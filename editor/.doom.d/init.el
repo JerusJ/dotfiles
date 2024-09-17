@@ -20,13 +20,15 @@
        ;;layout                    ; auie,ctsrnm is the superior home row
 
        :completion
-       (corfu)
+       (company +childframe)
+       ;; (corfu)
        ;;(helm
        ;;+fuzzy
        ;;+icons)
        ;;ido                       ; the other *other* search engine...
-       (vertico
-        +icons)                    ; a search engine for love and life
+       (ivy +icons)
+       ;; (vertico
+       ;;  +icons)                 ; a search engine for love and life
 
        :ui
        ;;deft                      ; notational velocity for Emacs

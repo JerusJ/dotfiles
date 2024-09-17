@@ -82,6 +82,8 @@ function install_go_packages() {
 	go install golang.org/x/tools/cmd/guru@latest
 	go install golang.org/x/tools/gopls@latest
 
+	go install github.com/jessfraz/dockfmt@latest
+
 	pretty_print "DONE installing Go Packages." "green"
 }
 
