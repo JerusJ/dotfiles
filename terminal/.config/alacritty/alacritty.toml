@@ -21,21 +21,20 @@ TERM = "xterm-256color"
 [font]
 size = 10.0
 
-
 [font.glyph_offset]
 x = 0
 y = 0
 
 [font.normal]
-family = "Droid Sans Mono"
+family = "IosevkaTerm Nerd Font"
 style = "Regular"
 
 [font.bold]
-family = "Droid Sans Mono"
+family = "IosevkaTerm Nerd Font"
 style = "Bold"
 
 [font.italic]
-family = "Droid Sans Mono"
+family = "IosevkaTerm Nerd Font"
 style = "Italic"
 
 

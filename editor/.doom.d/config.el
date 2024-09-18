@@ -39,8 +39,8 @@
 ;; Fonts
 (cond
  ((string-equal system-type "gnu/linux")
-  (setq doom-font (font-spec :family "DroidSansM Nerd Font" :size 17 :weight 'normal)
-        doom-variable-pitch-font (font-spec :family "DroidSansM Nerd Font" :size 17))))
+  (setq doom-font (font-spec :family "IosevkaTerm Nerd Font" :size 17 :weight 'normal)
+        doom-variable-pitch-font (font-spec :family "IosevkaTerm Nerd Font" :size 17))))
 (cond
  ((string-equal system-type "darwin")
   (setq doom-font (font-spec :family "Monaco" :size 17 :weight 'normal)
@@ -156,7 +156,6 @@
   (if (get-buffer-process "*compilation*")
       (kill-compilation))
   (recompile))
-
 
 (map!
  :m "<f6>" #'save-all-and-compile
