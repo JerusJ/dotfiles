@@ -150,6 +150,7 @@ return { -- LSP Configuration & Plugins
 			--  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
 			--  - settings (table): Override the default settings passed when initializing the server.
 			--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+			-- NOTE(jesse): for settings = {} of each, see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
 			local servers = {
 				clangd = {},
 				bashls = {},
@@ -159,6 +160,7 @@ return { -- LSP Configuration & Plugins
 				jsonls = {},
 				terraformls = {},
 				texlab = {},
+				ts_ls = {},
 
 				yamlls = {
 					settings = {
