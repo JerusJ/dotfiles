@@ -2,8 +2,6 @@
 return {
 	"typicode/bg.nvim",
 
-	"ellisonleao/gruvbox.nvim",
-
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
@@ -16,5 +14,5 @@ return {
 
 	"sainnhe/everforest",
 
-	"savq/melange-nvim"
+	"savq/melange-nvim",
 }
