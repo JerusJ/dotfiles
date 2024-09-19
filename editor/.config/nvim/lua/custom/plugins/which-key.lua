@@ -13,6 +13,7 @@ return {
 				{ "<leader>n", group = "Notes" },
 				{ "<leader>q", group = "Quit" },
 				{ "<leader>s", group = "Search" },
+				{ "<leader>x", group = "Diagnostics" },
 			})
 		end,
 	},
