@@ -5,6 +5,7 @@ set -e
 SCRIPT_DIR=$(dirname "$0")
 
 source "$SCRIPT_DIR/install_utils"
+source "$SCRIPT_DIR/install_utils_crossplatform"
 source "$SCRIPT_DIR/install_utils_arch"
 source "$SCRIPT_DIR/install_utils_ubuntu"
 source "$SCRIPT_DIR/install_utils_mac"
@@ -31,17 +32,6 @@ function main() {
 			ubuntu_set_sources
 			ubuntu_install_base_packages
 			ubuntu_install_emacs
-			install_yq
-			install_golang
-			install_fzf
-			install_cmake
-			install_ripgrep
-			install_shellcheck
-			install_awscli
-			ubuntu_install_kubernetes_tools
-			ubuntu_install_terraform
-			ubuntu_install_packer
-			ubuntu_install_additional_tools
 		else
 			pretty_print "!!! Unsupported Linux distribution. Exiting..." "red"
 			cat /etc/os-release
@@ -58,7 +48,22 @@ function main() {
 		exit 1
 	fi
 
+	# Cross platform tools
+	# install_alacritty
+	install_yq
+	install_golang
+	install_fzf
+	install_cmake
+	install_ripgrep
+	install_shellcheck
+	install_awscli
+	install_kubernetes_tools
+	install_terraform
+	install_packer
+	install_additional_tools
+
 	# Generic
+	install_fonts
 	install_git_repos
 	install_tmux_tpm
 	install_go_packages

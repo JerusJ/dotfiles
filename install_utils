@@ -11,6 +11,29 @@ export DIR_NOTES_WORK="$DIR_NOTES_ROOT/work"
 export TERRAFORM_VERSION="1.9.6"
 export PACKER_VERSION="1.11.2"
 
+
+declare -a FONTS=(
+    BitstreamVeraSansMono
+    CodeNewRoman
+    DroidSansMono
+    FiraCode
+    FiraMono
+    Go-Mono
+    Hack
+    Hermit
+    JetBrainsMono
+    Meslo
+    Noto
+    Overpass
+    ProggyClean
+    RobotoMono
+    SourceCodePro
+    SpaceMono
+    Ubuntu
+    UbuntuMono
+)
+
+
 function pretty_print() {
 	local message=$1
 	local color=$2
@@ -86,93 +109,3 @@ function git_clone() {
 	fi
 }
 
-function install_dirs() {
-	pretty_print "Installing Directories..." "yellow"
-
-	mkdir -p "$DIR_CODE"
-	mkdir -p "$DIR_THIRD_PARTY"
-	mkdir -p "$DIR_NOTES_ROOT"
-	git_clone "git@github.com:JerusJ/notes-personal.git" "$DIR_NOTES_PERSONAL"
-	mkdir -p "$DIR_NOTES_WORK"
-
-	pretty_print "DONE installing Directories." "green"
-}
-
-function install_go_packages() {
-	pretty_print "Installing Go Packages..." "yellow"
-
-	export GO111MODULE=on
-
-	go install github.com/cweill/gotests/...@latest
-	go install github.com/fatih/gomodifytags@latest
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-	go install github.com/x-motemen/gore/cmd/gore@latest
-	go install github.com/rogpeppe/godef@latest
-	go install github.com/stamblerre/gocode@latest
-	go install golang.org/x/tools/cmd/godoc@latest
-	go install golang.org/x/tools/cmd/goimports@latest
-	go install golang.org/x/tools/cmd/gorename@latest
-	go install golang.org/x/tools/cmd/guru@latest
-	go install golang.org/x/tools/gopls@latest
-
-	go install github.com/jessfraz/dockfmt@latest
-
-	pretty_print "DONE installing Go Packages." "green"
-}
-
-function install_git_repos() {
-	pretty_print "Installing Git Repositories..." "yellow"
-
-	git_clone https://github.com/unixorn/fzf-zsh-plugin.git ~/fzf-zsh-plugin
-	git_clone https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-	git_clone https://github.com/junegunn/fzf ~/.fzf
-	git_clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-	git_clone https://github.com/hlissner/doom-emacs ~/.emacs.d
-
-	pretty_print "DONE installing Git Repositories." "green"
-}
-
-function install_tmux_tpm() {
-	pretty_print "Installing Tmux Plugins..." "yellow"
-
-	$HOME/.tmux/plugins/tpm/bin/install_plugins
-
-	pretty_print "DONE installing Tmux Plugins." "green"
-}
-
-function install_node_packages() {
-	pretty_print "Installing Node Packages..." "yellow"
-
-	NODE_DIR="$HOME/.npm_global"
-	echo "--> Installing Node packages to NODE_DIR: '${NODE_DIR}'"
-
-	mkdir -p "${NODE_DIR}"
-	npm config set prefix "${NODE_DIR}"
-	npm install --global \
-		bash-language-server \
-		typescript-language-server \
-		prettier \
-		pyright \
-		stylelint \
-		js-beautify \
-		yarn \
-		n
-
-	pretty_print "DONE installing Node Packages." "green"
-}
-
-function install_doom_emacs() {
-	pretty_print "Installing Doom Emacs..." "yellow"
-
-	DOOM="$HOME/.emacs.d/bin/doom "
-	$DOOM install
-	$DOOM sync
-
-	pretty_print "DONE installing Doom Emacs." "green"
-}
-
-function install_shell() {
-	pretty_print "Installing Shell..." "yellow"
-	chsh -s "$(which zsh)"
-	pretty_print "DONE installing Shell..." "green"
-}
