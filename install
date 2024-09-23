@@ -5,10 +5,10 @@ set -e
 SCRIPT_DIR=$(dirname "$0")
 
 source "$SCRIPT_DIR/install_utils"
-source "$SCRIPT_DIR/install_utils_crossplatform"
-source "$SCRIPT_DIR/install_utils_arch"
-source "$SCRIPT_DIR/install_utils_ubuntu"
-source "$SCRIPT_DIR/install_utils_mac"
+source "$SCRIPT_DIR/install_crossplatform"
+source "$SCRIPT_DIR/install_arch"
+source "$SCRIPT_DIR/install_ubuntu"
+source "$SCRIPT_DIR/install_mac"
 
 function main() {
 	pretty_print "Installing everything..." "yellow"
