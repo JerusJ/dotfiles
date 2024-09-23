@@ -45,7 +45,7 @@ return {
 			pcall(require("telescope").load_extension, "git_worktree")
 
 			vim.keymap.set("n", "<leader>fr", require("telescope.builtin").oldfiles, { desc = "Recently opened" })
-			vim.keymap.set("n", "<leader><space>", require("telescope.builtin").buffers, { desc = "Open buffers" })
+			vim.keymap.set("n", "<leader>b", require("telescope.builtin").buffers, { desc = "Open buffers" })
 			vim.keymap.set(
 				"n",
 				"<leader>sb",
@@ -53,7 +53,7 @@ return {
 				{ desc = "Search current buffer" }
 			)
 			vim.keymap.set("n", "<leader>sB", require("telescope.builtin").buffers, { desc = "Search ALL buffers" })
-			vim.keymap.set("n", "<leader>sf", require("telescope.builtin").find_files, { desc = "Files" })
+			vim.keymap.set("n", "<leader><leader>", require("telescope.builtin").find_files, { desc = "Files" })
 			vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "Help" })
 			vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "Current word" })
 			vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "Grep" })
