@@ -6,6 +6,7 @@ SCRIPT_DIR=$(dirname "$0")
 
 source "$SCRIPT_DIR/install_utils"
 source "$SCRIPT_DIR/install_utils_arch"
+source "$SCRIPT_DIR/install_utils_ubuntu"
 source "$SCRIPT_DIR/install_utils_mac"
 
 function main() {
@@ -15,7 +16,7 @@ function main() {
 
 	# Platform-specific
 	if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-		if [[ -f /etc/arch-release ]]; then
+		if grep -qi "arch" /etc/os-release; then
 			pretty_print "Running on Arch Linux" "blue"
 
 			arch_tune_makepkg
@@ -24,8 +25,18 @@ function main() {
 			arch_install_yay
 			arch_install_playwright_deps
 			arch_install_aur_packages
+		elif grep -qi "ubuntu" /etc/os-release; then
+			pretty_print "Running on Ubuntu Linux" "blue"
+
+			ubuntu_install_base_packages
+			ubuntu_install_docker
+			ubuntu_install_terraform
+			ubuntu_install_kubernetes_tools
+			ubuntu_install_additional_tools
+			ubuntu_install_playwright_deps
 		else
 			pretty_print "!!! Unsupported Linux distribution. Exiting..." "red"
+			cat /etc/os-release
 			exit 1
 		fi
 
