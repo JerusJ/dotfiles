@@ -4,6 +4,41 @@ set -e
 
 SCRIPT_DIR=$(dirname "$0")
 
+export DIR_CODE="$HOME/code"
+export DIR_THIRD_PARTY="$HOME/third-party-packages"
+export DIR_THIRD_PARTY_FONTS="$HOME/third-party-packages/fonts"
+export DIR_THIRD_PARTY_WORK="$HOME/third-party-packages/dotfiles_install_work"
+export DIR_NOTES_ROOT="$HOME/vaults"
+export DIR_NOTES_PERSONAL="$DIR_NOTES_ROOT/personal"
+export DIR_NOTES_WORK="$DIR_NOTES_ROOT/work"
+
+# Pinned package versions
+export TERRAFORM_VERSION="1.9.6"
+export PACKER_VERSION="1.11.2"
+
+# Fonts
+declare -a FONTS=(
+    BitstreamVeraSansMono
+    CodeNewRoman
+    DroidSansMono
+    FiraCode
+    FiraMono
+    Go-Mono
+    Hack
+    Hermit
+    JetBrainsMono
+    Meslo
+    Noto
+    Overpass
+    ProggyClean
+    RobotoMono
+    SourceCodePro
+    SpaceMono
+    Ubuntu
+    UbuntuMono
+)
+export FONTS
+
 source "$SCRIPT_DIR/install_utils"
 source "$SCRIPT_DIR/install_crossplatform"
 source "$SCRIPT_DIR/install_arch"
@@ -50,6 +85,8 @@ function main() {
 
 	# Cross platform tools
 	# install_alacritty
+	pushd "$DIR_THIRD_PARTY_WORK"
+	install_neovim
 	install_yq
 	install_golang
 	install_fzf
@@ -61,6 +98,7 @@ function main() {
 	install_terraform
 	install_packer
 	install_additional_tools
+	popd
 
 	# Generic
 	install_fonts

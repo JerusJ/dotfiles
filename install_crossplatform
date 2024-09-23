@@ -14,17 +14,20 @@ function install_fonts() {
 
 	for font in "${FONTS[@]}"; do
 	    zip_file="${font}.zip"
-            font_dir="${fonts_dir}/${font}"
+            zip_dest="$DIR_THIRD_PARTY_FONTS/${zip_file}"
 	    download_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v${version}/${zip_file}"
 
+            font_pattern="${font}*.{ttf,otf}"
+
             # Check if the font already exists by checking the font directory
-            if [[ -d "$font_dir" ]]; then
-                echo "Font $font already exists, skipping download."
+            if compgen -G "${fonts_dir}/${font_pattern}" >/dev/null; then
+                pretty_print "Font $font_pattern already exists, skipping download." "green"
+            elif [ -f "$zip_dest" ]; then
+                pretty_print "Font zip file $zip_dest already exists, skipping download." "green"
             else
-                echo "Downloading $download_url"
-                wget "$download_url"
-                unzip -n "$zip_file" -d "$fonts_dir"
-                rm "$zip_file"
+                pretty_print "Downloading font: $download_url" "yellow"
+                wget "$download_url" -O "$zip_dest"
+                unzip -n "$zip_dest" -d "$fonts_dir"
             fi
         done
 
@@ -32,7 +35,35 @@ function install_fonts() {
 
 	fc-cache -fv
 
-        pretty_print "DONE installing fonts..." "green"
+        pretty_print "DONE installing fonts." "green"
+}
+
+function install_neovim() {
+    if ! command_exists nvim; then
+        pretty_print "Installing neovim..." "yellow"
+
+          # Define the GitHub API URL for the latest Neovim release
+          local latest_release_url="https://api.github.com/repos/neovim/neovim/releases/latest"
+
+          # Fetch the latest release information and extract the download URL for the Linux tar.gz file
+          local download_url
+          download_url=$(curl -s $latest_release_url | grep "browser_download_url.*linux64.tar.gz" | cut -d '"' -f 4 | tr -d "'")
+
+          # Download the tar.gz file to /tmp
+          curl -L -o /tmp/nvim-linux64.tar.gz $download_url
+
+          # Extract the tar.gz file
+          tar -xzf /tmp/nvim-linux64.tar.gz -C /tmp
+
+          # Install Neovim by copying it to /usr/local
+          sudo cp -r /tmp/nvim-linux64/* /usr/local/
+
+          # Clean up
+          rm -rf /tmp/nvim-linux64 /tmp/nvim-linux64.tar.gz
+
+    else
+        pretty_print "DONE installing neovim." "green"
+    fi
 }
 
 function install_alacritty() {
@@ -106,10 +137,6 @@ function install_golang() {
         wget -q https://dl.google.com/go/${GO_VERSION}.linux-amd64.tar.gz
         sudo tar -C /usr/local -xzf ${GO_VERSION}.linux-amd64.tar.gz
         rm ${GO_VERSION}.linux-amd64.tar.gz
-        if ! grep -q '/usr/local/go/bin' ~/.profile; then
-            echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.profile
-            export PATH=$PATH:/usr/local/go/bin
-        fi
         pretty_print "Go installed." "green"
     else
         pretty_print "Go is already installed." "green"
@@ -321,6 +348,8 @@ function install_dirs() {
 
 	mkdir -p "$DIR_CODE"
 	mkdir -p "$DIR_THIRD_PARTY"
+	mkdir -p "$DIR_THIRD_PARTY_WORK"
+	mkdir -p "$DIR_THIRD_PARTY_FONTS"
 	mkdir -p "$DIR_NOTES_ROOT"
 	git_clone "git@github.com:JerusJ/notes-personal.git" "$DIR_NOTES_PERSONAL"
 	mkdir -p "$DIR_NOTES_WORK"
@@ -333,6 +362,7 @@ function install_go_packages() {
 
 	export GO111MODULE=on
 
+        # LSP
 	go install github.com/cweill/gotests/...@latest
 	go install github.com/fatih/gomodifytags@latest
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
@@ -345,7 +375,10 @@ function install_go_packages() {
 	go install golang.org/x/tools/cmd/guru@latest
 	go install golang.org/x/tools/gopls@latest
 
+        # Binaries
 	go install github.com/jessfraz/dockfmt@latest
+        go install github.com/gsamokovarov/jump@latest
+        go install github.com/cli/cli/v2/cmd/gh@latest
 
 	pretty_print "DONE installing Go Packages." "green"
 }
@@ -358,6 +391,7 @@ function install_git_repos() {
 	git_clone https://github.com/junegunn/fzf ~/.fzf
 	git_clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 	git_clone https://github.com/hlissner/doom-emacs ~/.emacs.d
+        git_clone https://github.com/jonmosco/kube-ps1.git "${DIR_THIRD_PARTY}/kube-ps1"
 
 	pretty_print "DONE installing Git Repositories." "green"
 }

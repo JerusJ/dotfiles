@@ -17,37 +17,38 @@ function ubuntu_install_base_packages() {
 
     # Install packages via apt
     sudo apt install -y \
+        autoconf \
         build-essential \
-        git \
-        nodejs \
-        npm \
         curl \
+        direnv \
+        fonts-powerline \
         gdb \
+        git \
         htop \
         hunspell \
         i3-wm \
         i3status \
+        imagemagick \
         jq \
+        libgtkmm-3.0-dev \
         make \
+        nodejs \
+        npm \
+        protobuf-compiler \
         python3-pip \
         rofi \
         software-properties-common \
         stow \
+        texinfo \
         tmux \
         unzip \
         wget \
         xclip \
-        imagemagick \
         xsel \
         zathura \
         zip \
         zsh \
-        autoconf \
-        texinfo \
-        zsh-syntax-highlighting \
-        libgtkmm-3.0-dev \
-        fonts-powerline \
-        protobuf-compiler
+        zsh-syntax-highlighting
 
     # Install fd as 'fd' instead of 'fdfind'
     if ! command_exists fd; then

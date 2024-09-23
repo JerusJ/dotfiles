@@ -5,6 +5,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+export DIR_THIRD_PARTY="$HOME/third-party-packages"
+
 plugins=(
   aws
   git
@@ -306,7 +308,7 @@ function switchgo() {
 # =============
 #    PROMPT
 # =============
-source '/opt/kube-ps1/kube-ps1.sh'
+source $DIR_THIRD_PARTY/kube-ps1/kube-ps1.sh
 PROMPT='$(kube_ps1)'$PROMPT
 
 # ===================
