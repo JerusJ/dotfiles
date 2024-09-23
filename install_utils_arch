@@ -1,15 +1,5 @@
 #!/usr/bin/env bash
 
-# NOTE(jesse): from: https://github.com/emilwojcik93/aur-boost/blob/main/aur-boost.sh
-function findStringFn() {
-	# grep values in file
-	if grep -q "${1}" ${2}; then
-		return 0
-	else
-		return 1
-	fi
-}
-
 function arch_git_makepkg() {
 	repo=$1
 	dest=$2
