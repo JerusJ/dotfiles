@@ -28,12 +28,20 @@ function main() {
 		elif grep -qi "ubuntu" /etc/os-release; then
 			pretty_print "Running on Ubuntu Linux" "blue"
 
+			ubuntu_set_sources
 			ubuntu_install_base_packages
-			ubuntu_install_docker
-			ubuntu_install_terraform
+			ubuntu_install_emacs
+			install_yq
+			install_golang
+			install_fzf
+			install_cmake
+			install_ripgrep
+			install_shellcheck
+			install_awscli
 			ubuntu_install_kubernetes_tools
+			ubuntu_install_terraform
+			ubuntu_install_packer
 			ubuntu_install_additional_tools
-			ubuntu_install_playwright_deps
 		else
 			pretty_print "!!! Unsupported Linux distribution. Exiting..." "red"
 			cat /etc/os-release
@@ -51,12 +59,12 @@ function main() {
 	fi
 
 	# Generic
-	install_git_repos &
-	install_tmux_tpm &
-	install_go_packages &
-	install_node_packages &
-	install_doom_emacs &
-	install_shell &
+	install_git_repos
+	install_tmux_tpm
+	install_go_packages
+	install_node_packages
+	install_shell
+	install_doom_emacs
 
 	wait
 

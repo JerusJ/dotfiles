@@ -367,3 +367,8 @@ source $HOME/fzf-zsh-plugin/fzf-zsh-plugin.plugin.zsh
 
 export PROMPT_COMMAND='if [ -d .git -a ! -x .git/hooks/pre-commit -a -e .pre-commit-config.yaml ] && which pre-commit >& /dev/null; then pre-commit install; fi; '"$PROMPT_COMMAND"
 precmd() { eval "$PROMPT_COMMAND" }
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
