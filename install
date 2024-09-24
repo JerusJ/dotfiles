@@ -26,6 +26,7 @@ declare -a FONTS=(
     Go-Mono
     Hack
     Hermit
+    IosevkaTerm
     JetBrainsMono
     Meslo
     Noto

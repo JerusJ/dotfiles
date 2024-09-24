@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -eoux
-
 function install_fonts() {
         pretty_print "Installing Fonts..." "yellow"
 
@@ -375,10 +373,11 @@ function install_go_packages() {
 	go install golang.org/x/tools/cmd/guru@latest
 	go install golang.org/x/tools/gopls@latest
 
-        # Binaries
+        # CLI Utilities
 	go install github.com/jessfraz/dockfmt@latest
         go install github.com/gsamokovarov/jump@latest
         go install github.com/cli/cli/v2/cmd/gh@latest
+        go install mvdan.cc/sh/v3/cmd/shfmt@latest
 
 	pretty_print "DONE installing Go Packages." "green"
 }

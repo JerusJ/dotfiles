@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-set -eoux
-
-
 # Because of: https://askubuntu.com/questions/1512042/ubuntu-24-04-getting-error-you-must-put-some-deb-src-uris-in-your-sources-list
 function ubuntu_set_sources() {
     if ! grep -q '^Types: deb deb-src$' /etc/apt/sources.list.d/ubuntu.sources; then
