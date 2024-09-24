@@ -8,3 +8,7 @@ My personal dotfiles
 ##  Install all Dependencies and Copy Dotfiles
 
 `make`
+
+## Dependencies
+
+`stow`: https://www.gnu.org/software/stow/
