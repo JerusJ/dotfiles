@@ -18,25 +18,25 @@ export PACKER_VERSION="1.11.2"
 
 # Fonts
 declare -a FONTS=(
-    BitstreamVeraSansMono
-    CodeNewRoman
-    DroidSansMono
-    FiraCode
-    FiraMono
-    Go-Mono
-    Hack
-    Hermit
-    IosevkaTerm
-    JetBrainsMono
-    Meslo
-    Noto
-    Overpass
-    ProggyClean
-    RobotoMono
-    SourceCodePro
-    SpaceMono
-    Ubuntu
-    UbuntuMono
+	BitstreamVeraSansMono
+	CodeNewRoman
+	DroidSansMono
+	FiraCode
+	FiraMono
+	Go-Mono
+	Hack
+	Hermit
+	IosevkaTerm
+	JetBrainsMono
+	Meslo
+	Noto
+	Overpass
+	ProggyClean
+	RobotoMono
+	SourceCodePro
+	SpaceMono
+	Ubuntu
+	UbuntuMono
 )
 export FONTS
 

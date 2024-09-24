@@ -1,63 +1,63 @@
 #!/usr/bin/env bash
 
 function install_fonts() {
-        pretty_print "Installing Fonts..." "yellow"
+    pretty_print "Installing Fonts..." "yellow"
 
-	version="3.2.1"
-	fonts_dir="${HOME}/.local/share/fonts"
+    version="3.2.1"
+    fonts_dir="${HOME}/.local/share/fonts"
 
-	if [[ ! -d "$fonts_dir" ]]; then
-	    mkdir -p "$fonts_dir"
-	fi
+    if [[ ! -d "$fonts_dir" ]]; then
+        mkdir -p "$fonts_dir"
+    fi
 
-	for font in "${FONTS[@]}"; do
-	    zip_file="${font}.zip"
-            zip_dest="$DIR_THIRD_PARTY_FONTS/${zip_file}"
-	    download_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v${version}/${zip_file}"
+    for font in "${FONTS[@]}"; do
+        zip_file="${font}.zip"
+        zip_dest="$DIR_THIRD_PARTY_FONTS/${zip_file}"
+        download_url="https://github.com/ryanoasis/nerd-fonts/releases/download/v${version}/${zip_file}"
 
-            font_pattern="${font}*.{ttf,otf}"
+        font_pattern="${font}*.{ttf,otf}"
 
-            # Check if the font already exists by checking the font directory
-            if compgen -G "${fonts_dir}/${font_pattern}" >/dev/null; then
-                pretty_print "Font $font_pattern already exists, skipping download." "green"
-            elif [ -f "$zip_dest" ]; then
-                pretty_print "Font zip file $zip_dest already exists, skipping download." "green"
-            else
-                pretty_print "Downloading font: $download_url" "yellow"
-                wget "$download_url" -O "$zip_dest"
-                unzip -n "$zip_dest" -d "$fonts_dir"
-            fi
-        done
+        # Check if the font already exists by checking the font directory
+        if compgen -G "${fonts_dir}/${font_pattern}" >/dev/null; then
+            pretty_print "Font $font_pattern already exists, skipping download." "green"
+        elif [ -f "$zip_dest" ]; then
+            pretty_print "Font zip file $zip_dest already exists, skipping download." "green"
+        else
+            pretty_print "Downloading font: $download_url" "yellow"
+            wget "$download_url" -O "$zip_dest"
+            unzip -n "$zip_dest" -d "$fonts_dir"
+        fi
+    done
 
-	find "$fonts_dir" -name '*Windows Compatible*' -delete
+    find "$fonts_dir" -name '*Windows Compatible*' -delete
 
-	fc-cache -fv
+    fc-cache -fv
 
-        pretty_print "DONE installing fonts." "green"
+    pretty_print "DONE installing fonts." "green"
 }
 
 function install_neovim() {
     if ! command_exists nvim; then
         pretty_print "Installing neovim..." "yellow"
 
-          # Define the GitHub API URL for the latest Neovim release
-          local latest_release_url="https://api.github.com/repos/neovim/neovim/releases/latest"
+        # Define the GitHub API URL for the latest Neovim release
+        local latest_release_url="https://api.github.com/repos/neovim/neovim/releases/latest"
 
-          # Fetch the latest release information and extract the download URL for the Linux tar.gz file
-          local download_url
-          download_url=$(curl -s $latest_release_url | grep "browser_download_url.*linux64.tar.gz" | cut -d '"' -f 4 | tr -d "'")
+        # Fetch the latest release information and extract the download URL for the Linux tar.gz file
+        local download_url
+        download_url=$(curl -s $latest_release_url | grep "browser_download_url.*linux64.tar.gz" | cut -d '"' -f 4 | tr -d "'")
 
-          # Download the tar.gz file to /tmp
-          curl -L -o /tmp/nvim-linux64.tar.gz $download_url
+        # Download the tar.gz file to /tmp
+        curl -L -o /tmp/nvim-linux64.tar.gz $download_url
 
-          # Extract the tar.gz file
-          tar -xzf /tmp/nvim-linux64.tar.gz -C /tmp
+        # Extract the tar.gz file
+        tar -xzf /tmp/nvim-linux64.tar.gz -C /tmp
 
-          # Install Neovim by copying it to /usr/local
-          sudo cp -r /tmp/nvim-linux64/* /usr/local/
+        # Install Neovim by copying it to /usr/local
+        sudo cp -r /tmp/nvim-linux64/* /usr/local/
 
-          # Clean up
-          rm -rf /tmp/nvim-linux64 /tmp/nvim-linux64.tar.gz
+        # Clean up
+        rm -rf /tmp/nvim-linux64 /tmp/nvim-linux64.tar.gz
 
     else
         pretty_print "DONE installing neovim." "green"
@@ -86,7 +86,7 @@ function install_alacritty() {
 
         # Install the manpage
         sudo mkdir -p /usr/local/share/man/man1
-        gzip -c alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
+        gzip -c alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz >/dev/null
 
         # Install the shell completion
         sudo cp alacritty.bash /etc/bash_completion.d/
@@ -342,96 +342,96 @@ function install_additional_tools() {
 }
 
 function install_dirs() {
-	pretty_print "Installing Directories..." "yellow"
+    pretty_print "Installing Directories..." "yellow"
 
-	mkdir -p "$DIR_CODE"
-	mkdir -p "$DIR_THIRD_PARTY"
-	mkdir -p "$DIR_THIRD_PARTY_WORK"
-	mkdir -p "$DIR_THIRD_PARTY_FONTS"
-	mkdir -p "$DIR_NOTES_ROOT"
-	git_clone "git@github.com:JerusJ/notes-personal.git" "$DIR_NOTES_PERSONAL"
-	mkdir -p "$DIR_NOTES_WORK"
+    mkdir -p "$DIR_CODE"
+    mkdir -p "$DIR_THIRD_PARTY"
+    mkdir -p "$DIR_THIRD_PARTY_WORK"
+    mkdir -p "$DIR_THIRD_PARTY_FONTS"
+    mkdir -p "$DIR_NOTES_ROOT"
+    git_clone "git@github.com:JerusJ/notes-personal.git" "$DIR_NOTES_PERSONAL"
+    mkdir -p "$DIR_NOTES_WORK"
 
-	pretty_print "DONE installing Directories." "green"
+    pretty_print "DONE installing Directories." "green"
 }
 
 function install_go_packages() {
-	pretty_print "Installing Go Packages..." "yellow"
+    pretty_print "Installing Go Packages..." "yellow"
 
-	export GO111MODULE=on
+    export GO111MODULE=on
 
-        # LSP
-	go install github.com/cweill/gotests/...@latest
-	go install github.com/fatih/gomodifytags@latest
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
-	go install github.com/x-motemen/gore/cmd/gore@latest
-	go install github.com/rogpeppe/godef@latest
-	go install github.com/stamblerre/gocode@latest
-	go install golang.org/x/tools/cmd/godoc@latest
-	go install golang.org/x/tools/cmd/goimports@latest
-	go install golang.org/x/tools/cmd/gorename@latest
-	go install golang.org/x/tools/cmd/guru@latest
-	go install golang.org/x/tools/gopls@latest
+    # LSP
+    go install github.com/cweill/gotests/...@latest
+    go install github.com/fatih/gomodifytags@latest
+    go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+    go install github.com/x-motemen/gore/cmd/gore@latest
+    go install github.com/rogpeppe/godef@latest
+    go install github.com/stamblerre/gocode@latest
+    go install golang.org/x/tools/cmd/godoc@latest
+    go install golang.org/x/tools/cmd/goimports@latest
+    go install golang.org/x/tools/cmd/gorename@latest
+    go install golang.org/x/tools/cmd/guru@latest
+    go install golang.org/x/tools/gopls@latest
 
-        # CLI Utilities
-	go install github.com/jessfraz/dockfmt@latest
-        go install github.com/gsamokovarov/jump@latest
-        go install github.com/cli/cli/v2/cmd/gh@latest
-        go install mvdan.cc/sh/v3/cmd/shfmt@latest
+    # CLI Utilities
+    go install github.com/jessfraz/dockfmt@latest
+    go install github.com/gsamokovarov/jump@latest
+    go install github.com/cli/cli/v2/cmd/gh@latest
+    go install mvdan.cc/sh/v3/cmd/shfmt@latest
 
-	pretty_print "DONE installing Go Packages." "green"
+    pretty_print "DONE installing Go Packages." "green"
 }
 
 function install_git_repos() {
-	pretty_print "Installing Git Repositories..." "yellow"
+    pretty_print "Installing Git Repositories..." "yellow"
 
-	git_clone https://github.com/unixorn/fzf-zsh-plugin.git ~/fzf-zsh-plugin
-	git_clone https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-	git_clone https://github.com/junegunn/fzf ~/.fzf
-	git_clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-	git_clone https://github.com/hlissner/doom-emacs ~/.emacs.d
-        git_clone https://github.com/jonmosco/kube-ps1.git "${DIR_THIRD_PARTY}/kube-ps1"
+    git_clone https://github.com/unixorn/fzf-zsh-plugin.git ~/fzf-zsh-plugin
+    git_clone https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+    git_clone https://github.com/junegunn/fzf ~/.fzf
+    git_clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    git_clone https://github.com/hlissner/doom-emacs ~/.emacs.d
+    git_clone https://github.com/jonmosco/kube-ps1.git "${DIR_THIRD_PARTY}/kube-ps1"
 
-	pretty_print "DONE installing Git Repositories." "green"
+    pretty_print "DONE installing Git Repositories." "green"
 }
 
 function install_tmux_tpm() {
-	pretty_print "Installing Tmux Plugins..." "yellow"
+    pretty_print "Installing Tmux Plugins..." "yellow"
 
-	$HOME/.tmux/plugins/tpm/bin/install_plugins
+    $HOME/.tmux/plugins/tpm/bin/install_plugins
 
-	pretty_print "DONE installing Tmux Plugins." "green"
+    pretty_print "DONE installing Tmux Plugins." "green"
 }
 
 function install_node_packages() {
-	pretty_print "Installing Node Packages..." "yellow"
+    pretty_print "Installing Node Packages..." "yellow"
 
-	NODE_DIR="$HOME/.npm_global"
-	echo "--> Installing Node packages to NODE_DIR: '${NODE_DIR}'"
+    NODE_DIR="$HOME/.npm_global"
+    echo "--> Installing Node packages to NODE_DIR: '${NODE_DIR}'"
 
-	mkdir -p "${NODE_DIR}"
-	npm config set prefix "${NODE_DIR}"
-	npm install --global \
-		bash-language-server \
-		typescript-language-server \
-		prettier \
-		pyright \
-		stylelint \
-		js-beautify \
-		yarn \
-		n
+    mkdir -p "${NODE_DIR}"
+    npm config set prefix "${NODE_DIR}"
+    npm install --global \
+        bash-language-server \
+        typescript-language-server \
+        prettier \
+        pyright \
+        stylelint \
+        js-beautify \
+        yarn \
+        n
 
-	pretty_print "DONE installing Node Packages." "green"
+    pretty_print "DONE installing Node Packages." "green"
 }
 
 function install_doom_emacs() {
-	pretty_print "Installing Doom Emacs..." "yellow"
+    pretty_print "Installing Doom Emacs..." "yellow"
 
-	DOOM="$HOME/.emacs.d/bin/doom "
-	$DOOM install
-	$DOOM sync
+    DOOM="$HOME/.emacs.d/bin/doom "
+    $DOOM install
+    $DOOM sync
 
-	pretty_print "DONE installing Doom Emacs." "green"
+    pretty_print "DONE installing Doom Emacs." "green"
 }
 
 function install_shell() {

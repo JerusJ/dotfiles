@@ -23,18 +23,15 @@ function pretty_print() {
 	esac
 }
 
-
 function install_binary() {
-        local name=$1
-        local url=$2
-        local destination=$3
+	local name=$1
+	local url=$2
+	local destination=$3
 
-        curl -Lo "$name" "$url"
-        chmod +x "$name"
-        sudo mv "$name" "$destination"
-    }
-
-
+	curl -Lo "$name" "$url"
+	chmod +x "$name"
+	sudo mv "$name" "$destination"
+}
 
 # Function to check if a command exists
 function command_exists() {

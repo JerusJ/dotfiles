@@ -60,7 +60,6 @@ function ubuntu_install_emacs() {
     if ! command_exists emacs; then
         pretty_print "Installing emacs..." "yellow"
 
-
         # Clone the Emacs repository
         git_clone git://git.savannah.gnu.org/emacs.git ${DIR_THIRD_PARTY}/emacs
 
@@ -70,10 +69,10 @@ function ubuntu_install_emacs() {
         sudo sed -i 's/# deb-src/deb-src/' /etc/apt/sources.list && sudo apt update
 
         # Install necessary dependencies
-       sudo apt build-dep -y emacs
-       sudo apt install -y libtree-sitter-dev libgccjit-10-dev build-essential libjpeg-dev libpng-dev libtiff-dev libgif-dev libmagickwand-dev \
+        sudo apt build-dep -y emacs
+        sudo apt install -y libtree-sitter-dev libgccjit-10-dev build-essential libjpeg-dev libpng-dev libtiff-dev libgif-dev libmagickwand-dev \
             libm17n-dev \
-            libmagickcore-dev \
+            libmagickcore-dev
 
         # Generate the configure file
         ./autogen.sh
@@ -92,11 +91,10 @@ function ubuntu_install_emacs() {
 
         # Install Emacs system-wide
         sudo make install
-        
+
         popd
     else
         pretty_print "DONE installing Emacs." "green"
     fi
 
 }
-
