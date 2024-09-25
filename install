@@ -60,7 +60,7 @@ function main() {
 			arch_install_base_packages
 			arch_install_docker
 			arch_install_yay
-			arch_install_playwright_deps
+			# arch_install_playwright_deps
 			arch_install_aur_packages
 		elif grep -qi "ubuntu" /etc/os-release; then
 			pretty_print "Running on Ubuntu Linux" "blue"
