@@ -94,7 +94,6 @@ function arch_install_base_packages() {
 		nerd-fonts \
 		npm \
 		powerline-fonts \
-		protobuf \
 		pyenv \
 		python-pip \
 		ripgrep \
