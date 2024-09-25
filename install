@@ -102,12 +102,13 @@ function main() {
 	popd
 
 	# Generic
+	install_fonts
 	install_git_repos
 	install_tmux_tpm
 	install_go_packages
 	install_node_packages
-	install_doom_emacs
 	install_shell
+	install_doom_emacs
 
 	pretty_print "DONE installing everything." "green"
 }
