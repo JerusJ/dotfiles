@@ -105,6 +105,7 @@ function arch_install_base_packages() {
 		rofi \
 		shellcheck \
 		shfmt \
+		shutter \
 		sof-firmware \
 		stow \
 		terraform \
