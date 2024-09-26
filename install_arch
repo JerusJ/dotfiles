@@ -145,10 +145,11 @@ function arch_install_virtualization() {
 		guestfs-tools \
 		libosinfo
 
-	yay -S --needed --noconfirm tuned
-
 	sudo systemctl enable --now libvirtd.service
+	sudo virt-host-validate qemu
 
+	# Tuned
+	yay -S --needed --noconfirm tuned
 	sudo systemctl enable --now tuned.service
 	sudo tuned-adm profile virtual-host
 	tuned-adm active
