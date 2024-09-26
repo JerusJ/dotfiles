@@ -94,6 +94,7 @@ function arch_install_base_packages() {
 		neovim \
 		nerd-fonts \
 		networkmanager-openvpn \
+		networkmanager-openconnect \
 		npm \
 		perl-anyevent-i3 \
 		powerline-fonts \
@@ -260,18 +261,19 @@ function arch_install_aur_packages() {
 	pretty_print "Installing AUR packages..." "yellow"
 
 	yay -S --needed --noconfirm \
-		python2 \
-		grip \
 		emacs-nativecomp \
 		github-cli-git \
 		golangci-lint \
 		google-cloud-cli \
 		google-cloud-cli-gke-gcloud-auth-plugin \
+		grip \
 		jump \
 		kind \
 		kube-ps1 \
 		oh-my-zsh-git \
+		openvpn-update-systemd-resolved \
 		pyenv-virtualenv \
+		python2 \
 		slack-desktop \
 		tilt-bin \
 		vscodium-bin \
