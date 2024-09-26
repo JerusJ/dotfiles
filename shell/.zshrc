@@ -16,9 +16,9 @@ plugins=(
 if [ ! -S ~/.ssh/ssh_auth_sock ]; then
   eval `ssh-agent`
   ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+  ssh-add -l > /dev/null || ssh-add
 fi
 export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-ssh-add -l > /dev/null || ssh-add
 
 alias kb="kustomize build"
 alias t="terragrunt"
@@ -27,6 +27,14 @@ alias tp="terragrunt plan"
 if [ -f /etc/profile.d/google-cloud-cli.sh ]; then
   source /etc/profile.d/google-cloud-cli.sh
 fi
+
+case `uname` in
+  Linux)
+    setxkbmap -option ctrl:nocaps
+    # Keyboard key repeat rate <TIME_TO_REPEAT> <REPETITIONS_PER_SECOND>
+    xset r rate 200 75
+  ;;
+esac
 
 # =============
 #    INIT
