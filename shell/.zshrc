@@ -33,6 +33,7 @@ fi
 # =============
 export PATH="$HOME/fzf-zsh-plugin/bin:$PATH"
 export PATH="$HOME/GoLand/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
 
 export DIR_THIRD_PARTY="$HOME/third-party-packages"
 
@@ -41,17 +42,6 @@ export LIBVIRT_DEFAULT_URI="qemu:///system"
 # Senstive functions which are not pushed to Github
 # It contains GOPATH, some functions, aliases etc...
 [ -r ~/.zsh_private ] && source ~/.zsh_private
-
-case `uname` in
-  Linux)
-    setxkbmap -option ctrl:nocaps
-    # Keyboard key repeat rate <TIME_TO_REPEAT> <REPETITIONS_PER_SECOND>
-    xset r rate 200 75
-  ;;
-esac
-
-export PATH="$HOME/.config/emacs/bin:$PATH"
-export PATH="$HOME/bin:$PATH"
 
 export EDITOR="nvim"
 export TERMINAL="alacritty"
@@ -138,8 +128,6 @@ export LANG="en_US.UTF-8"
 #    EXPORT
 # =============
 #
-
-export PATH="$HOME/go/bin:$GOBIN:/usr/local/go/bin:$GOBIN:$HOME/.cargo/bin:$HOME/.npm_global/bin:$PATH"
 
 export LSCOLORS=cxBxhxDxfxhxhxhxhxcxcx
 export CLICOLOR=1
@@ -340,7 +328,7 @@ export NVM_DIR="$HOME/.nvm"
 export NODE_VERSIONS="${NVM_DIR}/versions/node"
 export NODE_VERSIONS_PREFIX="v"
 export NPM_MODULES_DIR="$HOME/.npm_global"
-export PATH=$PATH:"${NPM_MODULES_DIR}"
+export PATH=$PATH:"${NPM_MODULES_DIR}/bin"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
@@ -348,8 +336,9 @@ export PATH=$PATH:"${NPM_MODULES_DIR}"
 export DOTNET_ROOT=$HOME/.dotnet
 export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
-# Emacs Doom
+# Emacs
 export PATH=$PATH:"$HOME/.emacs.d/bin"
+export PATH=$PATH:"$HOME/.config/emacs/bin"
 # Brew
 export PATH="/usr/local/sbin:$PATH"
 
