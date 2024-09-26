@@ -5,8 +5,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export DIR_THIRD_PARTY="$HOME/third-party-packages"
-
 plugins=(
   aws
   git
@@ -35,6 +33,10 @@ fi
 # =============
 export PATH="$HOME/fzf-zsh-plugin/bin:$PATH"
 export PATH="$HOME/GoLand/bin:$PATH"
+
+export DIR_THIRD_PARTY="$HOME/third-party-packages"
+
+export LIBVIRT_DEFAULT_URI="qemu:///system"
 
 # Senstive functions which are not pushed to Github
 # It contains GOPATH, some functions, aliases etc...

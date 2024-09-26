@@ -148,12 +148,19 @@ function arch_install_virtualization() {
 	sudo systemctl enable --now libvirtd.service
 	sudo virt-host-validate qemu
 
-	# Tuned
+	pretty_print "Set tuneD" "yellow"
 	yay -S --needed --noconfirm tuned
 	sudo systemctl enable --now tuned.service
 	sudo tuned-adm profile virtual-host
 	tuned-adm active
 	sudo tuned-adm verify
+
+	sudo usermod -aG libvirt $USER
+
+	pretty_print "Set ACL for KVM images directory" "yellow"
+	sudo setfacl -R -b /var/lib/libvirt/images/
+	sudo setfacl -R -m u:${USER}:rwX /var/lib/libvirt/images/
+	sudo setfacl -m d:u:${USER}:rwx /var/lib/libvirt/images/
 
 	pretty_print "DONE installing Virtualization." "green"
 }
