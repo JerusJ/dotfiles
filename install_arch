@@ -93,10 +93,11 @@ function arch_install_base_packages() {
 		minikube \
 		neovim \
 		nerd-fonts \
-		networkmanager-openvpn \
 		networkmanager-openconnect \
+		networkmanager-openvpn \
 		npm \
 		perl-anyevent-i3 \
+		polkit \
 		powerline-fonts \
 		pyenv \
 		python-pip \
