@@ -69,7 +69,6 @@ function arch_install_base_packages() {
 		direnv \
 		dive \
 		fd \
-		perl-anyevent-i3 \
 		firefox \
 		fzf \
 		gdb \
@@ -95,6 +94,7 @@ function arch_install_base_packages() {
 		nerd-fonts \
 		networkmanager-openvpn \
 		npm \
+		perl-anyevent-i3 \
 		powerline-fonts \
 		pyenv \
 		python-pip \
@@ -113,6 +113,7 @@ function arch_install_base_packages() {
 		ttf-droid \
 		ttf-firacode-nerd \
 		unzip \
+		vagrant \
 		wget \
 		xclip \
 		xsel \
