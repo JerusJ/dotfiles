@@ -69,6 +69,7 @@ function arch_install_base_packages() {
 		direnv \
 		dive \
 		fd \
+		perl-anyevent-i3 \
 		firefox \
 		fzf \
 		gdb \

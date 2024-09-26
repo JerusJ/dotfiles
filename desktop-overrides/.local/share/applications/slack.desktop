@@ -1,0 +1,13 @@
+# Taken from: https://www.reddit.com/r/kde/comments/o4vh2f/slack_doesnt_work_on_200_global_scale/
+# Slack is too big with high DPI monitor!
+[Desktop Entry]
+Name=Slack
+StartupWMClass=Slack
+Comment=Slack Desktop
+GenericName=Slack Client for Linux
+Exec=env LD_PRELOAD=/usr/lib/libcurl.so.4 /usr/bin/slack --force-device-scale-factor=2.0 -s %U
+Icon=slack
+Type=Application
+StartupNotify=true
+Categories=GNOME;GTK;Network;InstantMessaging;
+MimeType=x-scheme-handler/slack;
