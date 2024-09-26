@@ -57,7 +57,6 @@ function git_clone() {
 		exit 1
 	fi
 	if [ -z "$dest" ]; then
-		mkdir -p "$DIR_NOTES_PERSONAL"
 		mkdir -p "$DIR_NOTES_WORK"
 		dest=$(echo "$repo" | rev | cut -d "/" -f 1 | rev)
 	fi

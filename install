@@ -9,7 +9,6 @@ export DIR_THIRD_PARTY="$HOME/third-party-packages"
 export DIR_THIRD_PARTY_FONTS="$HOME/third-party-packages/fonts"
 export DIR_THIRD_PARTY_WORK="$HOME/third-party-packages/dotfiles_install_work"
 export DIR_NOTES_ROOT="$HOME/vaults"
-export DIR_NOTES_PERSONAL="$DIR_NOTES_ROOT/personal"
 export DIR_NOTES_WORK="$DIR_NOTES_ROOT/work"
 
 # Pinned package versions

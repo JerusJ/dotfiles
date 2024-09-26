@@ -29,12 +29,8 @@ return {
 
 			workspaces = {
 				{
-					name = "personal",
-					path = "~/vaults/personal",
-				},
-				{
 					name = "work",
-					path = "~/vaults/work",
+					path = "~/vaults/notes-work",
 				},
 			},
 			templates = {
@@ -48,6 +44,7 @@ return {
 
 		vim.keymap.set("n", "<leader>nn", "<cmd>ObsidianNew<cr>")
 		vim.keymap.set("n", "<leader>ns", "<cmd>ObsidianSearch<cr>")
+		vim.keymap.set("n", "<leader>nt", "<cmd>ObsidianTags<cr>")
 		vim.keymap.set("n", "<leader>nb", "<cmd>ObsidianQuickSwitch<cr>")
 		vim.keymap.set("n", "<leader>np", "<cmd>ObsidianPasteImg<cr>")
 	end,
