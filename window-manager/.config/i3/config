@@ -12,6 +12,9 @@ font pango:IosevkaTerm Nerd Font semibold 5
 default_border pixel 0
 default_floating_border pixel 0
 
+# CAPS --> CTRL
+exec --no-startup-id xmodmap $HOME/.Xmodmap
+
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork

@@ -60,6 +60,7 @@ function arch_install_base_packages() {
 		alacritty \
 		alsa-firmware \
 		alsa-ucm-conf \
+		alsa-utils \
 		aws-cli \
 		base-devel \
 		chromium \
@@ -86,12 +87,12 @@ function arch_install_base_packages() {
 		kubectx \
 		kustomize \
 		lazygit \
-		make \
 		maim \
-		tidy \
+		make \
 		minikube \
 		neovim \
 		nerd-fonts \
+		networkmanager-openvpn \
 		npm \
 		powerline-fonts \
 		pyenv \
@@ -106,6 +107,7 @@ function arch_install_base_packages() {
 		texlab \
 		texlive \
 		texlive-binextra \
+		tidy \
 		tmux \
 		ttf-droid \
 		ttf-firacode-nerd \
