@@ -128,6 +128,35 @@ function arch_install_base_packages() {
 	pretty_print "DONE installing Arch Base Packages." "green"
 }
 
+function arch_install_virtualization() {
+	# Good reference: https://gist.github.com/tatumroaquin/c6464e1ccaef40fd098a4f31db61ab22
+
+	pretty_print "Installing Virtualization..." "yellow"
+
+	sudo pacman -S --needed --noconfirm \
+		qemu-full \
+		qemu-img \
+		libvirt \
+		virt-install \
+		virt-manager \
+		virt-viewer \
+		edk2-ovmf \
+		swtpm \
+		guestfs-tools \
+		libosinfo
+
+	yay -S --needed --noconfirm tuned
+
+	sudo systemctl enable --now libvirtd.service
+
+	sudo systemctl enable --now tuned.service
+	sudo tuned-adm profile virtual-host
+	tuned-adm active
+	sudo tuned-adm verify
+
+	pretty_print "DONE installing Virtualization." "green"
+}
+
 function arch_install_docker() {
 	pretty_print "Installing Docker..." "green"
 
