@@ -30,7 +30,7 @@ return {
 			workspaces = {
 				{
 					name = "work",
-					path = "~/vaults/notes-work",
+					path = "~/vaults/vaults-work",
 				},
 			},
 			templates = {
