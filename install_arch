@@ -57,7 +57,6 @@ function arch_install_base_packages() {
 	sudo sh -c "reflector >/etc/pacman.d/mirrorlist"
 
 	sudo pacman -S --needed --noconfirm \
-		1password-cli \
 		alacritty \
 		alsa-firmware \
 		alsa-ucm-conf \
@@ -263,6 +262,7 @@ function arch_install_aur_packages() {
 	pretty_print "Installing AUR packages..." "yellow"
 
 	yay -S --needed --noconfirm \
+		1password-cli \
 		emacs-nativecomp \
 		github-cli-git \
 		golangci-lint \

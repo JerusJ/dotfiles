@@ -349,8 +349,7 @@ function install_dirs() {
     mkdir -p "$DIR_THIRD_PARTY_WORK"
     mkdir -p "$DIR_THIRD_PARTY_FONTS"
     mkdir -p "$DIR_NOTES_ROOT"
-    git_clone "git@github.com:JerusJ/notes-personal.git" "$DIR_NOTES_PERSONAL"
-    mkdir -p "$DIR_NOTES_WORK"
+    git_clone "git@github.com:JerusJ/vaults-work.git" "$DIR_NOTES_WORK"
 
     pretty_print "DONE installing Directories." "green"
 }
