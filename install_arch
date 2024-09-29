@@ -206,6 +206,17 @@ function arch_install_yay() {
 	pretty_print "DONE installing 'yay' CLI for AUR download/installs." "green"
 }
 
+function arch_install_windows_deps() {
+	pretty_print "Installing Windows Dependencies for cross-compilation/clangd LSP support..." "yellow"
+	sudo pacman -S --needed --noconfirm \
+		mingw-w64-binutils \
+		mingw-w64-crt \
+		mingw-w64-gcc \
+		mingw-w64-headers \
+		mingw-w64-winpthreads
+	pretty_print "DONE installing Windows Dependencies for cross-compilation/clangd LSP support." "green"
+}
+
 function arch_install_playwright_deps() {
 	pretty_print "Installing Playwright system library dependencies." "yellow"
 
