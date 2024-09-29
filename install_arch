@@ -73,6 +73,7 @@ function arch_install_base_packages() {
 		fzf \
 		gdb \
 		go \
+		graphviz \
 		gtkmm3 \
 		helm \
 		helmfile \
