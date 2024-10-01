@@ -1,36 +1,5 @@
 -- Miscelaneous fun stuff
 return {
-	-- Treat camel-case and '_' as separate words for W, w, B, b, etc.
-	{
-		"chrisgrieser/nvim-spider",
-		lazy = true,
-		keys = {
-			{
-				"w",
-				"<cmd>lua require('spider').motion('w')<CR>",
-				mode = { "n", "o", "x" },
-			},
-			{
-				"e",
-				"<cmd>lua require('spider').motion('e')<CR>",
-				mode = { "n", "o", "x" },
-			},
-			{
-				"b",
-				"<cmd>lua require('spider').motion('b')<CR>",
-				mode = { "n", "o", "x" },
-			},
-		},
-		config = function()
-			-- See: https://github.com/chrisgrieser/nvim-spider?tab=readme-ov-file#configuration
-			require("spider").setup({
-				skipInsignificantPunctuation = true,
-				consistentOperatorPending = false, -- see "Consistent Operator-pending Mode" in the README
-				subwordMovement = true,
-				customPatterns = {}, -- check "Custom Movement Patterns" in the README for details
-			})
-		end,
-	},
 	-- Comment with haste
 	{
 		"numToStr/Comment.nvim",
