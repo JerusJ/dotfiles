@@ -70,6 +70,7 @@ function arch_install_base_packages() {
 		dive \
 		fd \
 		firefox \
+		fuzzel \
 		fzf \
 		gdb \
 		go \
