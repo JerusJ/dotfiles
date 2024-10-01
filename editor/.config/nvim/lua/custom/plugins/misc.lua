@@ -2,28 +2,34 @@
 return {
 	-- Treat camel-case and '_' as separate words for W, w, B, b, etc.
 	{
-		"johmsalas/text-case.nvim",
-		dependencies = { "nvim-telescope/telescope.nvim" },
-		config = function()
-			require("textcase").setup({})
-			require("telescope").load_extension("textcase")
-		end,
+		"chrisgrieser/nvim-spider",
+		lazy = true,
 		keys = {
-			"ga", -- Default invocation prefix
-			{ "ga.", "<cmd>TextCaseOpenTelescope<CR>", mode = { "n", "x" }, desc = "Telescope" },
+			{
+				"w",
+				"<cmd>lua require('spider').motion('w')<CR>",
+				mode = { "n", "o", "x" },
+			},
+			{
+				"e",
+				"<cmd>lua require('spider').motion('e')<CR>",
+				mode = { "n", "o", "x" },
+			},
+			{
+				"b",
+				"<cmd>lua require('spider').motion('b')<CR>",
+				mode = { "n", "o", "x" },
+			},
 		},
-		cmd = {
-			-- NOTE: The Subs command name can be customized via the option "substitude_command_name"
-			"Subs",
-			"TextCaseOpenTelescope",
-			"TextCaseOpenTelescopeQuickChange",
-			"TextCaseOpenTelescopeLSPChange",
-			"TextCaseStartReplacingCommand",
-		},
-		-- If you want to use the interactive feature of the `Subs` command right away, text-case.nvim
-		-- has to be loaded on startup. Otherwise, the interactive feature of the `Subs` will only be
-		-- available after the first executing of it or after a keymap of text-case.nvim has been used.
-		lazy = false,
+		config = function()
+			-- See: https://github.com/chrisgrieser/nvim-spider?tab=readme-ov-file#configuration
+			require("spider").setup({
+				skipInsignificantPunctuation = true,
+				consistentOperatorPending = false, -- see "Consistent Operator-pending Mode" in the README
+				subwordMovement = true,
+				customPatterns = {}, -- check "Custom Movement Patterns" in the README for details
+			})
+		end,
 	},
 	-- Comment with haste
 	{
