@@ -62,6 +62,7 @@ function arch_install_base_packages() {
 		alsa-ucm-conf \
 		alsa-utils \
 		aws-cli \
+		barrier \
 		base-devel \
 		chromium \
 		cmake \
@@ -109,6 +110,7 @@ function arch_install_base_packages() {
 		shfmt \
 		shutter \
 		sof-firmware \
+		sshfs \
 		stow \
 		terraform \
 		texlab \
