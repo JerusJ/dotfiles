@@ -21,6 +21,9 @@ return {
 
 			vim.keymap.set("n", "<leader>.", oil.open, { desc = "Open Oil" })
 			vim.keymap.set("n", "<C-x>d", oil.open, { desc = "Open Oil" })
+			vim.keymap.set("n", "<leader>s.", function()
+				require("telescope.builtin").live_grep({ search_dirs = { require("oil").get_current_dir() } })
+			end, { desc = "Search word in Oil directory" })
 		end,
 	},
 	{
