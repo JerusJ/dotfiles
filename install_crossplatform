@@ -391,8 +391,6 @@ function install_git_repos() {
     git_clone https://github.com/hlissner/doom-emacs ~/.emacs.d
     git_clone https://github.com/jonmosco/kube-ps1.git "${DIR_THIRD_PARTY}/kube-ps1"
 
-    git_clone "https://github.com/JerusJ/vaults-work.git" "${DIR_NOTES_WORK}"
-
     pretty_print "DONE installing Git Repositories." "green"
 }
 
