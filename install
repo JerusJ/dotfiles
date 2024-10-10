@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -eoux
 
 SCRIPT_DIR=$(dirname "$0")
 
@@ -10,6 +10,8 @@ export DIR_THIRD_PARTY_FONTS="$HOME/third-party-packages/fonts"
 export DIR_THIRD_PARTY_WORK="$HOME/third-party-packages/dotfiles_install_work"
 export DIR_NOTES_ROOT="$HOME/vaults"
 export DIR_NOTES_WORK="$DIR_NOTES_ROOT/vaults-work"
+
+export ZSH_CUSTOM="$HOME/.oh-my-zsh-custom"
 
 # Pinned package versions
 export TERRAFORM_VERSION="1.9.6"

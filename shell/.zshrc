@@ -5,7 +5,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
 plugins=(
@@ -69,14 +68,6 @@ alias ..='cd ..'
 alias d='git diff'
 alias vi='nvim'
 alias vim='nvim'
-
-function save_notes() (
-	pushd $HOME/org
-	git add --all
-	git commit -m "Update notes"
-	git push
-	popd
-)
 
 alias vrdp='xfreerdp /v:127.0.0.1:33389 /u:vagrant /p:vagrant'
 
@@ -375,6 +366,3 @@ export PROMPT_COMMAND='if [ -d .git -a ! -x .git/hooks/pre-commit -a -e .pre-com
 precmd() { eval "$PROMPT_COMMAND" }
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# Generated for envman. Do not edit.
-[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"

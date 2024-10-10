@@ -77,8 +77,8 @@ function arch_install_base_packages() {
 		go \
 		graphviz \
 		gtkmm3 \
-		helm \
 		helmfile \
+		helm \
 		htop \
 		hunspell \
 		i3-wm \
@@ -124,7 +124,6 @@ function arch_install_base_packages() {
 		vagrant \
 		wget \
 		wl-clipboard \
-		wl-copy \
 		xclip \
 		xsel \
 		yq \
