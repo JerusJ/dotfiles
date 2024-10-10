@@ -300,20 +300,6 @@ function install_additional_tools() {
         pretty_print "pyenv is already installed." "green"
     fi
 
-    # Install Zsh plugins
-
-    if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-autosuggestions" ]; then
-        git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM}/plugins/zsh-autosuggestions"
-    else
-        pretty_print "zsh-autosuggestions is already installed." "green"
-    fi
-
-    if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-completions" ]; then
-        git clone https://github.com/zsh-users/zsh-completions "${ZSH_CUSTOM}/plugins/zsh-completions"
-    else
-        pretty_print "zsh-completions is already installed." "green"
-    fi
-
     # Install Kustomize
     if ! command_exists kustomize; then
         curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
@@ -349,7 +335,7 @@ function install_dirs() {
     mkdir -p "$DIR_THIRD_PARTY_WORK"
     mkdir -p "$DIR_THIRD_PARTY_FONTS"
     mkdir -p "$DIR_NOTES_ROOT"
-    mkdir -p "$ZSH_CUSTOM"
+    mkdir -p "$ZSH_CUSTOM/plugins"
     git_clone "git@github.com:JerusJ/vaults-work.git" "$DIR_NOTES_WORK"
 
     pretty_print "DONE installing Directories." "green"
@@ -392,7 +378,12 @@ function install_git_repos() {
     git_clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     git_clone https://github.com/hlissner/doom-emacs ~/.emacs.d
     git_clone https://github.com/jonmosco/kube-ps1.git "${DIR_THIRD_PARTY}/kube-ps1"
+
+    # ZSH
     git_clone http://github.com/robbyrussell/oh-my-zsh ~/.oh-my-zsh
+    git_clone https://github.com/joepjoosten/aws-cli-mfa-oh-my-zsh.git "${ZSH_CUSTOM}/plugins/aws-mfa"
+    git_clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM}/plugins/zsh-autosuggestions"
+    git_clone https://github.com/zsh-users/zsh-completions "${ZSH_CUSTOM}/plugins/zsh-completions"
 
     pretty_print "DONE installing Git Repositories." "green"
 }

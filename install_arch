@@ -293,7 +293,7 @@ function arch_install_aur_packages() {
 		openvpn-update-systemd-resolved \
 		pyenv-virtualenv \
 		python2 \
-		slack-desktop \
+		slack-desktop-wayland \
 		tilt-bin \
 		vscodium-bin \
 		wdisplays

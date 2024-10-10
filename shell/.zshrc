@@ -1,3 +1,6 @@
+# Uncomment below, and uncomment line at the end of this file to enable ZSH profiling
+# zmodload zsh/zprof
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -9,20 +12,15 @@ export ZSH="$HOME/.oh-my-zsh"
 
 plugins=(
   aws
+  aws-mfa
   git
   kubectl
   kubectx
   zsh-autosuggestions
+  zsh-completions
 )
 
 source $ZSH/oh-my-zsh.sh
-
-if [ ! -S ~/.ssh/ssh_auth_sock ]; then
-  eval `ssh-agent`
-  ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
-  ssh-add -l > /dev/null || ssh-add
-fi
-export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 
 alias kb="kustomize build"
 alias t="terragrunt"
@@ -116,22 +114,14 @@ function hb() {
   open $github_url
 }
 
-alias -s go='go run'
-alias hs='hugo server'
-
-alias icloud='cd ~/Library/Mobile\ Documents/com~apple~CloudDocs/'
-
-
 # Go
 export GO111MODULE=auto
-
 export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"
 
 # =============
 #    EXPORT
 # =============
-#
 
 export LSCOLORS=cxBxhxDxfxhxhxhxhxcxcx
 export CLICOLOR=1
@@ -186,34 +176,6 @@ setopt auto_menu         # show completion menu on successive tab press
 setopt complete_in_word
 setopt always_to_end
 
-# autocompletion with an arrow-key driven interface
-zstyle ':completion:*:*:*:*:*' menu select
-
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
-
-zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
-
-# Don't complete uninteresting users
-zstyle ':completion:*:*:*:users' ignored-patterns \
-        adm amanda apache at avahi avahi-autoipd beaglidx bin cacti canna \
-        clamav daemon dbus distcache dnsmasq dovecot fax ftp games gdm \
-        gkrellmd gopher hacluster haldaemon halt hsqldb ident junkbust kdm \
-        ldap lp mail mailman mailnull man messagebus  mldonkey mysql nagios \
-        named netdump news nfsnobody nobody nscd ntp nut nx obsrun openvpn \
-        operator pcap polkitd postfix postgres privoxy pulse pvm quagga radvd \
-        rpc rpcuser rpm rtkit scard shutdown squid sshd statd svn sync tftp \
-        usbmux uucp vcsa wwwrun xfs '_*'
-
-zstyle '*' single-ignored show
-
-# Automatically update PATH entries
-zstyle ':completion:*' rehash true
-
-# Keep directories and files separated
-zstyle ':completion:*' list-dirs-first true
-
 # ===================
 #    KEY BINDINGS
 # ===================
@@ -223,34 +185,6 @@ bindkey -e
 # [Ctrl-r] - Search backward incrementally for a specified string. The string
 # may begin with ^ to anchor the search to the beginning of the line.
 bindkey '^r' history-incremental-search-backward
-
-if [[ "${terminfo[kpp]}" != "" ]]; then
-  bindkey "${terminfo[kpp]}" up-line-or-history       # [PageUp] - Up a line of history
-fi
-
-if [[ "${terminfo[knp]}" != "" ]]; then
-  bindkey "${terminfo[knp]}" down-line-or-history     # [PageDown] - Down a line of history
-fi
-
-if [[ "${terminfo[khome]}" != "" ]]; then
-  bindkey "${terminfo[khome]}" beginning-of-line      # [Home] - Go to beginning of line
-fi
-
-if [[ "${terminfo[kend]}" != "" ]]; then
-  bindkey "${terminfo[kend]}"  end-of-line            # [End] - Go to end of line
-fi
-if [[ "${terminfo[kcbt]}" != "" ]]; then
-  bindkey "${terminfo[kcbt]}" reverse-menu-complete   # [Shift-Tab] - move through the completion menu backwards
-fi
-
-bindkey '^?' backward-delete-char                     # [Backspace] - delete backward
-if [[ "${terminfo[kdch1]}" != "" ]]; then
-  bindkey "${terminfo[kdch1]}" delete-char            # [Delete] - delete forward
-else
-  bindkey "^[[3~" delete-char
-  bindkey "^[3;5~" delete-char
-  bindkey "\e[3~" delete-char
-fi
 
 # ===================
 #    MISC SETTINGS
@@ -299,16 +233,9 @@ function switchgo() {
   echo "Switched to ${go_bin_path}"
 }
 
-# =============
-#    PROMPT
-# =============
-source $DIR_THIRD_PARTY/kube-ps1/kube-ps1.sh
-PROMPT='$(kube_ps1)'$PROMPT
-
 # ===================
 #    THIRD PARTY
 # ===================
-# brew install jump
 # https://github.com/gsamokovarov/jump
 eval "$(jump shell)"
 
@@ -366,3 +293,6 @@ export PROMPT_COMMAND='if [ -d .git -a ! -x .git/hooks/pre-commit -a -e .pre-com
 precmd() { eval "$PROMPT_COMMAND" }
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Uncomment below, and uncomment line at the start of this file to enable ZSH profiling
+# zprof
