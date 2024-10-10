@@ -18,6 +18,9 @@ return {
 		config = function()
 			local octo = require("octo")
 			octo.setup({
+				suppress_missing_scope = {
+					projects_v2 = true,
+				},
 				mappings = {
 					issue = {
 						close_issue = { lhs = "<space>ic", desc = "close issue" },
