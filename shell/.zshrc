@@ -22,7 +22,7 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-alias kb="kustomize build"
+alias kb="kustomize build --enable-helm"
 alias t="terragrunt"
 alias tp="terragrunt plan"
 
