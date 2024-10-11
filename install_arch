@@ -102,6 +102,7 @@ function arch_install_base_packages() {
 		perl-anyevent-i3 \
 		polkit \
 		powerline-fonts \
+		pgcli \
 		pyenv \
 		python-pip \
 		ripgrep \
