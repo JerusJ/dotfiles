@@ -15,6 +15,9 @@ return { -- LSP Configuration & Plugins
 			-- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
 			-- used for completion, annotations and signatures of Neovim apis
 			{ "folke/neodev.nvim", opts = {} },
+
+			-- For helm support
+			{ "towolf/vim-helm", ft = "helm" },
 		},
 		config = function()
 			--  This function gets run when an LSP attaches to a particular buffer.
@@ -157,6 +160,34 @@ return { -- LSP Configuration & Plugins
 				terraformls = {},
 				texlab = {},
 				ts_ls = {},
+
+				helm_ls = {
+					settings = {
+						["helm-ls"] = {
+							logLevel = "info",
+							valuesFiles = {
+								mainValuesFile = "values.yaml",
+								lintOverlayValuesFile = "values.lint.yaml",
+								additionalValuesFilesGlobPattern = "values*.yaml",
+							},
+							yamlls = {
+								enabled = true,
+								enabledForFilesGlob = "*.{yaml,yml}",
+								diagnosticsLimit = 50,
+								showDiagnosticsDirectly = false,
+								path = "yaml-language-server",
+								config = {
+									schemas = {
+										kubernetes = "templates/**",
+									},
+									completion = true,
+									hover = true,
+									-- any other config from https://github.com/redhat-developer/yaml-language-server#language-server-settings
+								},
+							},
+						},
+					},
+				},
 
 				yamlls = {
 					settings = {
