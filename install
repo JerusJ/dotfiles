@@ -61,7 +61,9 @@ function main() {
 			arch_tune_makepkg
 			arch_install_base_packages
 			arch_install_yay
-			arch_install_virtualization
+			if ! systemd-detect-virt --vm >/dev/null; then
+				arch_install_virtualization
+			fi
 			arch_install_docker
 			# arch_install_playwright_deps
 			arch_install_aur_packages
