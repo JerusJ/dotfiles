@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eoux
+set -e
 
 SCRIPT_DIR=$(dirname "$0")
 
