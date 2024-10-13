@@ -34,7 +34,7 @@ case `uname` in
   Linux)
     setxkbmap -option ctrl:nocaps
     # Keyboard key repeat rate <TIME_TO_REPEAT> <REPETITIONS_PER_SECOND>
-    xset r rate 200 75
+    # xset r rate 200 75
   ;;
 esac
 
