@@ -601,4 +601,13 @@ client.connect_signal("unfocus", function(c)
 	c.border_color = beautiful.border_normal
 end)
 
+-- NOTE(jesse): floating windows are always on top.
+client.connect_signal("property::floating", function(c)
+	if c.floating then
+		c.ontop = true
+	else
+		c.ontop = false
+	end
+end)
+
 -- }}}
