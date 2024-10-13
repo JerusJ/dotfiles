@@ -50,7 +50,7 @@ end
 -- }}}
 
 -- {{ My Modifications }}
-awful.util.spawn("nm-applet")
+awful.spawn.with_shell("nm-applet")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
