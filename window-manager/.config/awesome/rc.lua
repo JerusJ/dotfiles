@@ -366,6 +366,12 @@ globalkeys = gears.table.join(
 )
 
 clientkeys = gears.table.join(
+	-- My Mods
+	awful.key({ modkey, "Shift" }, "s", function(c)
+		c.sticky = not c.sticky
+	end, { description = "toggle sticky", group = "client" }),
+
+	-- Default Mods
 	awful.key({ modkey }, "f", function(c)
 		c.fullscreen = not c.fullscreen
 		c:raise()
@@ -594,4 +600,5 @@ end)
 client.connect_signal("unfocus", function(c)
 	c.border_color = beautiful.border_normal
 end)
+
 -- }}}
