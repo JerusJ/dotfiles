@@ -2,6 +2,10 @@
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, "luarocks.loader")
 
+-- NOTE(jesse): my plugins
+-- 'lain' = extra layouts
+local lain = require("lain")
+
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -72,6 +76,7 @@ modkey = "Mod1"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
+	-- lain.layout.termfair.center,
 	awful.layout.suit.tile,
 	-- awful.layout.suit.floating,
 	awful.layout.suit.tile.left,
