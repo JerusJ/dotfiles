@@ -377,7 +377,7 @@ clientkeys = gears.table.join(
 	end, { description = "toggle sticky", group = "client" }),
 
 	-- Default Mods
-	awful.key({ modkey }, "f", function(c)
+	awful.key({ modkey, "Shift" }, "f", function(c)
 		c.fullscreen = not c.fullscreen
 		c:raise()
 	end, { description = "toggle fullscreen", group = "client" }),

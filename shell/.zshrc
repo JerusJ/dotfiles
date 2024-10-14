@@ -23,6 +23,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 alias kb="kustomize build --enable-helm"
+alias kbo="kustomize build --enable-helm -o GENERATED.yaml"
 alias t="terragrunt"
 alias tp="terragrunt plan"
 
