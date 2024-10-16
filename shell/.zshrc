@@ -107,6 +107,11 @@ function fe() (
   [[ -n "$files" ]] && ${EDITOR:-nvim} "${files[@]}"
 )
 
+# No idea why vmware can't figure this out by themselves on reboot but whatever
+function mount_vmware() {
+  sudo vmhgfs-fuse .host:/ /mnt/hgfs/ -o allow_other -o uid=1000
+}
+
 
 # open github repo from git repo
 function hb() {

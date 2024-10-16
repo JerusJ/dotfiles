@@ -316,7 +316,7 @@ globalkeys = gears.table.join(
 
 	-- Standard program
 	awful.key({ modkey, "Control" }, "r", awesome.restart, { description = "reload awesome", group = "awesome" }),
-	awful.key({ modkey, "Shift" }, "q", awesome.quit, { description = "quit awesome", group = "awesome" }),
+	awful.key({ modkey, "Shift" }, "e", awesome.quit, { description = "quit awesome", group = "awesome" }),
 
 	awful.key({ modkey }, "l", function()
 		awful.tag.incmwfact(0.05)
@@ -381,7 +381,7 @@ clientkeys = gears.table.join(
 		c.fullscreen = not c.fullscreen
 		c:raise()
 	end, { description = "toggle fullscreen", group = "client" }),
-	awful.key({ modkey, "Shift" }, "c", function(c)
+	awful.key({ modkey, "Shift" }, "q", function(c)
 		c:kill()
 	end, { description = "close", group = "client" }),
 	awful.key(
