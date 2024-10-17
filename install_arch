@@ -90,6 +90,7 @@ function arch_install_base_packages() {
 		kitty \
 		kubectl \
 		kubectx \
+		conntrack-tools \
 		kustomize \
 		lazygit \
 		maim \
