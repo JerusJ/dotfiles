@@ -406,6 +406,7 @@ function install_node_packages() {
     npm config set prefix "${NODE_DIR}"
     npm install --global \
         bash-language-server \
+        cdktf-cli@latest \
         typescript-language-server \
         prettier \
         pyright \
