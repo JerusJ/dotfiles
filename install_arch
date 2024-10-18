@@ -283,7 +283,6 @@ function arch_install_aur_packages() {
 	pretty_print "Installing AUR packages..." "yellow"
 
 	yay -S --needed --noconfirm \
-		cdktf-cli \
 		emacs-nativecomp \
 		github-cli-git \
 		golangci-lint \
