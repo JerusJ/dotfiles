@@ -3,6 +3,10 @@ LINUX_PLATFORM	:= Linux
 
 all: update_submodules sync install
 
+setup_vnc:
+	sudo systemctl enable --now vncserver@:1.service
+	sudo systemctl enable --now vncserver@:2.service
+
 update_submodules:
 	git submodule update --init --recursive
 

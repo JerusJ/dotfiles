@@ -68,6 +68,7 @@ function arch_install_base_packages() {
 		btop \
 		chromium \
 		cmake \
+		conntrack-tools \
 		dagger \
 		direnv \
 		dive \
@@ -90,7 +91,6 @@ function arch_install_base_packages() {
 		kitty \
 		kubectl \
 		kubectx \
-		conntrack-tools \
 		kustomize \
 		lazygit \
 		maim \
@@ -121,6 +121,7 @@ function arch_install_base_packages() {
 		texlive \
 		texlive-binextra \
 		tidy \
+		tigervnc \
 		tmux \
 		ttf-droid \
 		ttf-firacode-nerd \
@@ -137,7 +138,6 @@ function arch_install_base_packages() {
 		zsh-autosuggestions \
 		zsh-completions \
 		zsh-syntax-highlighting
-
 	pretty_print "DONE installing Arch Base Packages." "green"
 }
 
