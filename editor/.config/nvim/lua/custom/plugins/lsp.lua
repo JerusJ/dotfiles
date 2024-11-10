@@ -158,6 +158,7 @@ return { -- LSP Configuration & Plugins
 				dockerls = {},
 				jsonls = {},
 				terraformls = {},
+				tflint = {},
 				texlab = {},
 				ts_ls = {},
 
