@@ -120,11 +120,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
--- Terragrunt files --> terraform
+-- Terraform File Formatting
+-- Terraform
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-	pattern = "terragrunt.hcl",
+	pattern = { ".terraformrc", "terraform.rc" },
 	callback = function()
-		vim.bo.filetype = "terraform"
+		vim.bo.filetype = "hcl"
 	end,
 })
 
