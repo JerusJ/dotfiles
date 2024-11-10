@@ -161,6 +161,7 @@ return { -- LSP Configuration & Plugins
 				tflint = {},
 				texlab = {},
 				ts_ls = {},
+				hclfmt = {},
 
 				helm_ls = {
 					settings = {
