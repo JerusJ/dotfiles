@@ -52,8 +52,11 @@ esac
 # =============
 #    INIT
 # =============
+export KUBECONFIG=$HOME/.kube/config
+# NOTE(jesse): broken since kubectx does not support (on Linux in default installation) multiple 
+# KUBECONFIGs separated by ':'...
 # Dynamically set KUBECONFIG to include all .kubeconfig files in $HOME/.kube (useful for kubectx)
-export KUBECONFIG=$(find "$HOME/.kube" -type f -name "*.kubeconfig" -print0 | xargs -0 echo | tr ' ' ':')
+# export KUBECONFIG=$(find "$HOME/.kube" -type f -name "*.kubeconfig" -print0 | xargs -0 echo | tr ' ' ':')
 
 export PATH="$HOME/fzf-zsh-plugin/bin:$PATH"
 export PATH="$HOME/GoLand/bin:$PATH"
