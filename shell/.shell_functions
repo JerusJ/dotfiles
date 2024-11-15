@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+save_eks_kubeconfigs() {
+  local regions=("$@")
+
+  for region in "${regions[@]}"; do
+    echo "Fetching EKS clusters in region: $region"
+    clusters=$(aws eks list-clusters --region "$region" --query "clusters[]" --output text)
+
+    if [ -z "$clusters" ]; then
+      echo "No EKS clusters found in region: $region"
+      continue
+    fi
+
+    for cluster in $clusters; do
+      kubeconfig_file="$HOME/.kube/${cluster}-${region}.kubeconfig"
+      echo "Saving kubeconfig for cluster '$cluster' in region '$region' to '$kubeconfig_file'"
+
+      aws eks update-kubeconfig \
+        --region "$region" \
+        --name "$cluster" \
+        --kubeconfig "$kubeconfig_file"
+    done
+  done
+}
+
+

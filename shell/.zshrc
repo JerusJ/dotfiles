@@ -24,6 +24,15 @@ source $ZSH/oh-my-zsh.sh
 
 alias kb="kustomize build --enable-helm"
 alias kbo="kustomize build --enable-helm -o GENERATED.yaml"
+alias kba="kustomize build --enable-helm | kubectl apply -f -"
+alias kbd="kustomize build --enable-helm | kubectl delete -f -"
+
+alias tg="terragrunt"
+alias tgi="terragrunt --init"
+alias tgp="terragrunt plan"
+alias tga="terragrunt apply"
+alias tgd="terragrunt destroy"
+
 alias t="terragrunt"
 alias tp="terragrunt plan"
 
@@ -42,6 +51,9 @@ esac
 # =============
 #    INIT
 # =============
+# Dynamically set KUBECONFIG to include all .kubeconfig files in $HOME/.kube (useful for kubectx)
+export KUBECONFIG=$(find "$HOME/.kube" -type f -name "*.kubeconfig" -print0 | xargs -0 echo | tr ' ' ':')
+
 export PATH="$HOME/fzf-zsh-plugin/bin:$PATH"
 export PATH="$HOME/GoLand/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
