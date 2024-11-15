@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -e
-
 # This entire function is needed because kubectx on Linux (somehow not on mac which is some sort of bash flavor?)
 # does not support multiple KUBECONFIG in 1 env var separated by ':'...
 # See: https://github.com/ahmetb/kubectx/issues/211

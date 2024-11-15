@@ -21,7 +21,6 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-
 source $HOME/.shell_functions
 
 alias kb="kustomize build --enable-helm"
