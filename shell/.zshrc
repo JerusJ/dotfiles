@@ -22,6 +22,8 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+source $HOME/.shell_functions
+
 alias kb="kustomize build --enable-helm"
 alias kbo="kustomize build --enable-helm -o GENERATED.yaml"
 alias kba="kustomize build --enable-helm | kubectl apply -f -"
@@ -44,7 +46,7 @@ case `uname` in
   Linux)
     setxkbmap -option ctrl:nocaps
     # Keyboard key repeat rate <TIME_TO_REPEAT> <REPETITIONS_PER_SECOND>
-    # xset r rate 200 75
+    xset r rate 200 75
   ;;
 esac
 

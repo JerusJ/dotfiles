@@ -1,5 +1,30 @@
 #!/usr/bin/env bash
 
+set -e
+
+# This entire function is needed because kubectx on Linux (somehow not on mac which is some sort of bash flavor?)
+# does not support multiple KUBECONFIG in 1 env var separated by ':'...
+# See: https://github.com/ahmetb/kubectx/issues/211
+merge_kubeconfigs() {
+  local target_file="$HOME/.kube/config"
+  echo "Merging kubeconfig files into $target_file..."
+
+  # Backup existing kubeconfig
+  if [ -f "$target_file" ]; then
+    cp "$target_file" "$target_file.bak"
+    echo "Backup created at $target_file.bak"
+  fi
+
+  # Find all .kubeconfig files and merge them
+  export KUBECONFIG=$(find "$HOME/.kube" -type f -name "*.kubeconfig" -print0 | xargs -0 echo | tr ' ' ':')
+  kubectl config view --flatten >"$target_file"
+
+  # Reset KUBECONFIG to avoid issues
+  unset KUBECONFIG
+
+  echo "Merged kubeconfig written to $target_file"
+}
+
 save_eks_kubeconfigs() {
   local regions=("$@")
 
@@ -21,7 +46,9 @@ save_eks_kubeconfigs() {
         --name "$cluster" \
         --kubeconfig "$kubeconfig_file"
     done
+
   done
+
+  # implicitly merge so we can just run 'kubectx' and get an fzf listing of all clusters
+  merge_kubeconfigs
 }
-
-
