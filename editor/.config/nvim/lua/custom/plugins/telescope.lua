@@ -1,6 +1,13 @@
 -- Telescope fuzzy finding (all the things)
 return {
 	{
+		"nvim-telescope/telescope-fzf-native.nvim",
+		build = "make",
+		cond = function()
+			return vim.fn.executable("make") == 1
+		end,
+	},
+	{
 		"nvim-telescope/telescope.nvim",
 		branch = "0.1.x",
 		dependencies = {
@@ -12,18 +19,9 @@ return {
 				pickers = {
 					live_grep = {
 						layout_strategy = "vertical",
-						layout_config = {
-							mirror = true,
-							preview_height = 0.7,
-							prompt_position = "top",
-						},
 					},
 					find_files = {
 						layout_strategy = "vertical",
-						layout_config = {
-							mirror = true,
-							prompt_position = "top",
-						},
 						find_command = {
 							"rg",
 							"--files",
@@ -33,13 +31,15 @@ return {
 							"--sortr=path",
 						},
 					},
-					git_status = {
-						layout_config = {
+				},
+				defaults = {
+					color_devicons = false,
+					layout_config = {
+						width = 0.7,
+						horizontal = {
 							preview_width = 0.6,
 						},
 					},
-				},
-				defaults = {
 					mappings = {
 						i = {
 							["<C-u>"] = false,
@@ -59,8 +59,18 @@ return {
 						"--sortr=path",
 					},
 				},
+
+				extensions = {
+					fzf = {
+						fuzzy = true,
+						override_generic_sorter = true,
+						override_file_sorter = true,
+						case_mode = "smart_case",
+					},
+				},
 			})
 
+			pcall(require("telescope").load_extension, "fzf")
 			pcall(require("telescope").load_extension, "dap")
 			pcall(require("telescope").load_extension, "git_worktree")
 
