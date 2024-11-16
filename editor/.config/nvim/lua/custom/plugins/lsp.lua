@@ -164,6 +164,8 @@ return { -- LSP Configuration & Plugins
 				hclfmt = {},
 				jsonnet_ls = {},
 				jsonnetfmt = {},
+				marksman = {}, -- markdown
+				bzl = {},
 
 				helm_ls = {
 					settings = {
