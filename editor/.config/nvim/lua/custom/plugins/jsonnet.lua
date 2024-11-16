@@ -39,6 +39,8 @@ return {
 				jsonnet_debugger_args = { "-s", "-d", "-J", "vendor", "-J", "lib" },
 			})
 
+			vim.keymap.set("n", "<leader>cj", "<CMD>vertical JsonnetEval<CR>", { desc = "Compile Jsonnet" })
+
 			-- vim.wo.foldmethod = "expr"
 			-- vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 			-- vim.wo.foldlevel = 1000
