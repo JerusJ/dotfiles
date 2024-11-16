@@ -162,6 +162,8 @@ return { -- LSP Configuration & Plugins
 				texlab = {},
 				ts_ls = {},
 				hclfmt = {},
+				jsonnet_ls = {},
+				jsonnetfmt = {},
 
 				helm_ls = {
 					settings = {

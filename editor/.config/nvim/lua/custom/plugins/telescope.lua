@@ -10,22 +10,35 @@ return {
 		config = function()
 			require("telescope").setup({
 				pickers = {
-					find_files = {
-						hidden = true,
-						file_ignore_patterns = { "node_modules", ".git", ".venv" },
+					live_grep = {
+						layout_strategy = "vertical",
+						layout_config = {
+							mirror = true,
+							preview_height = 0.7,
+							prompt_position = "top",
+						},
 					},
-					find_command = {
-						"rg",
-						"--files",
-						"--hidden",
-						"--no-ignore-vcs",
-						"-g",
-						"!**/.git/*",
-						"-g",
-						"!**/node_modules/*",
+					find_files = {
+						layout_strategy = "vertical",
+						layout_config = {
+							mirror = true,
+							prompt_position = "top",
+						},
+						find_command = {
+							"rg",
+							"--files",
+							"--hidden",
+							"--glob",
+							"!**/{node_modules,.git}/*",
+							"--sortr=path",
+						},
+					},
+					git_status = {
+						layout_config = {
+							preview_width = 0.6,
+						},
 					},
 				},
-
 				defaults = {
 					mappings = {
 						i = {
@@ -33,15 +46,22 @@ return {
 							["<C-d>"] = false,
 						},
 					},
-				},
-
-				extensions = {
-					"fzf",
+					vimgrep_arguments = {
+						"rg",
+						"--color=never",
+						"--no-heading",
+						"--with-filename",
+						"--line-number",
+						"--column",
+						"--smart-case",
+						-- Own additions
+						"--trim",
+						"--sortr=path",
+					},
 				},
 			})
 
 			pcall(require("telescope").load_extension, "dap")
-			pcall(require("telescope").load_extension, "fzf")
 			pcall(require("telescope").load_extension, "git_worktree")
 
 			vim.keymap.set("n", "<leader>fr", require("telescope.builtin").oldfiles, { desc = "Recently opened" })
