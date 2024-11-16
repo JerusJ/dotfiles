@@ -8,7 +8,7 @@ return {
 		},
 		keys = {
 			{
-				"<leader>j",
+				"<leader>sj",
 				"<cmd>Telescope jsonfly<cr>",
 				desc = "Open json(fly)",
 				ft = { "json", "xml", "yaml" },
