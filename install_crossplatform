@@ -365,6 +365,10 @@ function install_go_packages() {
     go install github.com/cli/cli/v2/cmd/gh@latest
     go install mvdan.cc/sh/v3/cmd/shfmt@latest
     go install github.com/ankitpokhrel/jira-cli/cmd/jira@latest
+    # Jsonnet
+    go install github.com/grafana/jsonnet-debugger@v0.1.0 # https://github.com/Duologic/nvim-jsonnet?tab=readme-ov-file#dap
+    go install github.com/google/go-jsonnet/cmd/jsonnet@latest
+    go install github.com/google/go-jsonnet/cmd/jsonnet-lint@latest
 
     pretty_print "DONE installing Go Packages." "green"
 }

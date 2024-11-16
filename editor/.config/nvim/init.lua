@@ -15,10 +15,10 @@ vim.g.have_nerd_font = false
 --
 -- Folding
 --
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
-vim.opt.foldlevelstart = 99 -- otherwise everything is folded...
+-- vim.opt.foldmethod = "expr"
+-- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
+-- vim.opt.foldlevelstart = 99 -- otherwise everything is folded...
 
 -- Make line numbers default
 vim.opt.number = true
