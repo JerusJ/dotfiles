@@ -1,5 +1,22 @@
 return {
 	{
+		"nvim-telescope/telescope.nvim",
+		dependencies = {
+			"Myzel394/easytables.nvim",
+			"Myzel394/telescope-last-positions",
+			"Myzel394/jsonfly.nvim",
+		},
+		keys = {
+			{
+				"<leader>j",
+				"<cmd>Telescope jsonfly<cr>",
+				desc = "Open json(fly)",
+				ft = { "json", "xml", "yaml" },
+				mode = "n",
+			},
+		},
+	},
+	{
 		"Duologic/nvim-jsonnet",
 		config = function()
 			local nvim_jsonnet = require("nvim-jsonnet")

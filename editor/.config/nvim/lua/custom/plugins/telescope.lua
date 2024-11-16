@@ -73,6 +73,7 @@ return {
 			pcall(require("telescope").load_extension, "fzf")
 			pcall(require("telescope").load_extension, "dap")
 			pcall(require("telescope").load_extension, "git_worktree")
+			pcall(require("telescope").load_extension, "jsonfly")
 
 			vim.keymap.set("n", "<leader>fr", require("telescope.builtin").oldfiles, { desc = "Recently opened" })
 			vim.keymap.set("n", "<leader>b", require("telescope.builtin").buffers, { desc = "Open buffers" })
