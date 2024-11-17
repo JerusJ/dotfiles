@@ -17,11 +17,7 @@ return {
 		config = function()
 			require("telescope").setup({
 				pickers = {
-					live_grep = {
-						layout_strategy = "vertical",
-					},
 					find_files = {
-						layout_strategy = "vertical",
 						find_command = {
 							"rg",
 							"--files",
@@ -35,10 +31,8 @@ return {
 				defaults = {
 					color_devicons = false,
 					layout_config = {
-						width = 0.7,
-						horizontal = {
-							preview_width = 0.6,
-						},
+						width = 0.99,
+						height = 0.99,
 					},
 					mappings = {
 						i = {

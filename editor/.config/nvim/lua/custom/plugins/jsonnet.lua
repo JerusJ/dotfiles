@@ -22,8 +22,8 @@ return {
 			local nvim_jsonnet = require("nvim-jsonnet")
 			nvim_jsonnet.setup({
 				-- Opinionated defaults
-				-- jsonnet_bin = "jsonnet",
-				-- jsonnet_args = { "-J", "vendor", "-J", "lib" },
+				jsonnet_bin = "tk",
+				jsonnet_args = { "eval" },
 				-- jsonnet_string_bin = "jsonnet",
 				-- jsonnet_string_args = { "-S", "-J", "vendor", "-J", "lib" },
 				use_tanka_if_possible = true,

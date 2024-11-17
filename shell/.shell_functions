@@ -16,6 +16,7 @@ merge_kubeconfigs() {
   # Find all .kubeconfig files and merge them
   export KUBECONFIG=$(find "$HOME/.kube" -type f -name "*.kubeconfig" -print0 | xargs -0 echo | tr ' ' ':')
   kubectl config view --flatten >"$target_file"
+  chmod g+r "$target_file"
 
   # Reset KUBECONFIG to avoid issues
   unset KUBECONFIG
