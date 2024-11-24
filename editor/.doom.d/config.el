@@ -39,8 +39,8 @@
 ;; Fonts
 (cond
  ((string-equal system-type "gnu/linux")
-  (setq doom-font (font-spec :family "IosevkaTerm Nerd Font" :size 17 :weight 'normal)
-        doom-variable-pitch-font (font-spec :family "IosevkaTerm Nerd Font" :size 17))))
+  (setq doom-font (font-spec :family "IosevkaTerm Nerd Font" :size 27 :weight 'normal)
+        doom-variable-pitch-font (font-spec :family "IosevkaTerm Nerd Font" :size 27))))
 (cond
  ((string-equal system-type "darwin")
   (setq doom-font (font-spec :family "Monaco" :size 17 :weight 'normal)
@@ -60,7 +60,7 @@
 ;; ===============================
 ;; Org
 ;; ===============================
-(setq org-directory "~/org/")
+(setq org-directory "~/vaults/vaults-work")
 (setq org-journal-file-format "%Y%m%d.org")
 (setq org-journal-file-type 'weekly)
 
@@ -73,8 +73,9 @@
 (add-to-list 'auto-mode-alist '("\\Tiltfile\'" . bazel-starlark-mode))
 
 ;; ===============================
-;; Mac
+;; Modifiers
 ;; ===============================
+(setq x-super-keysym 'meta) ;; For I3/AwesomeWM to avoid accidental hits
 (setq mac-option-modifier 'super)
 (setq mac-command-modifier 'meta)
 
