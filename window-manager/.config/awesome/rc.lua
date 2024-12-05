@@ -54,7 +54,9 @@ end
 -- }}}
 
 -- {{ My Modifications }}
+-- Startup Scripts
 awful.spawn.with_shell("nm-applet")
+awful.spawn.with_shell("vmware-user-suid-wrapper") -- For copy/paste in vmware, see: https://github.com/vmware/open-vm-tools/issues/447
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.

@@ -9,6 +9,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 export ZSH="$HOME/.oh-my-zsh"
+export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive # See: https://nixos.wiki/wiki/Locales
 
 plugins=(
   aws
@@ -61,6 +62,12 @@ export KUBECONFIG=$HOME/.kube/config
 export PATH="$HOME/fzf-zsh-plugin/bin:$PATH"
 export PATH="$HOME/GoLand/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
+
+# Android SDK: https://gist.github.com/dianjuar/a86814b592dad96cfa9d9540cb5acbe0
+export ANDROID_HOME=/opt/android-sdk
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$HOME/Android/Sdk/cmdline-tools/latest/bin:$PATH
 
 export DIR_THIRD_PARTY="$HOME/third-party-packages"
 
@@ -318,3 +325,6 @@ precmd() { eval "$PROMPT_COMMAND" }
 
 # Uncomment below, and uncomment line at the start of this file to enable ZSH profiling
 # zprof
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /home/jerus/.gopath/bin/tk tk

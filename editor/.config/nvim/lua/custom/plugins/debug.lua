@@ -4,6 +4,13 @@ return {
 		-- Add your own debuggers here
 		"leoluz/nvim-dap-go",
 
+		{
+			"mfussenegger/nvim-dap-python",
+			config = function()
+				require("dap-python").setup("uv")
+			end,
+		},
+
 		-- fancy UI for the debugger
 		-- Required dependency for nvim-dap-ui
 		"nvim-neotest/nvim-nio",
