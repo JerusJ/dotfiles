@@ -323,8 +323,8 @@ precmd() { eval "$PROMPT_COMMAND" }
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C $GOPATH/bin/tk tk
+
 # Uncomment below, and uncomment line at the start of this file to enable ZSH profiling
 # zprof
-
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /home/jerus/.gopath/bin/tk tk
