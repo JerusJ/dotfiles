@@ -1,5 +1,8 @@
 -- Miscelaneous fun stuff
 return {
+	-- Automatic direnv loading
+	"direnv/direnv.vim",
+
 	-- Comment with haste
 	{
 		"numToStr/Comment.nvim",

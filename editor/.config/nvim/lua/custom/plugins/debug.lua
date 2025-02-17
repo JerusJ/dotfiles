@@ -7,7 +7,7 @@ return {
 		{
 			"mfussenegger/nvim-dap-python",
 			config = function()
-				require("dap-python").setup("uv")
+				require("dap-python").setup()
 			end,
 		},
 
@@ -49,6 +49,12 @@ return {
 				dap.listeners.before.event_exited["dapui_config"] = function()
 					dapui.close({})
 				end
+
+				dap.adapters.python = {
+					type = "executable",
+					command = os.getenv("VIRTUAL_ENV"),
+					args = { "-m", "debugpy.adapter" },
+				}
 			end,
 		},
 
@@ -77,6 +83,7 @@ return {
 				ensure_installed = {
 					-- Update this to ensure that you have the debuggers for the langs you want
 					"delve",
+					"debugpy",
 				},
 			},
 		},

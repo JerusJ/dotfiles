@@ -39,8 +39,8 @@
 ;; Fonts
 (cond
  ((string-equal system-type "gnu/linux")
-  (setq doom-font (font-spec :family "IosevkaTerm Nerd Font" :size 27 :weight 'normal)
-        doom-variable-pitch-font (font-spec :family "IosevkaTerm Nerd Font" :size 27))))
+  (setq doom-font (font-spec :family "IosevkaTerm Nerd Font" :size 22 :weight 'normal)
+        doom-variable-pitch-font (font-spec :family "IosevkaTerm Nerd Font" :size 22))))
 (cond
  ((string-equal system-type "darwin")
   (setq doom-font (font-spec :family "Monaco" :size 17 :weight 'normal)
