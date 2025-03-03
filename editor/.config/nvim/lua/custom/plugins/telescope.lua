@@ -8,6 +8,12 @@ return {
 		end,
 	},
 	{
+		"nvim-telescope/telescope-project.nvim",
+		dependencies = {
+			"nvim-telescope/telescope.nvim",
+		},
+	},
+	{
 		"nvim-telescope/telescope.nvim",
 		branch = "0.1.x",
 		dependencies = {
@@ -15,6 +21,7 @@ return {
 			"nvim-tree/nvim-web-devicons",
 		},
 		config = function()
+			local project_actions = require("telescope._extensions.project.actions")
 			require("telescope").setup({
 				pickers = {
 					find_files = {
@@ -61,6 +68,52 @@ return {
 						override_file_sorter = true,
 						case_mode = "smart_case",
 					},
+					project = {
+						base_dirs = {
+							{ "~/code", max_depth = 4 },
+						},
+
+						ignore_missing_dirs = true, -- default: false
+						hidden_files = true, -- default: false
+						theme = "dropdown",
+						order_by = "asc",
+						search_by = "title",
+						sync_with_nvim_tree = true, -- default false
+						-- default for on_project_selected = find project files
+						on_project_selected = function(prompt_bufnr)
+							-- Do anything you want in here. For example:
+							project_actions.change_working_directory(prompt_bufnr, false)
+							-- require("harpoon.ui").nav_file(1)
+						end,
+
+						mappings = {
+							n = {
+								["d"] = project_actions.delete_project,
+								["r"] = project_actions.rename_project,
+								["c"] = project_actions.add_project,
+								["C"] = project_actions.add_project_cwd,
+								["f"] = project_actions.find_project_files,
+								["b"] = project_actions.browse_project_files,
+								["s"] = project_actions.search_in_project_files,
+								["R"] = project_actions.recent_project_files,
+								["w"] = project_actions.change_working_directory,
+								["o"] = project_actions.next_cd_scope,
+							},
+							i = {
+								["<c-d>"] = project_actions.delete_project,
+								["<c-v>"] = project_actions.rename_project,
+								["<c-a>"] = project_actions.add_project,
+								["<c-A>"] = project_actions.add_project_cwd,
+								["<c-f>"] = project_actions.find_project_files,
+								["<c-b>"] = project_actions.browse_project_files,
+								["<c-s>"] = project_actions.search_in_project_files,
+								["<c-r>"] = project_actions.recent_project_files,
+								["<c-l>"] = project_actions.change_working_directory,
+								["<c-o>"] = project_actions.next_cd_scope,
+								["<c-w>"] = project_actions.change_workspace,
+							},
+						},
+					},
 				},
 			})
 
@@ -68,6 +121,7 @@ return {
 			pcall(require("telescope").load_extension, "dap")
 			pcall(require("telescope").load_extension, "git_worktree")
 			pcall(require("telescope").load_extension, "jsonfly")
+			pcall(require("telescope").load_extension, "project")
 
 			vim.keymap.set("n", "<leader>fr", require("telescope.builtin").oldfiles, { desc = "Recently opened" })
 			vim.keymap.set("n", "<leader>b", require("telescope.builtin").buffers, { desc = "Open buffers" })
@@ -93,6 +147,12 @@ return {
 				"n",
 				"<leader>sR",
 				"<CMD>lua require('telescope').extensions.git_worktree.create_git_worktree()<CR>",
+				{ desc = "Create Git Worktree" }
+			)
+			vim.keymap.set(
+				"n",
+				"<leader>sp",
+				"<CMD>lua require('telescope').extensions.project.project{}<CR>",
 				{ desc = "Create Git Worktree" }
 			)
 
