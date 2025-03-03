@@ -151,7 +151,7 @@ return {
 			)
 			vim.keymap.set(
 				"n",
-				"<leader>sp",
+				"<leader>pp",
 				"<CMD>lua require('telescope').extensions.project.project{}<CR>",
 				{ desc = "Create Git Worktree" }
 			)
