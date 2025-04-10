@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+
+set -ex
+
+JIRA_PROJECT="$1"
+JIRA_SUMMARY="$2"
+JIRA_EPIC="$3"
+REPO_PATH="$4"
+
+SUMMARY_SLUG=$(echo "$JIRA_SUMMARY" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd '[:alnum:]-' | cut -c1-80)
+
+echo "Searching for existing Jira issue..."
+JIRA_ID=$(jira issue list -q"project = $JIRA_PROJECT AND summary ~ \"$JIRA_SUMMARY\"" --plain --no-headers | awk '{print $2}' | head -n 1)
+
+if [ -z "$JIRA_ID" ]; then
+  echo "Creating Jira issue..."
+  jira issue create --project "$JIRA_PROJECT" -tTask --summary "$JIRA_SUMMARY" --assignee "${JIRA_EMAIL}"
+else
+  echo "Using existing Jira issue: $JIRA_ID"
+fi
+
+echo "Searching for existing Jira issue..."
+JIRA_ID=$(jira issue list -q"project = $JIRA_PROJECT AND summary ~ \"$JIRA_SUMMARY\"" --plain --no-headers | awk '{print $2}' | head -n 1)
+echo "Using Jira issue: $JIRA_ID"
+
+JIRA_URL="${JIRA_URL}/browse/${JIRA_ID}"
+
+EPIC_LINKED=$(jira issue view "$JIRA_ID" --plain | grep -F "Epic Link" | grep -q "$JIRA_EPIC" && echo "yes" || echo "no")
+if [ "$EPIC_LINKED" = "no" ]; then
+  echo "Assigning to epic..."
+  jira issue edit "$JIRA_ID" --parent "$JIRA_EPIC" --no-input
+fi
+
+JIRA_DESCRIPTION=$(jira issue view "$JIRA_ID" --plain | awk '/^\s*-+ Description -+\s*$/ {found=1; next} /^\s*View this issue on Jira:/ {found=0} found')
+
+BRANCH_NAME="${JIRA_ID}-${SUMMARY_SLUG}"
+WORKTREE_PATH="../$BRANCH_NAME"
+
+cd "$REPO_PATH"
+git fetch origin
+
+if [ ! -d "$WORKTREE_PATH" ]; then
+  if git show-ref --quiet "refs/heads/$BRANCH_NAME"; then
+    echo "Branch $BRANCH_NAME exists."
+    git worktree add "$WORKTREE_PATH" "$BRANCH_NAME"
+  else
+    echo "Creating branch $BRANCH_NAME."
+    git switch main
+    git pull origin main
+    git worktree add -b "$BRANCH_NAME" "$WORKTREE_PATH" origin/main
+  fi
+else
+  echo "Worktree already exists: $WORKTREE_PATH"
+fi
+
+cd "$WORKTREE_PATH"
+
+if ! git ls-remote --exit-code --heads origin "$BRANCH_NAME" >/dev/null; then
+  echo "Pushing branch $BRANCH_NAME to origin..."
+  git push -u origin "$BRANCH_NAME"
+else
+  echo "Branch $BRANCH_NAME already pushed to origin."
+fi
+
+if [ -z "$(git log origin/main..HEAD)" ]; then
+  echo "Creating empty commit to allow PR..."
+  git commit --allow-empty -m "feat($JIRA_ID): $JIRA_SUMMARY"
+  git push
+fi
+
+EXISTING_PR=$(gh pr list --head "$BRANCH_NAME" --json url --jq '.[].url')
+if [ -z "$EXISTING_PR" ]; then
+  echo "Creating GitHub PR..."
+  gh pr create --title "$JIRA_SUMMARY" --body "$JIRA_DESCRIPTION" --base main --draft
+  EXISTING_PR=$(gh pr list --head "$BRANCH_NAME" --json url --jq '.[].url')
+  jira issue link remote "$JIRA_ID" "$EXISTING_PR" "GitHub Pull Request"
+else
+  echo "GitHub PR already exists: $EXISTING_PR"
+fi
