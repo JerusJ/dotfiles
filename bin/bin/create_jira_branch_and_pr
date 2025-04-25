@@ -6,6 +6,7 @@ JIRA_PROJECT="$1"
 JIRA_SUMMARY="$2"
 JIRA_EPIC="$3"
 REPO_PATH="$4"
+EXTRA_COMMANDS="$5"
 
 SUMMARY_SLUG=$(echo "$JIRA_SUMMARY" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd '[:alnum:]-' | cut -c1-80)
 
@@ -31,10 +32,14 @@ if [ "$EPIC_LINKED" = "no" ]; then
   jira issue edit "$JIRA_ID" --parent "$JIRA_EPIC" --no-input
 fi
 
-JIRA_DESCRIPTION=$(jira issue view "$JIRA_ID" --plain | awk '/^\s*-+ Description -+\s*$/ {found=1; next} /^\s*View this issue on Jira:/ {found=0} found')
+# strip color codes and odd spacing
+JIRA_DESCRIPTION=$(jira issue view "$JIRA_ID" --plain |
+  sed -n '/^[- ]*Description[- ]*$/,/^ *View this issue on Jira:/p' |
+  sed '1d;$d' |
+  sed -E 's/\x1b\[[0-9;]*m//g')
 
 BRANCH_NAME="${JIRA_ID}-${SUMMARY_SLUG}"
-WORKTREE_PATH="../$BRANCH_NAME"
+WORKTREE_PATH="$HOME/code/$BRANCH_NAME"
 
 cd "$REPO_PATH"
 git fetch origin
@@ -53,7 +58,7 @@ else
   echo "Worktree already exists: $WORKTREE_PATH"
 fi
 
-cd "$WORKTREE_PATH"
+pushd "$WORKTREE_PATH"
 
 if ! git ls-remote --exit-code --heads origin "$BRANCH_NAME" >/dev/null; then
   echo "Pushing branch $BRANCH_NAME to origin..."
@@ -77,3 +82,6 @@ if [ -z "$EXISTING_PR" ]; then
 else
   echo "GitHub PR already exists: $EXISTING_PR"
 fi
+
+TMUX_WINDOW_NAME="${BRANCH_NAME}"
+tmux list-windows -F '#W' | grep -qx "${TMUX_WINDOW_NAME}" || tmux new-window -n "${TMUX_WINDOW_NAME}" -d "${EXTRA_COMMANDS}; ${SHELL}"
