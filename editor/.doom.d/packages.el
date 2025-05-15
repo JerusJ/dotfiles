@@ -38,3 +38,6 @@
 
 ;; Bazel
 (package! bazel)
+
+;; Jsonnet
+(package! jsonnet-mode)

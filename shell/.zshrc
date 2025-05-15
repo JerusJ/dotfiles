@@ -30,7 +30,7 @@ alias kba="kustomize build --enable-helm | kubectl apply -f -"
 alias kbd="kustomize build --enable-helm | kubectl delete -f -"
 
 alias tg="terragrunt"
-alias tgi="terragrunt --init"
+alias tgi="terragrunt init"
 alias tgp="terragrunt plan"
 alias tga="terragrunt apply"
 alias tgd="terragrunt destroy"
@@ -54,7 +54,7 @@ esac
 #    INIT
 # =============
 export KUBECONFIG=$HOME/.kube/config
-# NOTE(jesse): broken since kubectx does not support (on Linux in default installation) multiple 
+# NOTE(jesse): broken since kubectx does not support (on Linux in default installation) multiple
 # KUBECONFIGs separated by ':'...
 # Dynamically set KUBECONFIG to include all .kubeconfig files in $HOME/.kube (useful for kubectx)
 # export KUBECONFIG=$(find "$HOME/.kube" -type f -name "*.kubeconfig" -print0 | xargs -0 echo | tr ' ' ':')
@@ -135,6 +135,21 @@ function mount_vmware() {
   sudo vmhgfs-fuse .host:/ /mnt/hgfs/ -o allow_other -o uid=1000
 }
 
+function tmux_run_in_dirs() {
+  local pattern=$1
+  shift
+  local cmd="$*"
+
+  find "$HOME/code" -mindepth 1 -maxdepth 1 -type d -name "$pattern" -print0 |
+  while IFS= read -r -d '' dir; do
+    local name
+    name="$(basename "$dir")"
+    # check if window exists
+    if ! tmux list-windows -F "#{window_name}" | grep -Fxq "$name"; then
+      tmux new-window -d -n "$name" "cd '$dir' && $cmd; ${SHELL}"
+    fi
+  done
+}
 
 # open github repo from git repo
 function hb() {

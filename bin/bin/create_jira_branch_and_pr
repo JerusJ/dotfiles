@@ -13,9 +13,9 @@ SUMMARY_SLUG=$(echo "$JIRA_SUMMARY" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | 
 echo "Searching for existing Jira issue..."
 JIRA_ID=$(jira issue list -q"project = $JIRA_PROJECT AND summary ~ \"$JIRA_SUMMARY\"" --plain --no-headers | awk '{print $2}' | head -n 1)
 
-if [ -z "$JIRA_ID" ]; then
+if [ "$JIRA_ID" = "" ]; then
   echo "Creating Jira issue..."
-  jira issue create --project "$JIRA_PROJECT" -tTask --summary "$JIRA_SUMMARY" --assignee "${JIRA_EMAIL}"
+  jira issue create --project "$JIRA_PROJECT" -tTask --summary "$JIRA_SUMMARY" --assignee "$JIRA_EMAIL"
 else
   echo "Using existing Jira issue: $JIRA_ID"
 fi
@@ -36,10 +36,16 @@ fi
 JIRA_DESCRIPTION=$(jira issue view "$JIRA_ID" --plain |
   sed -n '/^[- ]*Description[- ]*$/,/^ *View this issue on Jira:/p' |
   sed '1d;$d' |
-  sed -E 's/\x1b\[[0-9;]*m//g')
+  sed -E 's/\x1b\[[0-9;]*m//g' |
+  sed '/^$/! { s/^[[:space:]]\+//; s/[[:space:]]\+$//; s/[[:space:]]\+/ /g }' |
+  cat -s |
+  sed '/./,$!d' |
+  tac |
+  sed '/./,$!d' |
+  tac)
 
-BRANCH_NAME="${JIRA_ID}-${SUMMARY_SLUG}"
-WORKTREE_PATH="$HOME/code/$BRANCH_NAME"
+BRANCH_NAME="${JIRA_ID}/${SUMMARY_SLUG}"
+WORKTREE_PATH="$HOME/code/${JIRA_ID}-${SUMMARY_SLUG}"
 
 cd "$REPO_PATH"
 git fetch origin
@@ -67,21 +73,21 @@ else
   echo "Branch $BRANCH_NAME already pushed to origin."
 fi
 
-if [ -z "$(git log origin/main..HEAD)" ]; then
+if [ "$(git log origin/main..HEAD)" = "" ]; then
   echo "Creating empty commit to allow PR..."
   git commit --allow-empty -m "feat($JIRA_ID): $JIRA_SUMMARY"
   git push
 fi
 
 EXISTING_PR=$(gh pr list --head "$BRANCH_NAME" --json url --jq '.[].url')
-if [ -z "$EXISTING_PR" ]; then
+if [ "$EXISTING_PR" = "" ]; then
   echo "Creating GitHub PR..."
-  gh pr create --title "$JIRA_SUMMARY" --body "$JIRA_DESCRIPTION" --base main --draft
+  gh pr create --title "$BRANCH_NAME" --body "$JIRA_DESCRIPTION" --base main --draft
   EXISTING_PR=$(gh pr list --head "$BRANCH_NAME" --json url --jq '.[].url')
   jira issue link remote "$JIRA_ID" "$EXISTING_PR" "GitHub Pull Request"
 else
   echo "GitHub PR already exists: $EXISTING_PR"
 fi
 
-TMUX_WINDOW_NAME="${BRANCH_NAME}"
-tmux list-windows -F '#W' | grep -qx "${TMUX_WINDOW_NAME}" || tmux new-window -n "${TMUX_WINDOW_NAME}" -d "${EXTRA_COMMANDS}; ${SHELL}"
+TMUX_WINDOW_NAME="$BRANCH_NAME"
+tmux list-windows -F '#W' | grep -qx "$TMUX_WINDOW_NAME" || tmux new-window -n "$TMUX_WINDOW_NAME" -d "${EXTRA_COMMANDS}; ${SHELL}"

@@ -136,6 +136,7 @@ return {
 			vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "Help" })
 			vim.keymap.set("n", "<leader>sw", require("telescope.builtin").grep_string, { desc = "Current word" })
 			vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "Grep" })
+			vim.keymap.set("n", "<leader>sp", require("telescope.builtin").live_grep, { desc = "Grep" })
 			vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "Diagnostics" })
 			vim.keymap.set(
 				"n",

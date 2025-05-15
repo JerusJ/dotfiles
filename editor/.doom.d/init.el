@@ -111,7 +111,8 @@
        ;;taskrunner                ; taskrunner for all your projects
        terraform                   ; infrastructure as code
        ;;tmux                      ; an API for interacting with tmux
-       upload                      ; map local to remote projects via ssh/ftp
+       ;; FIXME(jesse): broken as cannot clone, add back in when fixed.
+       ;;upload                      ; map local to remote projects via ssh/ftp
 
        :os
        (:if IS-MAC macos)          ; improve compatibility with macOS

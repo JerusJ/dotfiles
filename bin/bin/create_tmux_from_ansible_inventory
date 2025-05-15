@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+set -x
+
+INVENTORY="${1:-inventory.yml}"
+SSH_CMD="${2:-}"
+TSH_USER="${TSH_USER:?set TSH_USER}"
+
+# use current session, create one new window
+SESSION=$(tmux display-message -p '#S')
+WIN="ansible-hosts"
+TARGET="$SESSION:$WIN"
+
+# gather hosts
+hosts=($(grep "ansible_host" "$INVENTORY" | cut -d ':' -f 2- | uniq | sort | tr -d ' '))
+
+# first pane
+h=${hosts[0]}
+cmd="tsh ssh ${TSH_USER}@${h}"
+[ -n "$SSH_CMD" ] && cmd+=" \"${SSH_CMD}; exec \\/bin/bash\""
+
+tmux new-window -t "$SESSION" -n "$WIN" "$cmd"
+
+# split for each additional host
+for h in "${hosts[@]:1}"; do
+	cmd="tsh ssh ${TSH_USER}@${h}"
+	tmux split-window -t "$TARGET" -h "$cmd" || tmux split-window -t "$TARGET" -v "$cmd"
+done
+
+tmux select-window -t "$TARGET"
+tmux select-layout -t "$TARGET" tiled
+tmux set-window-option synchronize-panes on

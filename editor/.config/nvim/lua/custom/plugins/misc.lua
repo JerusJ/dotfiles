@@ -66,5 +66,4 @@ return {
 		end,
 	},
 	"tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
-	"jiangmiao/auto-pairs", -- Surround brackets
 }

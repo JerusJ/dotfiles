@@ -71,6 +71,7 @@
 (add-to-list 'auto-mode-alist '("\\Vagrantfile\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\hcl\'" . terraform-mode))
 (add-to-list 'auto-mode-alist '("\\Tiltfile\'" . bazel-starlark-mode))
+(add-to-list 'auto-mode-alist '("\\jsonnet\'" . jsonnet-mode))
 
 ;; ===============================
 ;; Modifiers
@@ -97,6 +98,8 @@
   (set-lsp-priority! 'mspyls 1))
 
 (setq dap-python-debugger 'debugpy)
+
+(setq jsonnet-command 'tk)
 
 ;; ===============================
 ;; Rust

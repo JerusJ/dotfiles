@@ -55,7 +55,9 @@ end
 
 -- {{ My Modifications }}
 -- Startup Scripts
-awful.spawn.with_shell("nm-applet")
+awful.spawn("nm-applet")
+awful.spawn("synergy")
+awful.spawn.with_shell("autorandr --change")
 awful.spawn.with_shell("vmware-user-suid-wrapper") -- For copy/paste in vmware, see: https://github.com/vmware/open-vm-tools/issues/447
 
 -- {{{ Variable definitions
