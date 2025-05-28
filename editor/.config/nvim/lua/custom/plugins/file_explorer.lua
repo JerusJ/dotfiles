@@ -28,6 +28,13 @@ return {
 
 				view_options = {
 					show_hidden = true,
+					is_always_hidden = function(name, bufnr)
+						if name == ".." then
+							return true
+						else
+							return false
+						end
+					end,
 				},
 
 				win_options = {
