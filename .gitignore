@@ -18,3 +18,5 @@ terraform.tfstate*
 tflint
 plug.vim
 custom.el
+!editor/
+!gpg/

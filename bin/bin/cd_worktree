@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Assume we are in a git repository, cd into the worktree path given branch name,
+# otherwise create the branch first and then cd into it
+
+set -eu
+
+if [ $# -ne 1 ]; then
+	echo "Usage: cd_worktree <branch>" >&2
+	exit 1
+fi
+
+branch="$1"
+repo_name=$(basename "$(git rev-parse --show-toplevel)")
+worktree_path="../${repo_name}-${branch}"
+
+# Check if worktree already exists
+path="$(git worktree list | grep -F "[${branch}]" | awk '{print $1}')"
+if [ "$path" != "" ]; then
+	cd "$path"
+	exit 0
+fi
+
+# Check if branch exists, create if it doesn't
+if ! git rev-parse --verify "$branch" >/dev/null 2>&1; then
+	git branch "$branch"
+fi
+
+# Create worktree if it doesn't exist
+if [ ! -d "$worktree_path" ]; then
+	git worktree add "$worktree_path" "$branch"
+fi
+
+cd "$worktree_path"

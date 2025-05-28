@@ -17,14 +17,27 @@ return {
 		"nvim-telescope/telescope.nvim",
 		branch = "0.1.x",
 		dependencies = {
+			"Myzel394/easytables.nvim",
+			"Myzel394/jsonfly.nvim",
+			"Myzel394/telescope-last-positions",
 			"nvim-lua/plenary.nvim",
 			"nvim-tree/nvim-web-devicons",
+		},
+		keys = {
+			{
+				"<leader>sj",
+				"<cmd>Telescope jsonfly<cr>",
+				desc = "Open json(fly)",
+				ft = { "json", "xml", "yaml" },
+				mode = "n",
+			},
 		},
 		config = function()
 			local project_actions = require("telescope._extensions.project.actions")
 			require("telescope").setup({
 				pickers = {
 					find_files = {
+						theme = "ivy",
 						find_command = {
 							"rg",
 							"--files",
@@ -34,13 +47,29 @@ return {
 							"--sortr=path",
 						},
 					},
+					live_grep = {
+						theme = "ivy",
+					},
+					buffers = {
+						theme = "ivy",
+						sort_mru = true,
+						ignore_current_buffer = true,
+						mappings = {
+							i = {
+								["<C-w>"] = "delete_buffer",
+							},
+							n = {
+								["<C-w>"] = "delete_buffer",
+							},
+						},
+					},
 				},
 				defaults = {
 					color_devicons = false,
-					layout_config = {
-						width = 0.99,
-						height = 0.99,
-					},
+					-- layout_config = {
+					-- 	width = 0.99,
+					-- 	height = 0.99,
+					-- },
 					mappings = {
 						i = {
 							["<C-u>"] = false,

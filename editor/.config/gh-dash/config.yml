@@ -39,10 +39,12 @@ defaults:
   refetchIntervalMinutes: 30
 keybindings:
   issues: []
-  prs: 
+  prs:
     - key: O
-      command: >
-        tmux new-window -n PR-{{.PrNumber}}/{{.RepoName}} -c {{.RepoPath}} 'nvim -c ":Octo pr edit {{.PrNumber}}"'
+      command: |
+        tmux new-window -n "PR-{{ .PrNumber }}/{{ .RepoName }}" \
+          -c "{{ .RepoPath }}" \
+          git fetch --all && cd_worktree {{ .HeadRefName }} && nvim -c ":Octo pr edit {{ .PrNumber }}" || true
 repoPaths:
   default_path: ~/code
 theme:
@@ -50,4 +52,4 @@ theme:
     table:
       showSeparator: true
 pager:
-  diff: ""
+  diff: "nvim"

@@ -154,7 +154,16 @@ return { -- LSP Configuration & Plugins
 				clangd = {},
 				bashls = {},
 				gopls = {},
-				pyright = {},
+				pyright = {
+					settings = {
+						python = {
+							analysis = {
+								typeCheckingMode = "off",
+							},
+						},
+					},
+				},
+				-- basedpyright = {},
 				dockerls = {},
 				jsonls = {},
 				terraformls = {},
@@ -166,6 +175,9 @@ return { -- LSP Configuration & Plugins
 				jsonnetfmt = {},
 				marksman = {}, -- markdown
 				bzl = {},
+				rubyfmt = {},
+				shellharden = {},
+				yamlfmt = {},
 
 				helm_ls = {
 					settings = {
