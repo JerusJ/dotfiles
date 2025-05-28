@@ -38,6 +38,9 @@ alias tgd="terragrunt destroy"
 alias t="terragrunt"
 alias tp="terragrunt plan"
 
+eval `ssh-agent -s`
+ssh-add
+
 if [ -f /etc/profile.d/google-cloud-cli.sh ]; then
   source /etc/profile.d/google-cloud-cli.sh
 fi
