@@ -41,5 +41,5 @@
 
 ;; Jsonnet
 (package! jsonnet-mode)
-
 (package! x509-mode)
+(package! teleport)

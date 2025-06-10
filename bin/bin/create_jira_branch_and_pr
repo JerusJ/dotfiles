@@ -8,28 +8,36 @@ JIRA_EPIC="$3"
 REPO_PATH="$4"
 EXTRA_COMMANDS="$5"
 
+JIRA_ID="${JIRA_ID:-}"
+
 SUMMARY_SLUG=$(echo "$JIRA_SUMMARY" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd '[:alnum:]-' | cut -c1-80)
 
-echo "Searching for existing Jira issue..."
-JIRA_ID=$(jira issue list -q"project = $JIRA_PROJECT AND summary ~ \"$JIRA_SUMMARY\"" --plain --no-headers | awk '{print $2}' | head -n 1)
-
 if [ "$JIRA_ID" = "" ]; then
-  echo "Creating Jira issue..."
-  jira issue create --project "$JIRA_PROJECT" -tTask --summary "$JIRA_SUMMARY" --assignee "$JIRA_EMAIL"
-else
-  echo "Using existing Jira issue: $JIRA_ID"
+  echo "Searching for existing Jira issue..."
+  JIRA_ID=$(jira issue list -q"project = $JIRA_PROJECT AND summary ~ \"$JIRA_SUMMARY\"" --plain --no-headers | awk '{print $2}' | head -n 1)
+
+  if [ "$JIRA_ID" = "" ]; then
+    echo "Creating Jira issue..."
+    jira issue create --project "$JIRA_PROJECT" -tTask --summary "$JIRA_SUMMARY" --assignee "$JIRA_EMAIL"
+  else
+    echo "Using existing Jira issue: $JIRA_ID"
+  fi
+
+  echo "Searching for existing Jira issue..."
+  JIRA_ID=$(jira issue list -q"project = $JIRA_PROJECT AND summary ~ \"$JIRA_SUMMARY\"" --plain --no-headers | awk '{print $2}' | head -n 1)
 fi
 
-echo "Searching for existing Jira issue..."
-JIRA_ID=$(jira issue list -q"project = $JIRA_PROJECT AND summary ~ \"$JIRA_SUMMARY\"" --plain --no-headers | awk '{print $2}' | head -n 1)
 echo "Using Jira issue: $JIRA_ID"
 
 JIRA_URL="${JIRA_URL}/browse/${JIRA_ID}"
 
-EPIC_LINKED=$(jira issue view "$JIRA_ID" --plain | grep -F "Epic Link" | grep -q "$JIRA_EPIC" && echo "yes" || echo "no")
-if [ "$EPIC_LINKED" = "no" ]; then
-  echo "Assigning to epic..."
-  jira issue edit "$JIRA_ID" --parent "$JIRA_EPIC" --no-input
+if [ "$JIRA_EPIC" != "" ]; then
+  echo "Linking to Jira Epic: '$JIRA_EPIC'"
+  EPIC_LINKED=$(jira issue view "$JIRA_ID" --plain | grep -F "Epic Link" | grep -q "$JIRA_EPIC" && echo "yes" || echo "no")
+  if [ "$EPIC_LINKED" = "no" ]; then
+    echo "Assigning to epic..."
+    jira issue edit "$JIRA_ID" --parent "$JIRA_EPIC" --no-input
+  fi
 fi
 
 # strip color codes and odd spacing
@@ -79,10 +87,12 @@ if [ "$(git log origin/main..HEAD)" = "" ]; then
   git push
 fi
 
+PR_TITLE="${JIRA_ID}: ${JIRA_SUMMARY}"
+
 EXISTING_PR=$(gh pr list --head "$BRANCH_NAME" --json url --jq '.[].url')
 if [ "$EXISTING_PR" = "" ]; then
   echo "Creating GitHub PR..."
-  gh pr create --title "$BRANCH_NAME" --body "$JIRA_DESCRIPTION" --base main --draft
+  gh pr create --title "$PR_TITLE" --body "$JIRA_DESCRIPTION" --base main --draft
   EXISTING_PR=$(gh pr list --head "$BRANCH_NAME" --json url --jq '.[].url')
   jira issue link remote "$JIRA_ID" "$EXISTING_PR" "GitHub Pull Request"
 else

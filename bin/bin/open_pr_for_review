@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -eux
+
+PR_NUMBER="$1"
+REPO_NAME="$2"
+REPO_PATH="$3"
+HEAD_REF_NAME="$4"
+
+TMUX_WINDOW_NAME="PR-${PR_NUMBER}-${REPO_NAME}"
+
+cat <<EOF >/tmp/test
+PR_NUMBER="${PR_NUMBER}"
+REPO_NAME="${REPO_NAME}"
+REPO_PATH="${REPO_PATH}"
+HEAD_REF_NAME="${HEAD_REF_NAME}"
+EOF
+
+tmux new-window -n "$TMUX_WINDOW_NAME" "cd_worktree '$REPO_PATH' '$HEAD_REF_NAME' '$PR_NUMBER'"

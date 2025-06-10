@@ -196,36 +196,6 @@
  :m "<f5>" #'save-all-and-recompile
  )
 
-(use-package! gptel
-  :custom
-  (gptel-model 'claude-3-7-sonnet-20250219)
-  :config
-  (setq gptel-default-mode 'org-mode)
-  (defun gptel-api-key ()
-    "Read API key from file and ensure it's clean."
-    (string-trim
-     (with-temp-buffer
-       (insert-file-contents "~/secrets/claude_key")
-       (buffer-string))))
-
-  (setq gptel-backend
-        (gptel-make-anthropic "Claude"
-          :stream t
-          :key #'gptel-api-key)))
-
-;; Key bindings
-(map! :leader
-      (:prefix ("l" . "LLM")
-       :desc "Start GPTel" "s" #'gptel
-       :desc "Send to GPTel" "S" #'gptel-send))
-
-(use-package! emacs
-  :hook (zig-mode . eglot-ensure)
-  :hook (rust-mode . eglot-ensure)
-  :hook (go-mode . eglot-ensure)
-  :hook (typescript-mode . eglot-ensure)
-  )
-
 (use-package! jsonnet-mode
   :mode "\\.jsonnet\\'"
   :defer t
@@ -239,71 +209,3 @@
   (setq jsonnet-library-search-directories '("kubernetes/"))
   ;; Enable SMIE-based indentation
   (setq jsonnet-use-smie t))
-
-(use-package salt-mode
-  :ensure t
-  :config
-  (add-hook 'salt-mode-hook
-            (lambda ()
-              (flyspell-mode 1))))
-
-
-(use-package! treesit
-  :init
-  (setq treesit-language-source-alist
-        '(
-          (json . ("https://github.com/tree-sitter/tree-sitter-json"))
-          (python . ("https://github.com/tree-sitter/tree-sitter-python"))
-          (go . ("https://github.com/tree-sitter/tree-sitter-go"))
-          (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
-          (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
-          (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src"))
-          (gleam . ("https://github.com/gleam-lang/tree-sitter-gleam"))
-          (lua . ("https://github.com/Azganoth/tree-sitter-lua"))
-          (haskell . ("https://github.com/tree-sitter/tree-sitter-haskell"))
-          (elm . ("https://github.com/elm-tooling/tree-sitter-elm"))
-          (rust . ("https://github.com/tree-sitter/tree-sitter-rust"))
-          (bash . ("https://github.com/tree-sitter/tree-sitter-bash"))
-          (c . ("https://github.com/tree-sitter/tree-sitter-c"))
-          (cpp . ("https://github.com/tree-sitter/tree-sitter-cpp"))
-          (css . ("https://github.com/tree-sitter/tree-sitter-css"))
-          (html . ("https://github.com/tree-sitter/tree-sitter-html"))
-          (make . ("https://github.com/alemuller/tree-sitter-make"))
-          (org . ("https://github.com/milisims/tree-sitter-org"))
-          (sql . ("https://github.com/m-novikov/tree-sitter-sql"))
-          (toml . ("https://github.com/tree-sitter/tree-sitter-toml"))
-          (jsonnet . ("https://github.com/sourcegraph/tree-sitter-jsonnet"))
-          ))
-  :config
-  (setq major-mode-remap-alist
-        '(
-          (json-mode . json-ts-mode)
-          (yaml-mode . yaml-ts-mode)
-          (python-mode . python-ts-mode)
-          (go-mode . go-ts-mode)
-          (gleam-mode . gleam-ts-mode)
-          (bash-mode . bash-ts-mode)
-          (js2-mode . js-ts-mode)
-          (css-mode . css-ts-mode)
-          (jsonnet-mode . jsonnet-ts-mode)
-          ))
-  (add-to-list 'auto-mode-alist '("\\.[tj]sx?\\'" . tsx-ts-mode))
-
-  (defun vidbina/treesit-install-all-languages ()
-    "Install all languages specified by `treesit-language-source-alist'."
-    (interactive)
-    ;; https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
-    (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist)))
-
-  (defun nf/treesit-install-all-languages ()
-    "Install all languages specified by `treesit-language-source-alist'."
-    (interactive)
-    (let ((languages (mapcar 'car treesit-language-source-alist)))
-      (dolist (lang languages)
-	(treesit-install-language-grammar lang)
-	(message "`%s' parser was installed." lang)
-	(sit-for 0.75)))))
-
-;; https://github.com/emacs-tree-sitter/tree-sitter-langs
-(use-package! tree-sitter-langs
-  :after tree-sitter)

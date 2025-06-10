@@ -287,6 +287,10 @@ function switchgo() {
 # https://github.com/gsamokovarov/jump
 eval "$(jump shell)"
 
+# Formatters
+export YAMLFIX_WHITELINES="1"
+export YAMLFIX_COMMENTS_REQUIRE_STARTING_SPACE="true"
+
 # Python
 export PATH=$PATH:"$HOME/.local/bin"
 export PATH="$HOME/.pyenv/bin:$PATH"

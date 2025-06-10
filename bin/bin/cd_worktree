@@ -1,34 +1,33 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euxo pipefail
 
-# Assume we are in a git repository, cd into the worktree path given branch name,
-# otherwise create the branch first and then cd into it
+repo_root="$1"
+branch="$2"
+pr_number="$3"
 
-set -eu
+cd "$repo_root"
+git fetch --all
 
-if [ $# -ne 1 ]; then
-	echo "Usage: cd_worktree <branch>" >&2
-	exit 1
-fi
-
-branch="$1"
-repo_name=$(basename "$(git rev-parse --show-toplevel)")
-worktree_path="../${repo_name}-${branch}"
-
-# Check if worktree already exists
-path="$(git worktree list | grep -F "[${branch}]" | awk '{print $1}')"
-if [ "$path" != "" ]; then
+# reuse existing worktree if present
+if git worktree list | grep -F "[${branch}]" >/dev/null; then
+	path=$(git worktree list | grep -F "[${branch}]" | awk '{print $1}')
 	cd "$path"
-	exit 0
 fi
 
-# Check if branch exists, create if it doesn't
-if ! git rev-parse --verify "$branch" >/dev/null 2>&1; then
-	git branch "$branch"
+# ensure branch exists (fetch from origin if needed)
+if ! git show-ref --verify --quiet "refs/heads/${branch}"; then
+	git fetch origin "${branch}:${branch}"
 fi
 
-# Create worktree if it doesn't exist
-if [ ! -d "$worktree_path" ]; then
-	git worktree add "$worktree_path" "$branch"
-fi
+repo_name=$(basename "$(git rev-parse --show-toplevel)")
 
-cd "$worktree_path"
+# add new worktree
+worktree_root="$HOME/code/PULL_REQUEST_REVIEWS"
+mkdir -p "$worktree_root"
+worktree="${worktree_root}/${repo_name}-${branch}-PR${pr_number}"
+[ -d "$worktree" ] || git worktree add "$worktree" "$branch" || true
+
+cd "$worktree"
+
+tmux split-window -v -c "$worktree" "nvim -c ':Octo pr edit $pr_number'"
+direnv allow || true

@@ -26,6 +26,7 @@ exec --no-startup-id nm-applet
 # Startup Apps
 exec --no-startup-id slack
 exec --no-startup-id obsidian
+exec --no-startup-id /opt/Synergy/synergy
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status

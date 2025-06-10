@@ -65,6 +65,21 @@ return {
 			end
 		end,
 	},
+	{
+		"NotAShelf/direnv.nvim",
+		config = function()
+			require("direnv").setup({
+				autoload_direnv = true,
+
+				keybindings = {
+					allow = "<Leader>dea",
+					deny = "<Leader>ded",
+					reload = "<Leader>der",
+					edit = "<Leader>dee",
+				},
+			})
+		end,
+	},
 	"tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
 	"cappyzawa/starlark.vim",
 	-- "jiangmiao/auto-pairs", -- Surround brackets

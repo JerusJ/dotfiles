@@ -38,6 +38,8 @@ return {
 				-- setup dap config by VsCode launch.json file
 				require("dap.ext.vscode").load_launchjs()
 				local dap = require("dap")
+				dap.set_log_level("DEBUG")
+
 				local dapui = require("dapui")
 				dapui.setup(opts)
 				dap.listeners.after.event_initialized["dapui_config"] = function()
@@ -50,9 +52,17 @@ return {
 					dapui.close({})
 				end
 
+				local python_cmd = (function()
+					local v = os.getenv("VIRTUAL_ENV")
+					if v then
+						return v .. "/bin/python"
+					end
+					return "/usr/bin/python3"
+				end)()
+
 				dap.adapters.python = {
 					type = "executable",
-					command = os.getenv("VIRTUAL_ENV"),
+					command = python_cmd,
 					args = { "-m", "debugpy.adapter" },
 				}
 			end,
@@ -72,7 +82,7 @@ return {
 			opts = {
 				-- Makes a best effort to setup the various debuggers with
 				-- reasonable debug configurations
-				automatic_installation = true,
+				automatic_installation = false,
 
 				-- You can provide additional configuration to the handlers,
 				-- see mason-nvim-dap README for more information
@@ -83,7 +93,9 @@ return {
 				ensure_installed = {
 					-- Update this to ensure that you have the debuggers for the langs you want
 					"delve",
-					"debugpy",
+					-- NOTE(jesse): should be installed inside direnv/project, NOT Mason
+					-- Otherwise it won't find the project's dependencies.
+					-- "debugpy",
 				},
 			},
 		},

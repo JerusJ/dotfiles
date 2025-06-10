@@ -9,10 +9,8 @@ return {
 
 			null_ls.setup({
 				sources = {
-					null_ls.builtins.diagnostics.saltlint,
-
-					null_ls.builtins.formatting.black,
 					null_ls.builtins.formatting.clang_format,
+					null_ls.builtins.formatting.black,
 					-- null_ls.builtins.diagnostics.golangci_lint,
 					null_ls.builtins.formatting.goimports,
 					null_ls.builtins.formatting.hclfmt,
