@@ -178,6 +178,9 @@ return { -- LSP Configuration & Plugins
 				rubyfmt = {},
 				shellharden = {},
 				yamlfmt = {},
+				tilt = {
+					filetypes = { "tiltfile" },
+				},
 
 				helm_ls = {
 					settings = {
@@ -421,6 +424,7 @@ return { -- LSP Configuration & Plugins
 					--    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
 				}),
 				sources = {
+					{ name = "copilot" },
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
 					{ name = "path" },
