@@ -81,6 +81,7 @@ export LIBVIRT_DEFAULT_URI="qemu:///system"
 [ -r ~/.zsh_private ] && source ~/.zsh_private
 
 export EDITOR="nvim"
+export PAGER="nvim"
 export TERMINAL="alacritty"
 
 # =============
