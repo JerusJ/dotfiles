@@ -22,6 +22,9 @@ vim.opt.swapfile = false
 -- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 -- vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 -- vim.opt.foldlevelstart = 99 -- otherwise everything is folded...
+vim.opt.foldmethod = "expr"
+vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldlevelstart = 99
 
 -- Make line numbers default
 vim.opt.number = true
@@ -129,6 +132,15 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 	pattern = { ".terraformrc", "terraform.rc" },
 	callback = function()
 		vim.bo.filetype = "hcl"
+	end,
+})
+
+-- Tilt
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+	pattern = { "Tiltfile*" },
+	callback = function()
+		vim.bo.filetype = "tiltfile"
+		-- vim.bo.syntax = "starlark"
 	end,
 })
 

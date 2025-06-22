@@ -26,20 +26,17 @@ return {
 					null_ls.builtins.formatting.rubyfmt,
 				},
 			})
-
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = { "sls", "salt" },
-				callback = function()
-					vim.bo.shiftwidth = 2
-					vim.bo.tabstop = 2
-					vim.bo.softtabstop = 2
-					vim.bo.expandtab = true
-				end,
-			})
 		end,
 	},
 	{
-		"vmware-archive/salt-vim",
-		ft = "sls",
+		"chrisgrieser/nvim-origami",
+		event = "VeryLazy",
+		opts = {}, -- needed even when using default config
+
+		-- recommended: disable vim's auto-folding
+		init = function()
+			vim.opt.foldlevel = 99
+			vim.opt.foldlevelstart = 99
+		end,
 	},
 }
