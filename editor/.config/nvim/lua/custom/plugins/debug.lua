@@ -54,20 +54,23 @@ return {
 					args = { "-m", "debugpy.adapter" },
 				}
 
+				local cwd = vim.loop.cwd()
 				dap.adapters.jsonnet = {
 					type = "executable",
 					command = "jsonnet-debugger",
 					args = { "-s", "-d", "-J", "vendor", "-J", "lib" },
-					cwd = vim.loop.cwd(),
+					cwd = cwd,
 				}
 				dap.configurations.jsonnet = {
 					{
 						type = "jsonnet",
 						request = "launch",
 						name = "Debug Jsonnet",
-						program = "${file}", -- use full file path if possible
-						cwd = "${workspaceFolder}",
-						jpaths = { "vendor", "lib" }, -- ensure these are sent to the debugger
+						program = function()
+							return vim.fn.expand("%:p") -- absolute path of the current buffer
+						end,
+						cwd = cwd,
+						jpaths = { "vendor", "lib" },
 					},
 				}
 
