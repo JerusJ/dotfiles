@@ -171,7 +171,16 @@ return { -- LSP Configuration & Plugins
 				texlab = {},
 				ts_ls = {},
 				hclfmt = {},
-				jsonnet_ls = {},
+				jsonnet_ls = {
+					settings = {
+						jsonnet_ls = {
+							formatting = {
+								UseImplicitPlus = true,
+							},
+							jpath = { "vendor", "lib" },
+						},
+					},
+				},
 				jsonnetfmt = {},
 				marksman = {}, -- markdown
 				bzl = {},
@@ -179,7 +188,7 @@ return { -- LSP Configuration & Plugins
 				shellharden = {},
 				yamlfmt = {},
 				tilt = {
-					filetypes = { "tiltfile" },
+					filetypes = { "tiltfile", "Tiltfile" },
 				},
 
 				helm_ls = {
@@ -261,6 +270,19 @@ return { -- LSP Configuration & Plugins
 			-- You can add other tools here that you want Mason to install
 			-- for you, so that they are available from within Neovim.
 			local ensure_installed = vim.tbl_keys(servers or {})
+			-- skip installs when the binary already lives in $PATH
+			local function has_exe(pkg)
+				-- map LSP names → real executables when they differ
+				local bin_map = { jsonnet_ls = "jsonnet-language-server" }
+				return vim.fn.executable(bin_map[pkg] or pkg) == 1
+			end
+			local ensure_installed = {}
+			for pkg in pairs(servers) do
+				if not has_exe(pkg) then
+					table.insert(ensure_installed, pkg)
+				end
+			end
+
 			vim.list_extend(ensure_installed, {
 				"clang-format",
 				"cmakelang",
@@ -272,6 +294,7 @@ return { -- LSP Configuration & Plugins
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
 			require("mason-lspconfig").setup({
+				automatic_installation = false,
 				handlers = {
 					function(server_name)
 						local server = servers[server_name] or {}

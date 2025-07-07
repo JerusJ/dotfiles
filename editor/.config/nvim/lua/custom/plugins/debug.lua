@@ -40,18 +40,6 @@ return {
 				local dap = require("dap")
 				dap.set_log_level("DEBUG")
 
-				local dapui = require("dapui")
-				dapui.setup(opts)
-				dap.listeners.after.event_initialized["dapui_config"] = function()
-					dapui.open({})
-				end
-				dap.listeners.before.event_terminated["dapui_config"] = function()
-					dapui.close({})
-				end
-				dap.listeners.before.event_exited["dapui_config"] = function()
-					dapui.close({})
-				end
-
 				local python_cmd = (function()
 					local v = os.getenv("VIRTUAL_ENV")
 					if v then
@@ -65,6 +53,35 @@ return {
 					command = python_cmd,
 					args = { "-m", "debugpy.adapter" },
 				}
+
+				dap.adapters.jsonnet = {
+					type = "executable",
+					command = "jsonnet-debugger",
+					args = { "-s", "-d", "-J", "vendor", "-J", "lib" },
+					cwd = vim.loop.cwd(),
+				}
+				dap.configurations.jsonnet = {
+					{
+						type = "jsonnet",
+						request = "launch",
+						name = "Debug Jsonnet",
+						program = "${file}", -- use full file path if possible
+						cwd = "${workspaceFolder}",
+						jpaths = { "vendor", "lib" }, -- ensure these are sent to the debugger
+					},
+				}
+
+				local dapui = require("dapui")
+				dapui.setup(opts)
+				dap.listeners.after.event_initialized["dapui_config"] = function()
+					dapui.open({})
+				end
+				dap.listeners.before.event_terminated["dapui_config"] = function()
+					dapui.close({})
+				end
+				dap.listeners.before.event_exited["dapui_config"] = function()
+					dapui.close({})
+				end
 			end,
 		},
 
@@ -142,6 +159,20 @@ return {
 				require("dap").goto_()
 			end,
 			desc = "Go to line (no execute)",
+		},
+		{
+			"<F10>",
+			function()
+				require("dap").step_over()
+			end,
+			desc = "Step Over",
+		},
+		{
+			"<F11>",
+			function()
+				require("dap").step_into()
+			end,
+			desc = "Step Into",
 		},
 		{
 			"<leader>di",
