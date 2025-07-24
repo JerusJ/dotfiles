@@ -34,10 +34,12 @@ return {
 		},
 		config = function()
 			local project_actions = require("telescope._extensions.project.actions")
+			local theme = "ivy"
+
 			require("telescope").setup({
 				pickers = {
 					find_files = {
-						theme = "ivy",
+						theme = theme,
 						find_command = {
 							"rg",
 							"--files",
@@ -48,10 +50,10 @@ return {
 						},
 					},
 					live_grep = {
-						theme = "ivy",
+						theme = theme,
 					},
 					buffers = {
-						theme = "ivy",
+						theme = theme,
 						sort_mru = true,
 						ignore_current_buffer = true,
 						mappings = {
@@ -66,10 +68,10 @@ return {
 				},
 				defaults = {
 					color_devicons = false,
-					-- layout_config = {
-					-- 	width = 0.99,
-					-- 	height = 0.99,
-					-- },
+					layout_config = {
+						-- width = 0.99,
+						-- height = 0.99,
+					},
 					mappings = {
 						i = {
 							["<C-u>"] = false,
@@ -104,7 +106,7 @@ return {
 
 						ignore_missing_dirs = true, -- default: false
 						hidden_files = true, -- default: false
-						theme = "dropdown",
+						theme = theme,
 						order_by = "asc",
 						search_by = "title",
 						sync_with_nvim_tree = true, -- default false
@@ -187,6 +189,22 @@ return {
 			)
 
 			vim.keymap.set("n", "<C-p>", require("telescope.builtin").keymaps, { desc = "Search keymaps" })
+
+			-- Disable inner borders (so we look cool, like NVChad)
+			local normal_bg = vim.api.nvim_get_hl_by_name("Normal", true).background
+			local bg_hex = string.format("#%06x", normal_bg)
+
+			for _, grp in ipairs({
+				"TelescopeBorder",
+				"TelescopePromptBorder",
+				"TelescopeResultsBorder",
+				"TelescopePreviewBorder",
+				"TelescopePromptTitle",
+				"TelescopeResultsTitle",
+				"TelescopePreviewTitle",
+			}) do
+				vim.api.nvim_set_hl(0, grp, { fg = bg_hex, bg = bg_hex })
+			end
 		end,
 	},
 }

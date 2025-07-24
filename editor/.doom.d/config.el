@@ -102,6 +102,11 @@
 (add-to-list 'auto-mode-alist '("\\hcl\'" . terraform-mode))
 (add-to-list 'auto-mode-alist '("\\Tiltfile\'" . bazel-starlark-mode))
 (add-to-list 'auto-mode-alist '("\\jsonnet\'" . jsonnet-mode))
+(add-to-list 'auto-mode-alist '("\\pem\'" . x509-mode))
+(add-to-list 'auto-mode-alist '("\\key\'" . x509-mode))
+(add-to-list 'auto-mode-alist '("\\crt\'" . x509-mode))
+(add-to-list 'auto-mode-alist '("\\cert\'" . x509-mode))
+(add-to-list 'auto-mode-alist '("\\ca\'" . x509-mode))
 
 ;; ===============================
 ;; Modifiers

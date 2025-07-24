@@ -502,3 +502,4 @@ eval "$(zoxide init zsh)"
 
 # Uncomment below, and uncomment line at the start of this file to enable ZSH profiling
 # zprof
+eval "$(mise activate zsh)"

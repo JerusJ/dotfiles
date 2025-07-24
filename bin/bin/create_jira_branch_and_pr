@@ -99,5 +99,5 @@ else
   echo "GitHub PR already exists: $EXISTING_PR"
 fi
 
-TMUX_WINDOW_NAME="$BRANCH_NAME"
-tmux list-windows -F '#W' | grep -qx "$TMUX_WINDOW_NAME" || tmux new-window -n "$TMUX_WINDOW_NAME" -d "${EXTRA_COMMANDS}; ${SHELL}"
+TMUX_SESSION_NAME="$BRANCH_NAME"
+tmux list-sessions -F '#S' | grep -qx "$TMUX_SESSION_NAME" || tmux new-session -s "$TMUX_SESSION_NAME" -d "${EXTRA_COMMANDS}; ${SHELL}"
