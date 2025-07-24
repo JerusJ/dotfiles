@@ -2,6 +2,7 @@
 set -euxo pipefail
 
 repo_root="$1"
+repo_root=${repo_root/#\~/$HOME}
 branch="$2"
 pr_number="$3"
 
@@ -24,10 +25,11 @@ repo_name=$(basename "$(git rev-parse --show-toplevel)")
 # add new worktree
 worktree_root="$HOME/code/PULL_REQUEST_REVIEWS"
 mkdir -p "$worktree_root"
-worktree="${worktree_root}/${repo_name}-${branch}-PR${pr_number}"
+worktree="${worktree_root}/${repo_name}-PR${pr_number}"
 [ -d "$worktree" ] || git worktree add "$worktree" "$branch" || true
 
-cd "$worktree"
+worktree_tmp="${worktree_root}/$repo_name"
+cd "$worktree_tmp"
 
-tmux split-window -v -c "$worktree" "nvim -c ':Octo pr edit $pr_number'"
+tmux split-window -v -c "$worktree_tmp" "source ~/.zsh_private && nvim -c ':Octo pr edit $pr_number'"
 direnv allow || true

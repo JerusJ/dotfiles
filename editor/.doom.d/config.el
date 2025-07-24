@@ -90,6 +90,9 @@
 (setq org-directory "~/vaults/vaults-work")
 (setq org-journal-file-format "%Y%m%d.org")
 (setq org-journal-file-type 'weekly)
+(use-package! org
+  :mode ("\\.org\\'" . org-mode)
+  :config (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 
 ;; ===============================
 ;; Syntax Highlighting

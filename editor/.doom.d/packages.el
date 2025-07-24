@@ -7,6 +7,7 @@
 ;; Documentation
 ;; Org
 (package! toc-org)
+(package! verb)
 
 ;; PDF
 (package! pdf-tools)

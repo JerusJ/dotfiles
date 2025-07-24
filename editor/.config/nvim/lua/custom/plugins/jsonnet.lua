@@ -5,16 +5,16 @@ return {
 			local nvim_jsonnet = require("nvim-jsonnet")
 			nvim_jsonnet.setup({
 				-- Opinionated defaults
-				-- jsonnet_bin = "tk",
-				-- jsonnet_args = { "eval" },
-				jsonnet_string_bin = "jsonnet",
-				jsonnet_string_args = { "-S", "-J", "vendor", "-J", "lib" },
+				jsonnet_bin = "tk",
+				jsonnet_args = { "eval" },
+				-- jsonnet_string_bin = "jsonnet",
+				-- jsonnet_string_args = { "-S", "-J", "vendor", "-J", "lib" },
 				use_tanka_if_possible = true,
 
 				-- default to false to not break existing installs
-				load_lsp_config = false,
+				load_lsp_config = true,
 				-- Pass along nvim-cmp capabilities if you use that.
-				capabilities = require("cmp_nvim_lsp").default_capabilities(),
+				-- capabilities = require("cmp_nvim_lsp").default_capabilities(),
 
 				-- default to false to not break existing installs
 				load_dap_config = false,

@@ -82,5 +82,9 @@ return {
 	},
 	"tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
 	"cappyzawa/starlark.vim",
-	-- "jiangmiao/auto-pairs", -- Surround brackets
+	{
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		opts = {},
+	},
 }

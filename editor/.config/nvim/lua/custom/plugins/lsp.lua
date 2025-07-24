@@ -173,13 +173,14 @@ return { -- LSP Configuration & Plugins
 				ts_ls = {},
 				hclfmt = {},
 				jsonnet_ls = {
+					cmd = { vim.fn.exepath("jsonnet-language-server") },
+					-- cmd_env = { JSONNET_PATH = vim.fn.getcwd() .. "/vendor:" .. vim.fn.getcwd() .. "/lib" },
+					-- https://github.com/grafana/jsonnet-language-server/tree/main/editor/vim
 					settings = {
-						jsonnet_ls = {
-							formatting = {
-								UseImplicitPlus = true,
-							},
-							jpath = { "vendor", "lib" },
+						formatting = {
+							UseImplicitPlus = true,
 						},
+						jpath = { "vendor", "lib" },
 					},
 				},
 				jsonnetfmt = {},
@@ -271,18 +272,6 @@ return { -- LSP Configuration & Plugins
 			-- You can add other tools here that you want Mason to install
 			-- for you, so that they are available from within Neovim.
 			local ensure_installed = vim.tbl_keys(servers or {})
-			-- skip installs when the binary already lives in $PATH
-			local function has_exe(pkg)
-				-- map LSP names → real executables when they differ
-				local bin_map = { jsonnet_ls = "jsonnet-language-server" }
-				return vim.fn.executable(bin_map[pkg] or pkg) == 1
-			end
-			local ensure_installed = {}
-			for pkg in pairs(servers) do
-				if not has_exe(pkg) then
-					table.insert(ensure_installed, pkg)
-				end
-			end
 
 			vim.list_extend(ensure_installed, {
 				"clang-format",
