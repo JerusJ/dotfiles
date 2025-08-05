@@ -31,5 +31,8 @@ worktree="${worktree_root}/${repo_name}-PR${pr_number}"
 worktree_tmp="${worktree_root}/$repo_name"
 cd "$worktree_tmp"
 
-tmux split-window -v -c "$worktree_tmp" "source ~/.zsh_private && nvim -c ':Octo pr edit $pr_number'"
-direnv allow || true
+tmux split-window -v -c "$worktree_tmp" "nvim -c ':Octo pr edit $pr_number'"
+
+if [[ -f ./setup.sh ]]; then
+	./setup.sh
+fi
