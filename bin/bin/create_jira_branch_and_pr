@@ -92,7 +92,7 @@ PR_TITLE="${JIRA_ID}: ${JIRA_SUMMARY}"
 EXISTING_PR=$(gh pr list --head "$BRANCH_NAME" --json url --jq '.[].url')
 if [ "$EXISTING_PR" = "" ]; then
   echo "Creating GitHub PR..."
-  gh pr create --title "$PR_TITLE" --body "$JIRA_DESCRIPTION" --base main --draft
+  gh pr create --title "$PR_TITLE" --body "$JIRA_DESCRIPTION" --base main --assignee "@me" --draft
   EXISTING_PR=$(gh pr list --head "$BRANCH_NAME" --json url --jq '.[].url')
   jira issue link remote "$JIRA_ID" "$EXISTING_PR" "GitHub Pull Request"
 else

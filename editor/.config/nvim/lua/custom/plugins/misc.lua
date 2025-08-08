@@ -2,6 +2,7 @@
 return {
 	-- Automatic direnv loading
 	"direnv/direnv.vim",
+	"ejrichards/mise.nvim",
 
 	-- Comment with haste
 	{
