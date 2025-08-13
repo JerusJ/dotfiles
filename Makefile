@@ -13,10 +13,10 @@ update_submodules:
 sync: update_submodules
 	stow */ --adopt
 ifeq ($(CUR_PLATFORM), $(LINUX_PLATFORM))
-	sudo stow root -t /
+	sudo stow root -t / --adopt
 endif
 
-install: 
+install:
 	./install
 
 .PHONY: all update_submodules sync install

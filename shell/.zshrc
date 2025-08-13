@@ -11,14 +11,17 @@ fi
 export ZSH="$HOME/.oh-my-zsh"
 export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive # See: https://nixos.wiki/wiki/Locales
 
-plugins=(
-  aws
-  git
-  kubectl
-  kubectx
-  zsh-autosuggestions
-  zsh-completions
-)
+source $HOME/.antigen.zsh
+
+antigen use oh-my-zsh
+antigen bundle aws
+antigen bundle git
+antigen bundle kubectl
+antigen bundle kubectx
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+antigen apply
 
 source $ZSH/oh-my-zsh.sh
 source $HOME/.shell_functions
@@ -58,6 +61,8 @@ esac
 # =============
 #    INIT
 # =============
+export MISE_ENV="dev"
+
 export KUBECONFIG=$HOME/.kube/config
 # NOTE(jesse): broken since kubectx does not support (on Linux in default installation) multiple
 # KUBECONFIGs separated by ':'...

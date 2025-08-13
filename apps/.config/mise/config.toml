@@ -1,0 +1,32 @@
+[tools]
+go = 'latest'
+python = 'latest'
+pipx = 'latest'
+
+pre-commit = 'latest'
+
+terraform = 'latest'
+terragrunt = 'latest'
+tflint = 'latest'
+
+go-jsonnet = 'latest'
+helm = 'latest'
+jsonnet-bundler = 'latest'
+tanka = 'latest'
+
+usage = 'latest' # Shell autocompletion
+watchexec = 'latest' # For 'mise watch'
+teleport-community = 'latest' # Teleport CLI
+
+dagger = 'latest'
+
+k3d = 'latest'
+k9s = 'latest'
+kind = 'latest'
+kubectl = 'latest'
+kubectx = 'latest'
+kubens = 'latest'
+kustomize = 'latest'
+minikube = 'latest'
+tilt = 'latest'
+argocd = 'latest'
