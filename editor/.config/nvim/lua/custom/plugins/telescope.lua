@@ -22,6 +22,11 @@ return {
 			"Myzel394/telescope-last-positions",
 			"nvim-lua/plenary.nvim",
 			"nvim-tree/nvim-web-devicons",
+			"isak102/telescope-git-file-history.nvim",
+			dependencies = {
+				"nvim-lua/plenary.nvim",
+				"tpope/vim-fugitive",
+			},
 		},
 		keys = {
 			{
@@ -34,6 +39,7 @@ return {
 		},
 		config = function()
 			local project_actions = require("telescope._extensions.project.actions")
+			local gfh_actions = require("telescope").extensions.git_file_history.actions
 			local theme = "ivy"
 
 			require("telescope").setup({
@@ -66,6 +72,7 @@ return {
 						},
 					},
 				},
+
 				defaults = {
 					color_devicons = false,
 					layout_config = {
@@ -93,12 +100,29 @@ return {
 				},
 
 				extensions = {
+					git_file_history = {
+						-- Keymaps inside the picker
+						mappings = {
+							i = {
+								["<C-g>"] = gfh_actions.open_in_browser,
+							},
+							n = {
+								["<C-g>"] = gfh_actions.open_in_browser,
+							},
+						},
+
+						-- The command to use for opening the browser (nil or string)
+						-- If nil, it will check if xdg-open, open, start, wslview are available, in that order.
+						browser_command = nil,
+					},
+
 					fzf = {
 						fuzzy = true,
 						override_generic_sorter = true,
 						override_file_sorter = true,
 						case_mode = "smart_case",
 					},
+
 					project = {
 						base_dirs = {
 							{ "~/code", max_depth = 4 },
@@ -153,6 +177,7 @@ return {
 			pcall(require("telescope").load_extension, "git_worktree")
 			pcall(require("telescope").load_extension, "jsonfly")
 			pcall(require("telescope").load_extension, "project")
+			pcall(require("telescope").load_extension, "git_file_history")
 
 			vim.keymap.set("n", "<leader>fr", require("telescope.builtin").oldfiles, { desc = "Recently opened" })
 			vim.keymap.set("n", "<leader>b", require("telescope.builtin").buffers, { desc = "Open buffers" })
@@ -169,6 +194,12 @@ return {
 			vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "Grep" })
 			vim.keymap.set("n", "<leader>sp", require("telescope.builtin").live_grep, { desc = "Grep" })
 			vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "Diagnostics" })
+			vim.keymap.set(
+				"n",
+				"<leader>sf",
+				"<CMD>lua require('telescope').extensions.git_file_history.git_file_history()<CR>",
+				{ desc = "Search [F]ile Git History" }
+			)
 			vim.keymap.set(
 				"n",
 				"<leader>sr",

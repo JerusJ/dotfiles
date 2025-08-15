@@ -30,3 +30,5 @@ kustomize = 'latest'
 minikube = 'latest'
 tilt = 'latest'
 argocd = 'latest'
+
+lazygit = 'latest'

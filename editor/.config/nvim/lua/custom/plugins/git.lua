@@ -4,6 +4,9 @@ return {
 		"lewis6991/gitsigns.nvim",
 		opts = {},
 	},
+	{
+		"tpope/vim-fugitive",
+	},
 	-- {
 	-- 	"NeogitOrg/neogit",
 	-- 	dependencies = {
@@ -33,34 +36,34 @@ return {
 			vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>", { desc = "Open LazyGit" })
 		end,
 	},
-	{
-		"sindrets/diffview.nvim",
-		config = function()
-			vim.keymap.set("n", "<leader>gc", "<CMD>DiffviewClose<CR>", { desc = "Diffview Close" })
-			vim.keymap.set(
-				"n",
-				"<leader>go",
-				"<CMD>DiffviewOpen<CR>",
-				{ desc = "Diffview view Git File History compared to main" }
-			)
-			vim.keymap.set(
-				"n",
-				"<leader>go",
-				"<CMD>DiffviewOpen<CR>",
-				{ desc = "Diffview view Git File History compared to main" }
-			)
-			vim.keymap.set(
-				"n",
-				"<leader>gl",
-				"<CMD>DiffviewOpen main<CR>",
-				{ desc = "Diffview view Git File History compared to main" }
-			)
-			vim.keymap.set(
-				"n",
-				"<leader>gL",
-				"<CMD>DiffviewFileHistory<CR>",
-				{ desc = "Diffview view Git File History" }
-			)
-		end,
-	},
+	-- {
+	-- 	"sindrets/diffview.nvim",
+	-- 	config = function()
+	-- 		vim.keymap.set("n", "<leader>gc", "<CMD>DiffviewClose<CR>", { desc = "Diffview Close" })
+	-- 		vim.keymap.set(
+	-- 			"n",
+	-- 			"<leader>go",
+	-- 			"<CMD>DiffviewOpen<CR>",
+	-- 			{ desc = "Diffview view Git File History compared to main" }
+	-- 		)
+	-- 		vim.keymap.set(
+	-- 			"n",
+	-- 			"<leader>go",
+	-- 			"<CMD>DiffviewOpen<CR>",
+	-- 			{ desc = "Diffview view Git File History compared to main" }
+	-- 		)
+	-- 		vim.keymap.set(
+	-- 			"n",
+	-- 			"<leader>gl",
+	-- 			"<CMD>DiffviewOpen main<CR>",
+	-- 			{ desc = "Diffview view Git File History compared to main" }
+	-- 		)
+	-- 		vim.keymap.set(
+	-- 			"n",
+	-- 			"<leader>gL",
+	-- 			"<CMD>DiffviewFileHistory<CR>",
+	-- 			{ desc = "Diffview view Git File History" }
+	-- 		)
+	-- 	end,
+	-- },
 }
