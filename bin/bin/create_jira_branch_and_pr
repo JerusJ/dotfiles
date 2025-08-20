@@ -12,9 +12,13 @@ JIRA_ID="${JIRA_ID:-}"
 
 SUMMARY_SLUG=$(echo "$JIRA_SUMMARY" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd '[:alnum:]-' | cut -c1-80)
 
+function get_jira_id() {
+  jira issue list -q"project = $JIRA_PROJECT AND summary ~ \"$JIRA_SUMMARY\"" --plain --no-headers | awk '{print $2}' | head -n 1
+}
+
 if [ "$JIRA_ID" = "" ]; then
   echo "Searching for existing Jira issue..."
-  JIRA_ID=$(jira issue list -q"project = $JIRA_PROJECT AND summary ~ \"$JIRA_SUMMARY\"" --plain --no-headers | awk '{print $2}' | head -n 1)
+  JIRA_ID=$(get_jira_id)
 
   if [ "$JIRA_ID" = "" ]; then
     echo "Creating Jira issue..."
@@ -24,7 +28,7 @@ if [ "$JIRA_ID" = "" ]; then
   fi
 
   echo "Searching for existing Jira issue..."
-  JIRA_ID=$(jira issue list -q"project = $JIRA_PROJECT AND summary ~ \"$JIRA_SUMMARY\"" --plain --no-headers | awk '{print $2}' | head -n 1)
+  JIRA_ID=$(get_jira_id)
 fi
 
 echo "Using Jira issue: $JIRA_ID"

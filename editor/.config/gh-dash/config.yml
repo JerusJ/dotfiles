@@ -38,7 +38,7 @@ keybindings:
     - key: O
       command: open_pr_for_review "{{ .PrNumber }}" "{{ .RepoName }}" "{{ .RepoPath }}" "{{ .HeadRefName }}"
 repoPaths:
-  default_path: ~/code
+  cloud-pi/kosmos-infra: ~/code/kosmos-infra
 theme:
   ui:
     table:
