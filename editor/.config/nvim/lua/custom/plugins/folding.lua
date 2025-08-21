@@ -19,7 +19,7 @@ return {
 					gitsignsCount = true, -- requires `gitsigns.nvim`
 				},
 				autoFold = {
-					enabled = true,
+					enabled = false,
 					kinds = { "comment", "imports" }, ---@type lsp.FoldingRangeKind[]
 				},
 				foldKeymaps = {
@@ -31,6 +31,8 @@ return {
 
 		-- recommended: disable vim's auto-folding
 		init = function()
+			vim.opt.foldenable = false
+			vim.opt.foldmethod = "manual"
 			vim.opt.foldlevel = 999999
 			vim.opt.foldlevelstart = 999999
 		end,
