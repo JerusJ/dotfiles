@@ -3,6 +3,10 @@ return {
 	{
 		"lewis6991/gitsigns.nvim",
 		opts = {},
+		config = function()
+			vim.keymap.set("n", "<leader>gbb", "<cmd>Gitsigns blame<cr>", { desc = "[G]it [b]lame [b]uffer" })
+			vim.keymap.set("n", "<leader>gbl", "<cmd>Gitsigns blame_line<cr>", { desc = "[G]it [b]lame [l]ine" })
+		end,
 	},
 	{
 		"tpope/vim-fugitive",
