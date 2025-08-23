@@ -73,4 +73,83 @@ return {
 		event = "InsertEnter",
 		opts = {},
 	},
+	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		---@type Flash.Config
+		opts = {},
+		keys = {
+			{
+				"s",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").jump()
+				end,
+				desc = "Flash",
+			},
+			{
+				"S",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").treesitter()
+				end,
+				desc = "Flash Treesitter",
+			},
+			{
+				"r",
+				mode = "o",
+				function()
+					require("flash").remote()
+				end,
+				desc = "Remote Flash",
+			},
+			{
+				"R",
+				mode = { "o", "x" },
+				function()
+					require("flash").treesitter_search()
+				end,
+				desc = "Treesitter Search",
+			},
+			{
+				"<c-s>",
+				mode = { "c" },
+				function()
+					require("flash").toggle()
+				end,
+				desc = "Toggle Flash Search",
+			},
+		},
+	},
+	-- Scratch buffer to emulate doom emacs
+	{
+		"DestopLine/scratch-runner.nvim",
+		dependencies = "folke/snacks.nvim",
+		opts = {
+			-- Your options go here
+			sources = {
+				javascript = { "node" },
+				python = { "python" }, -- "py" or "python" if you are on Windows
+			},
+		},
+	},
+	{
+		"folke/snacks.nvim",
+		keys = {
+			{
+				"<leader>x",
+				function()
+					Snacks.scratch()
+				end,
+				desc = "Toggle Scratch Buffer",
+			},
+			{
+				"<leader>X",
+				function()
+					Snacks.scratch.select()
+				end,
+				desc = "Select Scratch Buffer",
+			},
+		},
+	},
 }
