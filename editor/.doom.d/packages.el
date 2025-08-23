@@ -44,3 +44,7 @@
 (package! jsonnet-mode)
 (package! x509-mode)
 (package! teleport)
+
+;; Mise
+(package! mise)
+(package! breadcrumb)

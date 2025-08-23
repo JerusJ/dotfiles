@@ -70,6 +70,31 @@
       ;; scroll-preserve-screen-position 'always     ; Don't have `point' jump around
       scroll-margin 2)
 
+;; ===============================
+;; Company
+;; ===============================
+;; Inspiration: https://github.com/iocanel/dotfiles/blob/master/.config/emacs/config.org
+(after! company
+  (setq company-idle-delay nil
+        company-tooltip-limit 20
+        company-echo-delay 0
+        company-begin-commands '(self-insert-command)
+        company-tooltip-align-annotations t
+        company-dabbrev-downcase nil
+        company-frontends '(company-tng-frontend company-pseudo-tooltip-frontend))
+
+  ;; Auto-commit when there's exactly one candidate
+  (defun +company-commit-if-single (&rest _)
+    (when (and (bound-and-true-p company-candidates)
+               (= (length company-candidates) 1))
+      (company-complete-selection)))
+
+  (add-hook 'company-completion-started #'+company-commit-if-single)
+
+  ;; TAB to start/cycle; S-TAB to cycle backward
+  (map! :i [tab]     #'company-complete-common-or-cycle
+        :i [backtab] #'company-select-previous))
+
 ;; Like tmux rotate layout
 (map! :map evil-window-map
       "SPC" #'rotate-layout
@@ -134,8 +159,14 @@
 (after! lsp-python-ms
   (setq lsp-python-ms-executable (executable-find "python-language-server"))
   (set-lsp-priority! 'mspyls 1))
-
 (setq dap-python-debugger 'debugpy)
+
+;; (after! lsp-mode
+;;   (setq lsp-headerline-breadcrumb-enable t
+;;         lsp-headerline-breadcrumb-segments '(file symbols)
+;;         lsp-headerline-breadcrumb-icons-enable t)
+;;   (add-hook 'lsp-mode-hook #'lsp-headerline-breadcrumb-mode))
+
 
 (setq jsonnet-command 'tk)
 
@@ -217,3 +248,20 @@
   (setq jsonnet-library-search-directories '("kubernetes/"))
   ;; Enable SMIE-based indentation
   (setq jsonnet-use-smie t))
+
+(use-package! mise
+  :config
+  (add-hook 'after-init-hook #'global-mise-mode))
+
+(use-package! breadcrumb
+  :hook ((prog-mode text-mode conf-mode) . breadcrumb-local-mode)
+  :init
+  ;; snappier refresh; bump if your imenu is heavy
+  (setq breadcrumb-idle-delay 0.15)
+  :config
+  ;; put crumbs in header-line explicitly
+  (defun +bc-headerline ()
+    (setq-local header-line-format
+                '((:eval (breadcrumb-project-crumbs)) "  "
+                  (:eval (breadcrumb-imenu-crumbs)))))
+  (add-hook 'breadcrumb-local-mode-hook #'+bc-headerline))

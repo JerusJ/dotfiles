@@ -2,6 +2,7 @@
 go = 'latest'
 python = 'latest'
 pipx = 'latest'
+node = 'latest'
 
 pre-commit = 'latest'
 
@@ -32,3 +33,16 @@ tilt = 'latest'
 argocd = 'latest'
 
 lazygit = 'latest'
+
+[settings]
+experimental = true
+
+[tasks.'install-lsp']
+run = [
+  'npm install -g vscode-langservers-extracted',
+  'npm install -g yaml-language-server',
+  'npm install -g bash-language-server',
+  'npm install -g dockerfile-language-server-nodejs',
+  'npm install -g @taplo/cli',
+  'doom sync',
+]

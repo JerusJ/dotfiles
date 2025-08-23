@@ -1,0 +1,10 @@
+#!/bin/sh
+
+hyprpaper &
+waybar &
+chromium &
+nm-applet --indicator &
+
+alacritty &
+vmware-user &
+/opt/Synergy/synergy &
