@@ -32,8 +32,6 @@ minikube = 'latest'
 tilt = 'latest'
 argocd = 'latest'
 
-lazygit = 'latest'
-
 [settings]
 experimental = true
 
