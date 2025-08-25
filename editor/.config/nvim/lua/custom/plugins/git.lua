@@ -15,7 +15,8 @@ return {
 	-- 	"NeogitOrg/neogit",
 	-- 	dependencies = {
 	-- 		"nvim-lua/plenary.nvim", -- required
-	-- 		"sindrets/diffview.nvim", -- optional - Diff integration
+	-- 		-- "sindrets/diffview.nvim", -- optional - Diff integration
+	-- 		"akinsho/git-conflict.nvim",
 	-- 		"nvim-telescope/telescope.nvim", -- optional
 	-- 	},
 	-- 	config = function()
@@ -24,7 +25,8 @@ return {
 	-- 			kind = "vsplit",
 	-- 			use_per_project_settings = false,
 	-- 			integrations = {
-	-- 				diffview = true,
+	-- 				telescope = true,
+	-- 				-- diffview = true,
 	-- 			},
 	-- 		})
 	--
