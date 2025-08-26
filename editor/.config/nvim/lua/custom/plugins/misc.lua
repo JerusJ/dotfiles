@@ -163,7 +163,7 @@ return {
 
 			vim.api.nvim_set_keymap(
 				"n",
-				"<leader>cc",
+				"<C-c><C-c>",
 				"<cmd>lua require 'mdeval'.eval_code_block()<CR>",
 				{ silent = true, noremap = true }
 			)
