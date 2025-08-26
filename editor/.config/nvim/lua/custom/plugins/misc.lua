@@ -152,4 +152,21 @@ return {
 			},
 		},
 	},
+
+	-- Org-like block evaluation for Markdown
+	{
+		"jubnzv/mdeval.nvim",
+		config = function()
+			require("mdeval").setup({
+				require_confirmation = false,
+			})
+
+			vim.api.nvim_set_keymap(
+				"n",
+				"<leader>cc",
+				"<cmd>lua require 'mdeval'.eval_code_block()<CR>",
+				{ silent = true, noremap = true }
+			)
+		end,
+	},
 }
