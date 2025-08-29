@@ -11,37 +11,36 @@ return {
 	{
 		"tpope/vim-fugitive",
 	},
-	-- {
-	-- 	"NeogitOrg/neogit",
-	-- 	dependencies = {
-	-- 		"nvim-lua/plenary.nvim", -- required
-	-- 		-- "sindrets/diffview.nvim", -- optional - Diff integration
-	-- 		"akinsho/git-conflict.nvim",
-	-- 		"nvim-telescope/telescope.nvim", -- optional
-	-- 	},
-	-- 	config = function()
-	-- 		local neogit = require("neogit")
-	-- 		neogit.setup({
-	-- 			kind = "vsplit",
-	-- 			use_per_project_settings = false,
-	-- 			integrations = {
-	-- 				telescope = true,
-	-- 				-- diffview = true,
-	-- 			},
-	-- 		})
-	--
-	-- 		vim.keymap.set("n", "<leader>gg", neogit.open, { desc = "Open NeoGit" })
-	-- 	end,
-	-- },
 	{
-		"kdheepak/lazygit.nvim",
+		"NeogitOrg/neogit",
 		dependencies = {
-			"nvim-lua/plenary.nvim",
+			"nvim-lua/plenary.nvim", -- required
+			-- "sindrets/diffview.nvim", -- optional - Diff integration
+			"nvim-telescope/telescope.nvim", -- optional
 		},
 		config = function()
-			vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>", { desc = "Open LazyGit" })
+			local neogit = require("neogit")
+			neogit.setup({
+				kind = "vsplit",
+				use_per_project_settings = false,
+				integrations = {
+					telescope = true,
+					-- diffview = true,
+				},
+			})
+
+			vim.keymap.set("n", "<leader>gg", neogit.open, { desc = "Open NeoGit" })
 		end,
 	},
+	-- {
+	-- 	"kdheepak/lazygit.nvim",
+	-- 	dependencies = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 	},
+	-- 	config = function()
+	-- 		vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>", { desc = "Open LazyGit" })
+	-- 	end,
+	-- },
 	-- {
 	-- 	"sindrets/diffview.nvim",
 	-- 	config = function()
