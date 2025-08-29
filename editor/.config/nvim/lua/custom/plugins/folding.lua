@@ -1,40 +1,38 @@
 return {
 	{
-		"chrisgrieser/nvim-origami",
-		event = "VeryLazy",
-		opts = {}, -- needed even when using default config
+		"kevinhwang91/nvim-ufo",
+		dependencies = { "kevinhwang91/promise-async" },
 
-		config = function()
-			require("origami").setup({
-				useLspFoldsWithTreesitterFallback = true,
-				pauseFoldsOnSearch = true,
-				foldtext = {
-					enabled = true,
-					padding = 3,
-					lineCount = {
-						template = "%d lines", -- `%d` is replaced with the number of folded lines
-						hlgroup = "Comment",
-					},
-					diagnosticsCount = true, -- uses hlgroups and icons from `vim.diagnostic.config().signs`
-					gitsignsCount = true, -- requires `gitsigns.nvim`
-				},
-				autoFold = {
-					enabled = false,
-					kinds = { "comment", "imports" }, ---@type lsp.FoldingRangeKind[]
-				},
-				foldKeymaps = {
-					setup = true, -- modifies `h`, `l`, and `$`
-					hOnlyOpensOnFirstColumn = false,
-				},
+		init = function()
+			-- Folding available, but start fully open
+			vim.opt.foldenable = true
+			vim.opt.foldlevel = 99
+			vim.opt.foldlevelstart = 99
+			vim.opt.foldcolumn = "0"
+
+			-- Safety: if anything resets it on open (sessions/filetype plugins), re-open
+			vim.api.nvim_create_autocmd({ "BufReadPost", "FileType" }, {
+				callback = function()
+					if vim.wo.foldlevel < 99 then
+						vim.wo.foldlevel = 99
+					end
+				end,
 			})
 		end,
 
-		-- recommended: disable vim's auto-folding
-		init = function()
-			vim.opt.foldenable = false
-			vim.opt.foldmethod = "manual"
-			vim.opt.foldlevel = 999999
-			vim.opt.foldlevelstart = 999999
+		config = function()
+			require("ufo").setup({
+				open_fold_hl_timeout = 0,
+				-- Prevent UFO from auto-folding new buffers
+				close_fold_kinds = {}, -- << key line
+				provider_selector = function(_, _, _)
+					return { "treesitter", "indent" }
+				end,
+			})
+
+			-- Optional: convenience maps
+			vim.keymap.set("n", "zR", require("ufo").openAllFolds)
+			vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
 		end,
 	},
 }
