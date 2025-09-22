@@ -7,7 +7,7 @@ REPO_NAME="$2"
 REPO_PATH="$3"
 HEAD_REF_NAME="$4"
 
-TMUX_WINDOW_NAME="PR-${PR_NUMBER}-${REPO_NAME}"
+TMUX_NAME="PR-${PR_NUMBER}-${REPO_NAME}"
 
 cat <<EOF >/tmp/test
 PR_NUMBER="${PR_NUMBER}"
@@ -16,4 +16,5 @@ REPO_PATH="${REPO_PATH}"
 HEAD_REF_NAME="${HEAD_REF_NAME}"
 EOF
 
-tmux new-window -n "$TMUX_WINDOW_NAME" "cd_worktree '$REPO_PATH' '$HEAD_REF_NAME' '$PR_NUMBER'"
+EXTRA_COMMANDS="cd_worktree '$REPO_PATH' '$HEAD_REF_NAME' '$PR_NUMBER'"
+tmux list-sessions -F '#S' | grep -qx "$TMUX_NAME" || tmux new-session -s "$TMUX_NAME" -d "${EXTRA_COMMANDS}; ${SHELL}"

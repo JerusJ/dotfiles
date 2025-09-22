@@ -12,49 +12,59 @@ JIRA_ID="${JIRA_ID:-}"
 
 SUMMARY_SLUG=$(echo "$JIRA_SUMMARY" | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | tr -cd '[:alnum:]-' | cut -c1-80)
 
-function get_jira_id() {
+get_jira_id() {
   jira issue list -q"project = $JIRA_PROJECT AND summary ~ \"$JIRA_SUMMARY\"" --plain --no-headers | awk '{print $2}' | head -n 1
 }
 
 if [ "$JIRA_ID" = "" ]; then
   echo "Searching for existing Jira issue..."
   JIRA_ID=$(get_jira_id)
-
   if [ "$JIRA_ID" = "" ]; then
     echo "Creating Jira issue..."
-    jira issue create --project "$JIRA_PROJECT" -tTask --summary "$JIRA_SUMMARY" --assignee "$JIRA_EMAIL"
+    create_cmd="jira issue create --project \"$JIRA_PROJECT\" -tTask --summary \"$JIRA_SUMMARY\" --assignee \"$JIRA_EMAIL\""
+    if [ "$JIRA_EPIC" != "" ]; then
+      create_cmd="$create_cmd --parent \"$JIRA_EPIC\""
+    fi
+    eval "$create_cmd"
+
+    # Wait for issue to be indexed
+    max_attempts=10
+    attempt=1
+    while [ "$attempt" -le "$max_attempts" ]; do
+      JIRA_ID=$(get_jira_id)
+      if [ "$JIRA_ID" != "" ]; then
+        break
+      fi
+      sleep 1
+      ((attempt++))
+    done
+    if [ "$JIRA_ID" = "" ]; then
+      echo "Error: Could not find the created Jira issue after $max_attempts attempts."
+      exit 1
+    fi
   else
     echo "Using existing Jira issue: $JIRA_ID"
   fi
-
-  echo "Searching for existing Jira issue..."
-  JIRA_ID=$(get_jira_id)
 fi
 
 echo "Using Jira issue: $JIRA_ID"
 
 JIRA_URL="${JIRA_URL}/browse/${JIRA_ID}"
 
+# If epic provided and not set (in case existing issue)
 if [ "$JIRA_EPIC" != "" ]; then
   echo "Linking to Jira Epic: '$JIRA_EPIC'"
-  EPIC_LINKED=$(jira issue view "$JIRA_ID" --plain | grep -F "Epic Link" | grep -q "$JIRA_EPIC" && echo "yes" || echo "no")
-  if [ "$EPIC_LINKED" = "no" ]; then
+  epic_linked=$(jira issue view "$JIRA_ID" --plain | grep -E "^Epic Link[[:space:]]+${JIRA_EPIC}" && echo "yes" || echo "no")
+  if [ "$epic_linked" = "no" ]; then
     echo "Assigning to epic..."
     jira issue edit "$JIRA_ID" --parent "$JIRA_EPIC" --no-input
   fi
 fi
 
-# strip color codes and odd spacing
-JIRA_DESCRIPTION=$(jira issue view "$JIRA_ID" --plain |
-  sed -n '/^[- ]*Description[- ]*$/,/^ *View this issue on Jira:/p' |
-  sed '1d;$d' |
-  sed -E 's/\x1b\[[0-9;]*m//g' |
-  sed '/^$/! { s/^[[:space:]]\+//; s/[[:space:]]\+$//; s/[[:space:]]\+/ /g }' |
-  cat -s |
-  sed '/./,$!d' |
-  tac |
-  sed '/./,$!d' |
-  tac)
+# TODO: this is insane. Refactor or just put in a code block.
+# Extract description
+JIRA_DESCRIPTION=$(echo "$ISSUE" |
+  sed -n '/^[- ]*Description[- ]*$/,/^ *View this issue on Jira:/p')
 
 BRANCH_NAME="${JIRA_ID}/${SUMMARY_SLUG}"
 WORKTREE_PATH="$HOME/code/${JIRA_ID}-${SUMMARY_SLUG}"
@@ -104,4 +114,8 @@ else
 fi
 
 TMUX_SESSION_NAME="$BRANCH_NAME"
-tmux list-sessions -F '#S' | grep -qx "$TMUX_SESSION_NAME" || tmux new-session -s "$TMUX_SESSION_NAME" -d "${EXTRA_COMMANDS}; ${SHELL}"
+if ! tmux has-session -t "$TMUX_SESSION_NAME" 2>/dev/null; then
+  tmux new-session -s "$TMUX_SESSION_NAME" -c "$WORKTREE_PATH" -d "$SHELL"
+  tmux send-keys -t "$TMUX_SESSION_NAME":1 "${EXTRA_COMMANDS}; ${SHELL}" C-m
+  tmux new-window -t "$TMUX_SESSION_NAME" -n "run" -c "$WORKTREE_PATH" -d
+fi
