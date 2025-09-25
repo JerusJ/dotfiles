@@ -67,7 +67,7 @@ JIRA_DESCRIPTION=$(echo "$ISSUE" |
   sed -n '/^[- ]*Description[- ]*$/,/^ *View this issue on Jira:/p')
 
 BRANCH_NAME="${JIRA_ID}/${SUMMARY_SLUG}"
-WORKTREE_PATH="$HOME/code/${JIRA_ID}-${SUMMARY_SLUG}"
+WORKTREE_PATH="$HOME/code/_WORKTREES/${JIRA_ID}-${SUMMARY_SLUG}"
 
 cd "$REPO_PATH"
 git fetch origin
