@@ -61,10 +61,12 @@ if [ "$JIRA_EPIC" != "" ]; then
   fi
 fi
 
-# TODO: this is insane. Refactor or just put in a code block.
-# Extract description
-JIRA_DESCRIPTION=$(echo "$ISSUE" |
-  sed -n '/^[- ]*Description[- ]*$/,/^ *View this issue on Jira:/p')
+# Extract description for later Github PR body
+JIRA_DESCRIPTION=$(
+  jira issue view "$JIRA_ID" --plain |
+    sed -n '/^[- ]*Description[- ]*$/,/^ *View this issue on Jira:/p' |
+    sed 's/\x1b\[[0-9;]*[a-zA-Z]//g'
+)
 
 BRANCH_NAME="${JIRA_ID}/${SUMMARY_SLUG}"
 WORKTREE_PATH="$HOME/code/_WORKTREES/${JIRA_ID}-${SUMMARY_SLUG}"

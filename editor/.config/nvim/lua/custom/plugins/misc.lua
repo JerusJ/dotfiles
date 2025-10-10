@@ -121,37 +121,6 @@ return {
 			},
 		},
 	},
-	-- Scratch buffer to emulate doom emacs
-	{
-		"DestopLine/scratch-runner.nvim",
-		dependencies = "folke/snacks.nvim",
-		opts = {
-			-- Your options go here
-			sources = {
-				javascript = { "node" },
-				python = { "python" }, -- "py" or "python" if you are on Windows
-			},
-		},
-	},
-	{
-		"folke/snacks.nvim",
-		keys = {
-			{
-				"<leader>x",
-				function()
-					Snacks.scratch()
-				end,
-				desc = "Toggle Scratch Buffer",
-			},
-			{
-				"<leader>X",
-				function()
-					Snacks.scratch.select()
-				end,
-				desc = "Select Scratch Buffer",
-			},
-		},
-	},
 
 	-- Org-like block evaluation for Markdown
 	{
