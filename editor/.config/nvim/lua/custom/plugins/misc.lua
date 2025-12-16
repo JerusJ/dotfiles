@@ -138,4 +138,8 @@ return {
 			)
 		end,
 	},
+	{
+		"terrastruct/d2-vim",
+		ft = { "d2" },
+	},
 }

@@ -48,3 +48,6 @@
 ;; Mise
 (package! mise)
 (package! breadcrumb)
+
+;; D2
+(package! d2-mode)
