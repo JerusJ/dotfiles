@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# CPU utilisation sparkline, from the aggregate line of /proc/stat.
+set -euo pipefail
+# shellcheck source=sparkline.sh
+source "$(dirname "$(readlink -f "$0")")/sparkline.sh"
+
+read -r _ user nice system idle iowait irq softirq steal _ < /proc/stat
+total=$((user + nice + system + idle + iowait + irq + softirq + steal))
+idle_all=$((idle + iowait))
+
+state="$STATE_DIR/cpu.prev"
+# A missing or damaged state file must not take the whole block down; the
+# first sample after that just reports the average since boot.
+[[ -s $state ]] && read -r prev_total prev_idle < "$state"
+[[ ${prev_total-} =~ ^[0-9]+$ && ${prev_idle-} =~ ^[0-9]+$ ]] || { prev_total=0; prev_idle=0; }
+printf '%s %s\n' "$total" "$idle_all" > "$state"
+
+d_total=$((total - prev_total))
+d_idle=$((idle_all - prev_idle))
+usage=0
+((d_total > 0)) && usage=$(((100 * (d_total - d_idle)) / d_total))
+
+# shellcheck disable=SC2046 # word splitting is how the history is passed on
+graph=$(sparkline 100 $(push_history cpu "$usage"))
+color=$(level_color "$(awk -v u="$usage" 'BEGIN { print u / 100 }')")
+
+printf '%s %s <span foreground="%s">%3d%%</span>\n' \
+    "$(icon f2db '#81a2be')" "$graph" "$color" "$usage"

@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# Download/upload sparklines for the interface carrying the default route.
+# Both graphs share one auto-scaled ceiling so their heights are comparable.
+set -euo pipefail
+# shellcheck source=sparkline.sh
+source "$(dirname "$(readlink -f "$0")")/sparkline.sh"
+
+iface=$(ip route show default 2>/dev/null | awk '{ print $5; exit }')
+if [[ -z $iface ]]; then
+    printf '<span foreground="%s">  offline</span>\n' "$HIGH"
+    exit 0
+fi
+
+rx=$(< "/sys/class/net/$iface/statistics/rx_bytes")
+tx=$(< "/sys/class/net/$iface/statistics/tx_bytes")
+now=$(awk '{ print $1; exit }' /proc/uptime)
+
+state="$STATE_DIR/net.prev"
+# A missing or damaged state file must not take the whole block down;
+# falling back to the current sample just reports a zero rate for one tick.
+[[ -s $state ]] && read -r prev_rx prev_tx prev_t < "$state"
+[[ ${prev_rx-} =~ ^[0-9]+$ && ${prev_tx-} =~ ^[0-9]+$ && ${prev_t-} =~ ^[0-9.]+$ ]] ||
+    { prev_rx=$rx; prev_tx=$tx; prev_t=$now; }
+printf '%s %s %s\n' "$rx" "$tx" "$now" > "$state"
+
+read -r rx_rate tx_rate < <(awk -v rx="$rx" -v tx="$tx" -v prx="$prev_rx" -v ptx="$prev_tx" \
+    -v t="$now" -v pt="$prev_t" 'BEGIN {
+        dt = t - pt
+        if (dt <= 0 || rx < prx || tx < ptx) { print 0, 0; exit }
+        printf "%d %d\n", (rx - prx) / dt, (tx - ptx) / dt
+    }')
+
+rx_hist=$(push_history net_rx "$rx_rate")
+tx_hist=$(push_history net_tx "$tx_rate")
+
+# Scale to the busiest sample in the window, with a 128 KiB/s floor so an idle
+# link stays flat instead of amplifying noise.
+# shellcheck disable=SC2046,SC2086
+scale=$(awk 'BEGIN { m = 131072 } { for (i = 1; i <= NF; i++) if ($i > m) m = $i } END { print m }' \
+    <<< "$rx_hist $tx_hist")
+
+human() {
+    awk -v b="$1" 'BEGIN {
+        split("K M G", u, " ")
+        if (b < 1024) { printf "%3dB", b; exit }
+        for (i = 1; i <= 3; i++) {
+            b /= 1024
+            if (b < 1024 || i == 3) { printf (b < 10 ? "%.1f%s" : "%3.0f%s"), b, u[i]; exit }
+        }
+    }'
+}
+
+# shellcheck disable=SC2046 # word splitting is how the history is passed on
+down=$(sparkline "$scale" $rx_hist)
+# shellcheck disable=SC2046
+up=$(sparkline "$scale" $tx_hist)
+
+printf '%s %s %s  %s %s %s\n' \
+    "$(icon f175 '#70c0ba')" "$down" "$(human "$rx_rate")" \
+    "$(icon f176 '#e6c547')" "$up" "$(human "$tx_rate")"

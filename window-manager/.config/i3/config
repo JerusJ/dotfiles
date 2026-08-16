@@ -8,9 +8,22 @@ set $mod Mod1
 # is used in the bar {} block below.
 font pango:IosevkaTerm Nerd Font semibold 10
 
-# Remove window borders
-default_border pixel 0
-default_floating_border pixel 0
+# Thin borders, only drawn when a workspace actually has neighbours
+default_border pixel 2
+default_floating_border pixel 2
+smart_borders on
+
+# Gaps
+gaps inner 8
+gaps outer 2
+smart_gaps on
+
+# class                 border  backgr. text    indicator child_border
+client.focused          #81a2be #81a2be #1d1f21 #b294bb   #81a2be
+client.focused_inactive #373b41 #373b41 #c5c8c6 #373b41   #373b41
+client.unfocused        #282a2e #282a2e #666666 #282a2e   #282a2e
+client.urgent           #cc6666 #cc6666 #1d1f21 #cc6666   #cc6666
+client.background       #1d1f21
 
 # CAPS --> CTRL
 exec --no-startup-id xmodmap $HOME/.Xmodmap
@@ -29,7 +42,7 @@ exec --no-startup-id obsidian
 exec --no-startup-id /opt/Synergy/synergy
 
 # Use pactl to adjust volume in PulseAudio.
-set $refresh_i3status killall -SIGUSR1 i3status
+set $refresh_i3status pkill -SIGRTMIN+10 i3blocks
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
@@ -194,7 +207,23 @@ bindsym $mod+Tab  workspace back_and_forth
 # finds out, if available)
 bar {
         position top
-        status_command i3status
+        status_command i3blocks
+        font pango:IosevkaTerm Nerd Font semibold 10
+        separator_symbol "·"
+        tray_padding 4
+
+        colors {
+                background #1d1f21
+                statusline #c5c8c6
+                separator  #373b41
+
+                #                  border  backgr. text
+                focused_workspace  #81a2be #81a2be #1d1f21
+                active_workspace   #282a2e #282a2e #c5c8c6
+                inactive_workspace #1d1f21 #1d1f21 #666666
+                urgent_workspace   #cc6666 #cc6666 #1d1f21
+                binding_mode       #e6c547 #e6c547 #1d1f21
+        }
 }
 # volume master {
 #         format = "♪: %volume"

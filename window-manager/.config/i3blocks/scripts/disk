@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Free space on the mount point given as $1 (default /).
+set -euo pipefail
+
+# shellcheck source=sparkline.sh
+source "$(dirname "$(readlink -f "$0")")/sparkline.sh"
+
+mount=${1:-/}
+read -r avail pct < <(df -h --output=avail,pcent "$mount" | awk 'NR == 2 { gsub(/%/, "", $2); print $1, $2 }')
+
+color="#b5bd68"
+((pct >= 80)) && color="#e6c547"
+((pct >= 90)) && color="#cc6666"
+
+printf '%s <span foreground="%s">%s</span>\n' "$(icon f0a0 '#81a2be')" "$color" "$avail"

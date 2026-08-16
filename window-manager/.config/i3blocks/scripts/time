@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Date plus US Eastern wall clock, with UTC alongside.
+# This host runs on UTC, so Eastern has to be named explicitly. %Z prints
+# EDT or EST as the season dictates rather than hardcoding one of them.
+set -euo pipefail
+# shellcheck source=sparkline.sh
+source "$(dirname "$(readlink -f "$0")")/sparkline.sh"
+
+eastern=$(TZ=America/New_York date '+%d/%m/%Y %H:%M %Z')
+utc=$(date -u '+%H:%M UTC')
+
+printf '%s <span foreground="#c5c8c6">%s</span> <span foreground="#666666">(%s)</span>\n' \
+    "$(icon f017 '#666666')" "$eastern" "$utc"

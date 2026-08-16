@@ -1,0 +1,25 @@
+# i3blocks -- status bar for i3. Every block is a script in ./scripts.
+
+command=~/.config/i3blocks/scripts/$BLOCK_NAME
+separator=false
+separator_block_width=18
+markup=pango
+
+[network]
+interval=2
+
+[cpu]
+interval=2
+
+[memory]
+interval=5
+
+[disk]
+interval=60
+
+[volume]
+interval=once
+signal=10
+
+[time]
+interval=5
