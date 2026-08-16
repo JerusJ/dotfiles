@@ -28,13 +28,35 @@ client.background       #1d1f21
 # CAPS --> CTRL
 exec --no-startup-id xmodmap $HOME/.Xmodmap
 
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
+# It docks into the tray window i3bar owns, and that window is destroyed and
+# recreated on every i3 restart. nm-applet does not re-dock on its own, so it
+# has to be replaced alongside the bar or its icon silently disappears.
+exec_always --no-startup-id "pkill -x nm-applet; nm-applet"
+
+# polkit's daemon decides whether a privileged request is allowed, but it needs
+# a separate agent process to actually draw the password prompt. Without one,
+# anything asking for elevation -- nm-applet editing a system connection, most
+# obviously -- fails with no dialog and no error at all.
+#
+# Notification daemon for this display. The VNC session's awesome used to claim
+# org.freedesktop.Notifications for the whole user bus, which put every
+# notification on :2; its rc.lua now leaves the name alone. Started explicitly
+# rather than left to D-Bus activation so it is guaranteed to inherit DISPLAY
+# from i3 rather than whichever session last wrote the activation environment.
+#
+# Both use exec_always with a liveness guard rather than plain exec: exec only
+# fires on a fresh i3 start and is skipped by restarts, so a plain exec line
+# leaves these dead for the rest of the session if they ever crash or if the
+# line is added mid-session.
+#
+# The guard is pidof rather than pgrep -f. pgrep -f matches command lines, and
+# the command line i3 hands to sh contains the very path being searched for --
+# so the check matches its own shell, always looks satisfied, and nothing ever
+# starts. pidof compares executables instead, so it cannot match the shell.
+exec_always --no-startup-id "pidof /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 >/dev/null || /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+exec_always --no-startup-id "pidof /usr/lib/xfce4/notifyd/xfce4-notifyd >/dev/null || /usr/lib/xfce4/notifyd/xfce4-notifyd"
 
 # Startup Apps
 exec --no-startup-id slack
@@ -183,9 +205,7 @@ bindsym $mod+r mode "resize"
 
 
 # === Application Launch ===
-exec --no-startup-id pasystray
-exec --no-startup-id blueman-applet
-exec --no-startup-id $HOME/pad
+exec --no-startup-id $HOME/bin/pad
 
 # === Scratchpad ===
 bindsym $mod+Shift+minus move scratchpad
@@ -209,13 +229,16 @@ bar {
         position top
         status_command i3blocks
         font pango:IosevkaTerm Nerd Font semibold 10
-        separator_symbol "·"
+        separator_symbol "│"
         tray_padding 4
 
         colors {
                 background #1d1f21
                 statusline #c5c8c6
-                separator  #373b41
+                # #373b41 is the palette's selection grey and all but vanishes
+                # against the bar; the dividers have to be legible to do their
+                # job, so they borrow the muted foreground used in the blocks.
+                separator  #666666
 
                 #                  border  backgr. text
                 focused_workspace  #81a2be #81a2be #1d1f21
@@ -225,11 +248,3 @@ bar {
                 binding_mode       #e6c547 #e6c547 #1d1f21
         }
 }
-# volume master {
-#         format = "♪: %volume"
-#         format_muted = "♪: muted (%volume)"
-#         device = "pulse:1"
-# }
-
-# NOTE: below is for copy and paste to work with VMware
-exec --no-startup-id vmware-user

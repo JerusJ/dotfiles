@@ -5,7 +5,16 @@ set -euo pipefail
 # shellcheck source=sparkline.sh
 source "$(dirname "$(readlink -f "$0")")/sparkline.sh"
 
-iface=$(ip route show default 2>/dev/null | awk '{ print $5; exit }')
+# awk must read to EOF here rather than exiting on the first match. With a VPN
+# up there are two default routes, and quitting early leaves ip writing into a
+# closed pipe; the resulting SIGPIPE becomes the pipeline's status under
+# pipefail, set -e kills the script, and the block renders empty for that tick.
+# Taking the field after "dev" also handles routes written without a "via".
+iface=$(ip route show default 2>/dev/null | awk '
+    !found {
+        for (i = 1; i < NF; i++)
+            if ($i == "dev") { print $(i + 1); found = 1; break }
+    }')
 if [[ -z $iface ]]; then
     printf '<span foreground="%s">  offline</span>\n' "$HIGH"
     exit 0
@@ -55,6 +64,7 @@ down=$(sparkline "$scale" $rx_hist)
 # shellcheck disable=SC2046
 up=$(sparkline "$scale" $tx_hist)
 
-printf '%s %s %s  %s %s %s\n' \
+# These are rates, not totals, so they carry the per-second unit outright.
+printf '%s %s %s/s  %s %s %s/s\n' \
     "$(icon f175 '#70c0ba')" "$down" "$(human "$rx_rate")" \
     "$(icon f176 '#e6c547')" "$up" "$(human "$tx_rate")"

@@ -1,21 +1,42 @@
 #!/usr/bin/env bash
 # Memory usage sparkline, from /proc/meminfo (used = total - available).
+# MemAvailable is the kernel's own estimate of what a new allocation could
+# claim, so reclaimable page cache counts as free here rather than as used --
+# which is why this reads lower than the resident total of every process.
 set -euo pipefail
 # shellcheck source=sparkline.sh
 source "$(dirname "$(readlink -f "$0")")/sparkline.sh"
 
-read -r total avail < <(awk '
+read -r total avail swap_total swap_free < <(awk '
     /^MemTotal:/     { t = $2 }
     /^MemAvailable:/ { a = $2 }
-    END { print t, a }' /proc/meminfo)
+    /^SwapTotal:/    { st = $2 }
+    /^SwapFree:/     { sf = $2 }
+    END { print t, a, st + 0, sf + 0 }' /proc/meminfo)
 
 used=$((total - avail))
 pct=$((100 * used / total))
-used_gib=$(awk -v u="$used" 'BEGIN { printf "%.1f", u / 1048576 }')
+
+# gib <kB> -- kibibytes as gibibytes, one decimal place.
+gib() { awk -v k="$1" 'BEGIN { printf "%.1f", k / 1048576 }'; }
 
 # shellcheck disable=SC2046 # word splitting is how the history is passed on
 graph=$(sparkline 100 $(push_history mem "$pct"))
 color=$(level_color "$(awk -v p="$pct" 'BEGIN { print p / 100 }')")
 
-printf '%s %s <span foreground="%s">%sG</span>\n' \
-    "$(icon f1c0 '#b294bb')" "$graph" "$color" "$used_gib"
+out=$(printf '%s %s <span foreground="%s">%sG</span> <span foreground="%s">%2d%%</span> <span foreground="#666666">/ %sG</span>' \
+    "$(icon f1c0 '#b294bb')" "$graph" "$color" "$(gib "$used")" \
+    "$color" "$pct" "$(gib "$total")")
+
+# Swap only earns bar space once something is actually in it. On a box with
+# zram that is the first real sign of memory pressure, so it is coloured on
+# how full the swap itself is rather than on how large it is.
+swap_used=$((swap_total - swap_free))
+if ((swap_total > 0 && swap_used > 0)); then
+    swap_pct=$((100 * swap_used / swap_total))
+    swap_color=$(level_color "$(awk -v p="$swap_pct" 'BEGIN { print p / 100 }')")
+    out+=$(printf '  %s <span foreground="%s">%sG swap</span>' \
+        "$(icon f04e1 '#81a2be')" "$swap_color" "$(gib "$swap_used")")
+fi
+
+printf '%s\n' "$out"

@@ -1,0 +1,123 @@
+#!/usr/bin/env bash
+# CPU package temperature sparkline, with fan speed and drive temperature
+# alongside it when the hardware exposes them.
+#
+# hwmon nodes are numbered in driver probe order, so the same sensor lands on a
+# different index between boots. Everything here is therefore looked up by
+# driver name, never by hwmonN.
+set -euo pipefail
+# shellcheck source=sparkline.sh
+source "$(dirname "$(readlink -f "$0")")/sparkline.sh"
+
+# Below this, a machine is simply idle and the exact number is noise; the graph
+# and colour ramp start here and run to whatever the sensor calls critical, so
+# a bar means "heat used up out of the budget" rather than absolute degrees.
+FLOOR=40
+
+# hwmon_dir <driver name> -- path of the hwmon node that driver registered.
+hwmon_dir() {
+    local n
+    for n in /sys/class/hwmon/hwmon*/name; do
+        if [[ -r $n && $(< "$n") == "$1" ]]; then
+            dirname "$n"
+            return 0
+        fi
+    done
+    return 1
+}
+
+# temp_by_label <hwmon dir> <label> -- the temp*_input carrying that label.
+# The glob stays literal when a node has no labels at all, which the -r test
+# absorbs rather than reporting a bogus path.
+temp_by_label() {
+    local f
+    for f in "$1"/temp*_label; do
+        if [[ -r $f && $(< "$f") == "$2" ]]; then
+            printf '%s_input' "${f%_label}"
+            return 0
+        fi
+    done
+    return 1
+}
+
+# milli_c <file> -- sysfs millidegrees as whole degrees, empty if unreadable.
+milli_c() {
+    [[ -r $1 ]] || return 1
+    local v
+    v=$(< "$1")
+    [[ $v =~ ^-?[0-9]+$ ]] || return 1
+    printf '%s' "$((v / 1000))"
+}
+
+# --- CPU package -----------------------------------------------------------
+# Intel exposes "Package id 0" via coretemp and AMD "Tctl" via k10temp. The
+# ACPI thermal zone is a poor third choice -- it lags the die badly -- but it
+# keeps the block meaningful on hardware neither driver claims.
+cpu_input=""
+if dir=$(hwmon_dir coretemp); then
+    cpu_input=$(temp_by_label "$dir" "Package id 0") || cpu_input="$dir/temp1_input"
+elif dir=$(hwmon_dir k10temp); then
+    cpu_input=$(temp_by_label "$dir" "Tctl") || cpu_input="$dir/temp1_input"
+elif dir=$(hwmon_dir acpitz); then
+    cpu_input="$dir/temp1_input"
+fi
+
+if [[ -z $cpu_input ]] || ! temp=$(milli_c "$cpu_input"); then
+    printf '%s <span foreground="%s">no sensor</span>\n' "$(icon f2c9 "$HIGH")" "$HIGH"
+    exit 0
+fi
+
+crit=$(milli_c "${cpu_input%_input}_crit") || crit=100
+((crit > FLOOR)) || crit=100
+
+# Position in the FLOOR..crit band, as a percentage, so the shared sparkline
+# and level_color helpers can be driven exactly as the cpu and memory blocks
+# drive them.
+pct=$(awk -v t="$temp" -v f="$FLOOR" -v c="$crit" 'BEGIN {
+    r = 100 * (t - f) / (c - f)
+    print (r < 0) ? 0 : (r > 100) ? 100 : int(r)
+}')
+
+# shellcheck disable=SC2046 # word splitting is how the history is passed on
+graph=$(sparkline 100 $(push_history temp "$pct"))
+color=$(level_color "$(awk -v p="$pct" 'BEGIN { print p / 100 }')")
+
+out=$(printf '%s %s <span foreground="%s">%2d°C</span>' \
+    "$(icon f2c9 '#cc6666')" "$graph" "$color" "$temp")
+
+# --- Fan -------------------------------------------------------------------
+# acpi_fan usually registers ahead of the vendor driver and reports a constant
+# 0, so the useful node has to be named rather than found by scanning.
+fan=""
+for drv in thinkpad dell_smm asus_wmi_sensors nct6775 it87; do
+    if dir=$(hwmon_dir "$drv") && [[ -r $dir/fan1_input ]]; then
+        fan=$(< "$dir/fan1_input")
+        break
+    fi
+done
+
+if [[ $fan =~ ^[0-9]+$ ]]; then
+    # A stopped fan is normal when idle, so it reads as muted rather than as a
+    # fault; anything spinning shares the CPU readout's colour.
+    fan_color="#666666"
+    ((fan > 0)) && fan_color=$color
+    out+=$(printf '  %s <span foreground="%s">%4drpm</span>' \
+        "$(icon f0210 '#81a2be')" "$fan_color" "$fan")
+fi
+
+# --- NVMe ------------------------------------------------------------------
+# NVMe throttles far lower than the CPU does, so it gets its own critical
+# point rather than borrowing the CPU's.
+if dir=$(hwmon_dir nvme); then
+    nvme_input=$(temp_by_label "$dir" "Composite") || nvme_input="$dir/temp1_input"
+    if nvme_temp=$(milli_c "$nvme_input"); then
+        nvme_crit=$(milli_c "${nvme_input%_input}_crit") || nvme_crit=80
+        ((nvme_crit > FLOOR)) || nvme_crit=80
+        nvme_color=$(level_color "$(awk -v t="$nvme_temp" -v f="$FLOOR" -v c="$nvme_crit" \
+            'BEGIN { r = (t - f) / (c - f); print (r < 0) ? 0 : (r > 1) ? 1 : r }')")
+        out+=$(printf '  %s <span foreground="%s">%2d°C</span>' \
+            "$(icon f02ca '#b294bb')" "$nvme_color" "$nvme_temp")
+    fi
+fi
+
+printf '%s\n' "$out"

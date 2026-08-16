@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+# Battery charge, with an estimated time to empty or to full when the firmware
+# reports enough to work one out.
+set -euo pipefail
+# shellcheck source=sparkline.sh
+source "$(dirname "$(readlink -f "$0")")/sparkline.sh"
+
+# readnum <file> -- integer contents, or empty if absent or not a number.
+# Always succeeds, so a missing sysfs attribute cannot trip set -e.
+readnum() {
+    local v
+    [[ -r $1 ]] || return 0
+    v=$(< "$1")
+    [[ $v =~ ^-?[0-9]+$ ]] && printf '%s' "$v"
+    return 0
+}
+
+# BAT* is tried first because wireless mice and headsets also register as type
+# Battery, and on a laptop one of those would otherwise win on glob order.
+bat=""
+for d in /sys/class/power_supply/BAT*/ /sys/class/power_supply/*/; do
+    if [[ -r $d/type && $(< "$d/type") == Battery && -r $d/capacity ]]; then
+        bat=${d%/}
+        break
+    fi
+done
+
+# Desktops have no battery. The block takes up no space there rather than
+# reporting a condition nothing can act on.
+[[ -n $bat ]] || exit 0
+
+pct=$(< "$bat/capacity")
+status=$(< "$bat/status")
+
+# Is there a mains supply, and is it live? Needed to tell "sitting on AC at
+# 97%" apart from "draining", which share the same status on some firmware.
+ac=0
+for d in /sys/class/power_supply/*/; do
+    if [[ -r $d/type && $(< "$d/type") == Mains && -r $d/online ]]; then
+        if [[ $(< "$d/online") == 1 ]]; then ac=1; fi
+        break
+    fi
+done
+
+# Firmware reports either energy (µWh against µW) or charge (µAh against µA).
+# Either pair yields hours directly, since the units cancel.
+now=$(readnum "$bat/energy_now")
+rate=$(readnum "$bat/power_now")
+full=$(readnum "$bat/energy_full")
+if [[ -z $now || -z $rate ]]; then
+    now=$(readnum "$bat/charge_now")
+    rate=$(readnum "$bat/current_now")
+    full=$(readnum "$bat/charge_full")
+fi
+
+# A rate of zero is normal on AC and simply means there is nothing to predict.
+eta=""
+remaining=""
+if [[ -n $now && -n $rate ]] && ((rate > 0)); then
+    case $status in
+        Discharging) remaining=$now ;;
+        Charging)    if [[ -n $full ]]; then remaining=$((full - now)); fi ;;
+    esac
+fi
+if [[ -n $remaining ]] && ((remaining > 0)); then
+    eta=$(awk -v r="$remaining" -v p="$rate" 'BEGIN {
+        h = r / p
+        printf "%dh%02dm", int(h), int((h - int(h)) * 60 + 0.5)
+    }')
+fi
+
+# Low charge is the alarming end here, so the ramp is inverted before it goes
+# to the shared colour helper: red under 20%, amber under 50%.
+color=$(level_color "$(awk -v p="$pct" 'BEGIN { print (100 - p) / 100 }')")
+
+# Five-step glyph, so the icon carries the level before the number is read.
+level_icon=f244
+((pct >= 10)) && level_icon=f243
+((pct >= 35)) && level_icon=f242
+((pct >= 60)) && level_icon=f241
+((pct >= 85)) && level_icon=f240
+
+out=$(icon "$level_icon" "$color")
+
+# A bolt means current is going in. A plug means mains is attached but the pack
+# is not taking any -- which is what firmware does near full, and is not a
+# fault even though the raw status reads "Not charging".
+if [[ $status == Charging ]]; then
+    out+=$(icon f0e7 '#e6c547')
+elif [[ $status != Discharging ]] && ((ac)); then
+    out+=$(icon f1e6 '#666666')
+fi
+
+out+=$(printf ' <span foreground="%s">%d%%</span>' "$color" "$pct")
+if [[ -n $eta ]]; then
+    out+=$(printf ' <span foreground="#666666">%s</span>' "$eta")
+fi
+
+printf '%s\n' "$out"

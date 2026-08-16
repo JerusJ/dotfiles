@@ -1,9 +1,13 @@
 # i3blocks -- status bar for i3. Every block is a script in ./scripts.
 
 command=~/.config/i3blocks/scripts/$BLOCK_NAME
-separator=false
-separator_block_width=18
 markup=pango
+
+# Draw i3bar's separator_symbol between blocks. Several blocks pack more than
+# one figure in (memory carries swap, temp carries fan and drive), so plain
+# whitespace left it ambiguous which numbers belonged together.
+separator=true
+separator_block_width=18
 
 [network]
 interval=2
@@ -14,10 +18,20 @@ interval=2
 [memory]
 interval=5
 
+[temp]
+interval=5
+
 [disk]
 interval=60
 
+[battery]
+interval=30
+
 [volume]
+interval=once
+signal=10
+
+[mic]
 interval=once
 signal=10
 

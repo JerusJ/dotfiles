@@ -14,7 +14,19 @@ require("awful.autofocus")
 local wibox = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
--- Notification library
+-- Notification library.
+--
+-- This config drives the VNC session on :2 while i3 runs the physical display
+-- on :0, and a D-Bus session bus is shared per user rather than per display.
+-- Requiring naughty normally pulls in naughty.dbus, which claims
+-- org.freedesktop.Notifications for the whole user -- so whichever session won
+-- the race at login served every notification, and anything sent from the i3
+-- desktop was drawn over here on the VNC display instead.
+--
+-- Stubbing the submodule before naughty loads keeps naughty.notify() working
+-- locally (the startup error handler below still needs it) while leaving the
+-- bus name free for a daemon started alongside i3.
+package.loaded["naughty.dbus"] = {}
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")

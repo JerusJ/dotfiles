@@ -11,8 +11,13 @@ mkdir -p "$STATE_DIR"
 
 # icon <codepoint> <colour> -- Nerd Font glyph, written as an escape so the
 # literal character never has to survive a copy/paste.
+# \u takes four hex digits and silently mangles anything longer, which rules
+# out the Material Design range above U+FFFF that Nerd Fonts draws most of its
+# hardware glyphs from; those need the eight-digit \U form.
 icon() {
-    printf "<span foreground=\"$2\">\u$1</span>"
+    local esc="\\u$1"
+    ((16#$1 > 0xFFFF)) && esc=$(printf '\\U%08x' "$((16#$1))")
+    printf "<span foreground=\"$2\">$esc</span>"
 }
 
 # push_history <name> <value> -- append value, keep the last $HISTORY_LEN,

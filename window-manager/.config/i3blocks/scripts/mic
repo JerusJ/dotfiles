@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# Microphone (default source) gain and mute state.
+#
+# Interactive in the same way as the volume block:
+#   scroll  adjust gain by $STEP
+#   left    toggle mute
+#   right   open pavucontrol on its input devices tab
+set -euo pipefail
+
+# shellcheck source=sparkline.sh
+source "$(dirname "$(readlink -f "$0")")/sparkline.sh"
+
+STEP=5
+
+# source_pct -- current gain as a bare integer. Sources are commonly mono, so
+# the first channel pactl prints is the whole story.
+source_pct() {
+    pactl get-source-volume @DEFAULT_SOURCE@ 2>/dev/null |
+        awk 'NR == 1 { gsub(/%/, "", $5); print $5 + 0 }'
+}
+
+case ${BLOCK_BUTTON:-0} in
+    1)
+        pactl set-source-mute @DEFAULT_SOURCE@ toggle >/dev/null 2>&1 || true
+        ;;
+    3)
+        setsid pavucontrol -t 4 >/dev/null 2>&1 &
+        ;;
+    4)
+        pactl set-source-volume @DEFAULT_SOURCE@ "+${STEP}%" >/dev/null 2>&1 || true
+        # Gain above 100% is amplification in software and mostly amplifies
+        # room noise along with the voice, so the scroll wheel stops at unity.
+        cur=$(source_pct)
+        if [[ $cur =~ ^[0-9]+$ ]] && ((cur > 100)); then
+            pactl set-source-volume @DEFAULT_SOURCE@ 100% >/dev/null 2>&1 || true
+        fi
+        ;;
+    5)
+        pactl set-source-volume @DEFAULT_SOURCE@ "-${STEP}%" >/dev/null 2>&1 || true
+        ;;
+esac
+
+muted=$(pactl get-source-mute @DEFAULT_SOURCE@ 2>/dev/null | awk '{ print $2 }') || true
+vol=$(pactl get-source-volume @DEFAULT_SOURCE@ 2>/dev/null | awk 'NR == 1 { print $5 }') || true
+
+# Machines with no capture device get no block rather than an error.
+[[ -n ${vol:-} ]] || exit 0
+
+# A live microphone is the state worth noticing at a glance, so it is the one
+# that gets a colour; muted is the quiet default.
+if [[ ${muted:-no} == yes ]]; then
+    printf '%s <span foreground="#666666">muted</span>\n' "$(icon f131 '#666666')"
+else
+    printf '%s %s\n' "$(icon f130 '#b294bb')" "$vol"
+fi

@@ -1,14 +1,55 @@
 #!/usr/bin/env bash
-# PulseAudio/PipeWire sink volume; refreshed by the XF86Audio* keybindings.
+# PulseAudio/PipeWire sink volume, refreshed by the XF86Audio* keybindings.
+#
+# The block is also interactive. i3blocks re-runs it on a click with the button
+# number in BLOCK_BUTTON, so the same script both acts and then reports:
+#   scroll  adjust by $STEP
+#   left    toggle mute
+#   right   open pavucontrol on its output devices tab
 set -euo pipefail
 
 # shellcheck source=sparkline.sh
 source "$(dirname "$(readlink -f "$0")")/sparkline.sh"
 
-muted=$(pactl get-sink-mute @DEFAULT_SINK@ | awk '{ print $2 }')
-vol=$(pactl get-sink-volume @DEFAULT_SINK@ | awk 'NR == 1 { print $5 }')
+STEP=5
 
-if [[ $muted == yes ]]; then
+# sink_pct -- current volume as a bare integer. The first channel is
+# representative; pactl prints one per channel and they move together here.
+sink_pct() {
+    pactl get-sink-volume @DEFAULT_SINK@ 2>/dev/null |
+        awk 'NR == 1 { gsub(/%/, "", $5); print $5 + 0 }'
+}
+
+# A failed adjustment must never take the block down -- it still has to be able
+# to report whatever the current state actually is.
+case ${BLOCK_BUTTON:-0} in
+    1)
+        pactl set-sink-mute @DEFAULT_SINK@ toggle >/dev/null 2>&1 || true
+        ;;
+    3)
+        setsid pavucontrol -t 3 >/dev/null 2>&1 &
+        ;;
+    4)
+        pactl set-sink-volume @DEFAULT_SINK@ "+${STEP}%" >/dev/null 2>&1 || true
+        # PulseAudio amplifies past 100% on request, which only distorts. A
+        # scroll wheel overshoots far too easily for that to be worth allowing.
+        cur=$(sink_pct)
+        if [[ $cur =~ ^[0-9]+$ ]] && ((cur > 100)); then
+            pactl set-sink-volume @DEFAULT_SINK@ 100% >/dev/null 2>&1 || true
+        fi
+        ;;
+    5)
+        pactl set-sink-volume @DEFAULT_SINK@ "-${STEP}%" >/dev/null 2>&1 || true
+        ;;
+esac
+
+muted=$(pactl get-sink-mute @DEFAULT_SINK@ 2>/dev/null | awk '{ print $2 }') || true
+vol=$(pactl get-sink-volume @DEFAULT_SINK@ 2>/dev/null | awk 'NR == 1 { print $5 }') || true
+
+# No sink at all -- nothing to show and nothing to control.
+[[ -n ${vol:-} ]] || exit 0
+
+if [[ ${muted:-no} == yes ]]; then
     printf '%s <span foreground="#666666">muted</span>\n' "$(icon f026 '#666666')"
 else
     printf '%s %s\n' "$(icon f028 '#b5bd68')" "$vol"
