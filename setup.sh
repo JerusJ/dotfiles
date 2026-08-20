@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# foo!
 set -euo pipefail
 
 if ! command -v mise &>/dev/null; then
